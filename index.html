@@ -226,10 +226,20 @@ nav button.active{background:rgba(222,242,232,.95);color:#08784e}
  <div class="card"><h2>📚 Notes & Photos</h2><p class="muted">වැදගත් සටහන්වල ඡායාරූප Phone එකේම තබාගන්න.</p>
   <label>Note එකේ නම</label><input id="noteTitle" placeholder="උදා: Differentiation - Formula sheet">
   <label>විෂය</label><select id="noteSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option><option>Other</option></select>
-  <label>Photo එක</label><input id="notePhoto" type="file" accept="image/*" capture="environment">
+  <label>Photo එක</label><input id="notePhoto" type="file" accept="image/*">
   <label>කෙටි විස්තර</label><textarea id="noteDetail" rows="2" placeholder="මේ Note එකේ තියෙන්නේ..."></textarea>
   <button style="width:100%;margin-top:10px" onclick="addNote()">Note එක Save කරන්න</button>
  </div><div class="card"><h2>Saved Notes</h2><div id="notesList"></div></div>
+ <div class="card">
+  <h2>📂 Papers & Important PDFs</h2>
+  <p class="muted">Combined Maths, Physics සහ Chemistry papers / වැදගත් PDF වෙන වෙනම Phone එකේම save කරගන්න.</p>
+  <label>PDF එකේ නම</label><input id="pdfTitle" placeholder="උදා: 2025 A/L Past Paper">
+  <label>විෂය</label><select id="pdfSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option></select>
+  <label>PDF File එක තෝරන්න</label><input id="pdfFile" type="file" accept="application/pdf,.pdf">
+  <button style="width:100%;margin-top:11px" onclick="addPDF()">📥 PDF එක Save කරන්න</button>
+  <p class="small">PDF එක Phone එකේ local storage තුළ save වෙනවා. App එකේ data clear කළොත් මේවා මැකෙන්න පුළුවන්.</p>
+ </div>
+ <div id="pdfLibrary"></div>
 </section>
 <section id="tracker" class="tab">
  <div class="card"><h2>⏱️ Study Time Tracker</h2><p class="muted">පාඩම් කළ සැබෑ කාලය සටහන් කරන්න. මෙය ඉලක්කයක් නොව ඔයාගේ progress එක තේරුම්ගන්න උපකරණයක්.</p>
@@ -276,16 +286,44 @@ function editDay(d){let x=state.days[d];$('editDay').value=d;$('editType').value
 function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
 const dayNames={1:'සඳුදා',2:'අඟහරුවාදා',3:'බදාදා',4:'බ්‍රහස්පතින්දා',5:'සිකුරාදා',6:'සෙනසුරාදා',0:'ඉරිදා'};
 function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk];$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(state.days[d]||{})};if(Number(sd)===d){x={type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}return `<div class="day"><div class="dayhead"><b>${dayNames[d]}</b><button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+x.end:''}<br>${esc(x.note||'')}</p></div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
-function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',1);r.onupgradeneeded=()=>r.result.createObjectStore('notes',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',2);r.onupgradeneeded=()=>{let db=r.result;if(!db.objectStoreNames.contains('notes'))db.createObjectStore('notes',{keyPath:'id'});if(!db.objectStoreNames.contains('resources'))db.createObjectStore('resources',{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function addNote(){let title=$('noteTitle').value.trim(),file=$('notePhoto').files[0];if(!title){alert('Note එකට නමක් දෙන්න.');return}let db=await openDB();let note={id:Date.now(),title,subject:$('noteSubject').value,detail:$('noteDetail').value,photo:file||null,date:today()};let tx=db.transaction('notes','readwrite');tx.objectStore('notes').put(note);tx.oncomplete=()=>{db.close();$('noteTitle').value='';$('noteDetail').value='';$('notePhoto').value='';renderNotes();alert('Note එක Phone එකේ Save කළා.');};}
 async function renderNotes(){let db=await openDB();let tx=db.transaction('notes','readonly'),req=tx.objectStore('notes').getAll();req.onsuccess=()=>{let a=req.result.sort((x,y)=>y.id-x.id);$('notesList').innerHTML=a.length?a.map(n=>`<div class="item"><div class="itemmain"><strong>${esc(n.title)}</strong><div class="small">${esc(n.subject)} · ${n.date}</div>${n.detail?`<p class="small">${esc(n.detail)}</p>`:''}${n.photo?'<img class="noteimg" id="img'+n.id+'">':''}</div><button class="danger" onclick="deleteNote(${n.id})">මකන්න</button></div>`).join(''):'<div class="empty">තවම Notes Save කරලා නැහැ.</div>';a.forEach(n=>{if(n.photo){let el=$('img'+n.id);if(el)el.src=URL.createObjectURL(n.photo);}});db.close();};}
 async function deleteNote(id){if(!confirm('Note එක මකන්නද?'))return;let db=await openDB();let tx=db.transaction('notes','readwrite');tx.objectStore('notes').delete(id);tx.oncomplete=()=>{db.close();renderNotes();};}
+async function addPDF(){
+ const file=$('pdfFile').files[0],title=$('pdfTitle').value.trim()||(file?file.name:'');
+ if(!file){alert('PDF file එකක් තෝරන්න.');return;}
+ if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){alert('PDF file එකක් පමණක් තෝරන්න.');return;}
+ if(file.size>40*1024*1024){alert('PDF එක 40 MB ට වඩා වැඩියි. කුඩා file එකක් තෝරන්න.');return;}
+ const db=await openDB(),id=Date.now();
+ const resource={id,title,subject:$('pdfSubject').value,fileName:file.name,mime:file.type||'application/pdf',size:file.size,file,date:today()};
+ const tx=db.transaction('resources','readwrite');tx.objectStore('resources').put(resource);
+ tx.oncomplete=()=>{db.close();$('pdfTitle').value='';$('pdfFile').value='';renderPDFLibrary();alert('PDF එක Phone එකේ Save කළා.');};
+ tx.onerror=()=>{db.close();alert('PDF එක Save කරන්න බැරි වුණා. Phone storage ඉඩ පරීක්ෂා කරන්න.');};
+}
+async function renderPDFLibrary(){
+ const db=await openDB(),tx=db.transaction('resources','readonly'),req=tx.objectStore('resources').getAll();
+ req.onsuccess=()=>{
+  const all=req.result.sort((a,b)=>b.id-a.id),subjects=['Combined Maths','Physics','Chemistry'];
+  $('pdfLibrary').innerHTML=subjects.map((s,i)=>{
+   const list=all.filter(x=>x.subject===s);
+   const entries=list.map(p=>'<div class="item"><div class="itemmain"><strong>📄 '+esc(p.title)+'</strong><div class="small">'+esc(p.fileName)+' · '+(p.size/1024/1024).toFixed(2)+' MB · '+esc(p.date)+'</div><div class="row" style="margin-top:8px"><button class="secondary" onclick="openPDF('+p.id+')">Open PDF</button><button class="secondary" onclick="downloadPDF('+p.id+')">Download</button><button class="danger" onclick="deletePDF('+p.id+')">මකන්න</button></div></div></div>').join('');
+   return '<div class="card"><h2>'+['📘','📗','📙'][i]+' '+esc(s)+' Papers & PDFs</h2>'+(entries||'<div class="empty">මේ විෂයට PDF තවම save කරලා නැහැ.</div>')+'</div>';
+  }).join('');
+  db.close();
+ };
+}
+async function getPDF(id){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction('resources','readonly'),r=tx.objectStore('resources').get(id);r.onsuccess=()=>{const value=r.result;db.close();resolve(value);};r.onerror=()=>{db.close();reject(r.error);};});}
+async function openPDF(id){const p=await getPDF(id);if(!p)return;const url=URL.createObjectURL(p.file);const win=window.open(url,'_blank');if(!win){const a=document.createElement('a');a.href=url;a.download=p.fileName;a.click();}setTimeout(()=>URL.revokeObjectURL(url),60000);}
+async function downloadPDF(id){const p=await getPDF(id);if(!p)return;const url=URL.createObjectURL(p.file),a=document.createElement('a');a.href=url;a.download=p.fileName||p.title+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
+async function deletePDF(id){if(!confirm('මේ PDF එක මකන්නද?'))return;const db=await openDB(),tx=db.transaction('resources','readwrite');tx.objectStore('resources').delete(id);tx.oncomplete=()=>{db.close();renderPDFLibrary();};}
+
 function addStudy(){let m=+$('studyMinutes').value;if(!m||m<1){alert('මිනිත්තු ගණන ඇතුළත් කරන්න.');return}state.study.push({date:today(),subject:$('studySubject').value,minutes:m});persist();$('studyMinutes').value='';renderAll();}
 function renderTracker(){let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};state.study.forEach(s=>{if(sums[s.subject]!==undefined)sums[s.subject]+=s.minutes;});$('studyTotals').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');$('examDate').value=state.examDate;let days=Math.ceil((new Date(state.examDate+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);$('countdown').textContent=days>=0?`තෝරාගත් දිනයට දවස් ${days}යි.`:'තෝරාගත් දිනය පසු වී ඇත.';}
 function saveExamDate(){state.examDate=$('examDate').value;persist();renderTracker();}
 function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;$('todayText').textContent=new Date().toLocaleDateString('si-LK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div></div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=dt.toISOString().slice(0,10)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();}
+function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();}
 $('taskDate').value=today();$('filterDate').value=today();renderAll();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
