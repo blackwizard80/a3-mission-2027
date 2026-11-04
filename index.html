@@ -260,10 +260,38 @@ nav button.active{background:rgba(210,232,255,.58)!important;color:#175b9b!impor
  .card,.stat,.day,.hero{transition:transform .22s ease,box-shadow .22s ease}
  .card:active{transform:scale(.995)}
 }
-\n</style>
+\n
+/* Deep Liquid Glass inspired interface + history drawer */
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px!important;background:rgba(245,249,255,.38)!important;-webkit-backdrop-filter:blur(42px) saturate(220%);backdrop-filter:blur(42px) saturate(220%);border-bottom:1px solid rgba(255,255,255,.82)!important;box-shadow:0 12px 36px rgba(40,62,98,.10),inset 0 1px 0 rgba(255,255,255,.95)}
+header>div:first-child{min-width:0}
+.brand{font-size:19px;text-shadow:0 1px 0 #fff8}
+.history-trigger{flex:0 0 auto;width:44px;height:44px;padding:0;border-radius:16px!important;background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(218,232,251,.48))!important;color:#24496f!important;border:1px solid rgba(255,255,255,.96)!important;box-shadow:0 8px 22px rgba(45,70,110,.14),inset 0 1px 0 #fff!important;font-size:20px}
+.glass-history-backdrop{position:fixed;inset:0;z-index:50;background:rgba(23,38,61,.20);opacity:0;visibility:hidden;transition:opacity .28s,visibility .28s;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
+.glass-history-backdrop.open{opacity:1;visibility:visible;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.history-drawer{position:fixed;z-index:51;top:0;right:0;height:100dvh;width:min(430px,91vw);padding:calc(18px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));overflow:auto;transform:translateX(105%);transition:transform .36s cubic-bezier(.2,.8,.2,1);background:linear-gradient(145deg,rgba(250,253,255,.84),rgba(226,237,252,.72));border-left:1px solid rgba(255,255,255,.95);box-shadow:-22px 0 70px rgba(25,45,78,.22),inset 1px 0 0 #fff;-webkit-backdrop-filter:blur(48px) saturate(220%);backdrop-filter:blur(48px) saturate(220%)}
+.history-drawer.open{transform:translateX(0)}
+.history-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.history-head h2{margin:0;color:#203a5b;font-size:21px}
+.history-close{width:40px;height:40px;padding:0;border-radius:15px!important;background:rgba(255,255,255,.72)!important;color:#38516e!important;border:1px solid #fff!important}
+.history-intro{font-size:12px;color:#62758f;line-height:1.6;margin:0 0 14px}
+.history-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 18px}
+.history-metric{padding:11px 8px;text-align:center;border-radius:17px;background:rgba(255,255,255,.56);border:1px solid rgba(255,255,255,.95);box-shadow:0 6px 18px rgba(45,70,110,.07),inset 0 1px #fff}
+.history-metric b{display:block;font-size:19px;color:#244e79}.history-metric span{font-size:10px;color:#6a7e98}
+.history-date{margin:12px 0;padding:14px;border-radius:19px;background:rgba(255,255,255,.53);border:1px solid rgba(255,255,255,.92);box-shadow:0 8px 22px rgba(45,68,105,.07),inset 0 1px #fff}
+.history-date-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+.history-date-title strong{font-size:14px;color:#24415f}
+.history-count{font-size:10px;color:#54718f;background:rgba(220,236,255,.75);padding:5px 8px;border-radius:20px}
+.history-line{padding:8px 0;border-top:1px solid rgba(150,171,200,.2);font-size:12px;color:#415875;line-height:1.55}
+.history-line b{color:#253e5c}
+.history-status{font-size:10px;font-weight:800;border-radius:20px;padding:3px 7px;margin-left:4px}
+.history-status.done{background:#d9f5e8;color:#16764e}.history-status.pending{background:#fff0d4;color:#98600b}
+.history-study{display:inline-block;margin:3px 4px 0 0;padding:5px 8px;border-radius:10px;background:rgba(224,238,255,.76);color:#315e8b;font-size:10px}
+.history-empty{padding:20px;text-align:center;color:#70829a;font-size:12px;line-height:1.7}
+@media(prefers-reduced-motion:no-preference){.history-date{animation:historyPop .3s ease both}@keyframes historyPop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}}
+</style>
 </head>
 <body>
-<header><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></header>
+<header><div><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></div><button class="history-trigger" aria-label="History" title="History" onclick="openHistory()">◷</button></header>
 <main>
 <section id="home" class="tab active">
  <div class="hero">
@@ -331,6 +359,13 @@ nav button.active{background:rgba(210,232,255,.58)!important;color:#175b9b!impor
  <div class="card"><h2>Exam Countdown</h2><p class="muted">නිල විභාග දිනය දැනගත් පසු මෙතැන වෙනස් කරන්න.</p><label>Target date</label><input id="examDate" type="date" onchange="saveExamDate()"><p id="countdown" class="small"></p></div>
 </section>
 </main>
+<div id="historyBackdrop" class="glass-history-backdrop" onclick="closeHistory()"></div>
+<aside id="historyDrawer" class="history-drawer" aria-hidden="true">
+ <div class="history-head"><h2>◷ History</h2><button class="history-close" onclick="closeHistory()" aria-label="Close">✕</button></div>
+ <p class="history-intro">දවසින් දවස ඔයාගේ To-Do සහ Study Time වාර්තා මෙතැන ස්වයංක්‍රීයව එකතු වෙනවා. දත්ත මේ Phone එකේම save වෙනවා.</p>
+ <div id="historySummary" class="history-summary"></div>
+ <div id="historyDays"></div>
+</aside>
 <div id="imageViewer" onclick="closeImageViewer()"><button class="imageClose" onclick="closeImageViewer()">×</button><img id="largeNoteImage" alt="Note image" onclick="event.stopPropagation()"></div>
 <div id="pdfViewer"><div class="pdf-toolbar"><button class="secondary" onclick="closePDFViewer()">← ආපසු</button><strong id="pdfViewerTitle">PDF</strong><button class="secondary" onclick="changePDFPage(-1)">◀</button><button class="secondary" onclick="changePDFPage(1)">▶</button><button class="secondary" onclick="downloadCurrentPDF()">⬇</button></div><div id="pdfStatus">PDF එක load වෙමින්...</div><div id="pdfPages"></div></div>
 <footer class="app-footer"><span>MADE WITH FOCUS · <b>CREATE BY BLACKWIZARD</b> · A3 MISSION 2027</span></footer>
@@ -364,7 +399,7 @@ function persist(){localStorage.setItem(key,JSON.stringify(state));}
 function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(t).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));renderAll();}
 function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('වැඩේ නම ලියන්න.');return}
 state.tasks.push({id:Date.now(),title,subject:$('taskSubject').value,date:$('taskDate').value||today(),minutes:+$('taskMinutes').value||0,priority:$('taskPriority').value,detail:$('taskDetail').value,done:false});persist();$('taskTitle').value='';$('taskDetail').value='';$('taskMinutes').value='';renderAll();}
-function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(t)t.done=!t.done;persist();renderAll();}
+function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(t){t.done=!t.done;t.completedAt=t.done?new Date().toISOString():null;}persist();renderAll();}
 function deleteTask(id){if(confirm('මේ වැඩය මකන්නද?')){state.tasks=state.tasks.filter(x=>x.id!==id);persist();renderAll();}}
 function priorityClass(p){return p==='අත්‍යවශ්‍ය'?'essential':p==='වැදගත්'?'important':'normal';}
 function priorityBadge(p){const cls=priorityClass(p);return '<span class="priority-badge priority-'+cls+'">'+esc(p||'සාමාන්‍ය')+'</span>';}
@@ -460,6 +495,26 @@ function closePDFViewer(){$('pdfViewer').classList.remove('show');$('pdfPages').
 function downloadCurrentPDF(){if(!currentPDFFile)return;const u=URL.createObjectURL(currentPDFFile),a=document.createElement('a');a.href=u;a.download=currentPDFFile.name||'document.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(u),30000);}
 async function downloadPDF(id){const p=await getPDF(id);if(!p)return;const url=URL.createObjectURL(p.file),a=document.createElement('a');a.href=url;a.download=p.fileName||p.title+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
 async function deletePDF(id){if(!confirm('මේ PDF එක මකන්නද?'))return;const db=await openDB(),tx=db.transaction('resources','readwrite');tx.objectStore('resources').delete(id);tx.oncomplete=()=>{db.close();renderPDFLibrary();};}
+
+
+function openHistory(){renderHistory();$('historyBackdrop').classList.add('open');$('historyDrawer').classList.add('open');$('historyDrawer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+function closeHistory(){$('historyBackdrop').classList.remove('open');$('historyDrawer').classList.remove('open');$('historyDrawer').setAttribute('aria-hidden','true');document.body.style.overflow='';}
+function renderHistory(){
+ const byDate={};
+ state.tasks.forEach(t=>{(byDate[t.date||today()]||= {tasks:[],study:[]}).tasks.push(t);});
+ state.study.forEach(s=>{(byDate[s.date||today()]||= {tasks:[],study:[]}).study.push(s);});
+ const dates=Object.keys(byDate).sort((a,b)=>b.localeCompare(a));
+ const totalDone=state.tasks.filter(t=>t.done).length,totalMinutes=state.study.reduce((n,s)=>n+(+s.minutes||0),0);
+ $('historySummary').innerHTML='<div class="history-metric"><b>'+dates.length+'</b><span>දින ගණන</span></div><div class="history-metric"><b>'+totalDone+'</b><span>අවසන් කළ වැඩ</span></div><div class="history-metric"><b>'+Math.floor(totalMinutes/60)+'h '+totalMinutes%60+'m</b><span>Study Time</span></div>';
+ $('historyDays').innerHTML=dates.length?dates.map(date=>{
+  const x=byDate[date],done=x.tasks.filter(t=>t.done).length,mins=x.study.reduce((n,s)=>n+(+s.minutes||0),0);
+  const taskHtml=x.tasks.length?x.tasks.slice().sort((a,b)=>Number(b.done)-Number(a.done)).map(t=>'<div class="history-line"><b>'+esc(t.title)+'</b> · '+esc(t.subject||'Other')+' <span class="history-status '+(t.done?'done':'pending')+'">'+(t.done?'අවසන්':'ඉතිරි')+'</span></div>').join(''):'<div class="history-line">To-Do වැඩ සටහන් නැහැ.</div>';
+  const studyHtml=x.study.length?'<div class="history-line"><b>📚 Study Time</b> · '+Math.floor(mins/60)+'h '+mins%60+'m<br>'+x.study.map(s=>'<span class="history-study">'+esc(s.subject)+' · '+s.minutes+' min</span>').join('')+'</div>':'<div class="history-line">Study Time සටහන් නැහැ.</div>';
+  return '<section class="history-date"><div class="history-date-title"><strong>📅 '+esc(formatHistoryDate(date))+'</strong><span class="history-count">'+done+'/'+x.tasks.length+' වැඩ අවසන්</span></div>'+taskHtml+studyHtml+'</section>';
+ }).join(''):'<div class="history-empty">තවම History එකක් නැහැ.<br>To-Do හෝ Study Time සටහන් එකතු කළාම මෙතැන පෙන්වයි.</div>';
+}
+function formatHistoryDate(s){const p=s.split('-');if(p.length!==3)return s;const d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString('si-LK',{year:'numeric',month:'long',day:'numeric',weekday:'long'});}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHistory();});
 
 function addStudy(){let m=+$('studyMinutes').value;if(!m||m<1){alert('මිනිත්තු ගණන ඇතුළත් කරන්න.');return}state.study.push({id:Date.now(),date:today(),subject:$('studySubject').value,minutes:m});persist();$('studyMinutes').value='';renderAll();}
 function deleteStudy(id){if(!confirm('මේ Study time සටහන ඉවත් කරන්නද?'))return;state.study=state.study.filter(x=>x.id!==id);persist();renderAll();}
