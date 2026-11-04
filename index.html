@@ -189,7 +189,78 @@ nav button.active{background:rgba(222,242,232,.95);color:#08784e}
 #pdfViewer{position:fixed;inset:0;background:#f3f6fb;z-index:30;display:none;flex-direction:column}#pdfViewer.show{display:flex}.pdf-toolbar{display:flex;gap:8px;align-items:center;padding:10px;background:#fff}.pdf-toolbar strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#pdfPages{overflow:auto;flex:1;padding:12px;text-align:center}#pdfPages canvas{max-width:100%;height:auto!important;margin:0 auto 12px;box-shadow:0 2px 12px #0002;background:white}#pdfStatus{padding:8px;color:#53657c;font-size:13px}
 #imageViewer{position:fixed;inset:0;z-index:40;background:rgba(8,16,29,.96);display:none;align-items:center;justify-content:center;padding:16px}#imageViewer.show{display:flex}#imageViewer img{max-width:100%;max-height:86vh;object-fit:contain;border-radius:12px}#imageViewer .imageClose{position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;background:#fff;color:#172033;font-size:20px;border-radius:50%;width:42px;height:42px;padding:0}.noteimg{display:block;max-height:340px;cursor:zoom-in;box-shadow:0 4px 16px rgba(25,45,75,.12)}
 .subject-hub{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.subject-tile{min-height:100px;border:1px solid #d5e4f5;border-radius:17px;background:linear-gradient(145deg,#f5f9ff,#e8f2ff);color:#23476f;padding:12px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}.subject-tile .tile-icon{font-size:25px}.subject-tile strong{font-size:12px;text-align:center}.subject-tile small{font-size:10px;color:#627d9c}.library-back{margin-bottom:12px}.library-list-card{width:100%;text-align:left;display:flex;align-items:center;gap:10px;margin:8px 0;padding:14px;background:#f4f8ff!important;color:#23476f!important;border:1px solid #dce8f7!important;box-shadow:none!important}.library-list-card .list-icon{font-size:22px}.library-list-card .list-title{flex:1;min-width:0;overflow-wrap:anywhere}.library-detail{padding:14px;border:1px solid #dce8f7;border-radius:16px;background:#f7faff;margin-top:10px}.today-task{background:linear-gradient(110deg,#e0efff,#eff7ff)!important;border:1px solid #b9d8fb;border-radius:13px;padding:11px;margin:7px 0;box-shadow:0 3px 12px rgba(66,135,207,.09)}
-</style>
+
+/* A3 MISSION — Liquid Glass & visual priority system */
+:root{
+ --glass-white:rgba(255,255,255,.58);
+ --glass-edge:rgba(255,255,255,.88);
+ --glass-shadow:0 18px 48px rgba(45,69,105,.13),0 3px 12px rgba(45,69,105,.06),inset 0 1px 0 rgba(255,255,255,.9);
+ --essential:#ef476f;--important:#f4a62a;--normal:#2997e8;
+}
+body{
+ background:
+  radial-gradient(ellipse at 12% 0%,rgba(118,190,255,.36),transparent 34%),
+  radial-gradient(ellipse at 95% 18%,rgba(190,163,255,.28),transparent 32%),
+  radial-gradient(ellipse at 55% 100%,rgba(120,220,190,.20),transparent 38%),
+  linear-gradient(145deg,#f8fbff 0%,#eaf1fb 48%,#f5f7fc 100%)!important;
+ background-attachment:fixed!important;
+}
+header{
+ background:rgba(248,251,255,.58)!important;
+ border-bottom:1px solid rgba(255,255,255,.78)!important;
+ -webkit-backdrop-filter:blur(30px) saturate(190%);
+ backdrop-filter:blur(30px) saturate(190%);
+ box-shadow:0 8px 32px rgba(41,61,91,.075),inset 0 1px rgba(255,255,255,.9);
+}
+.hero,.card,.stat,.day,.subject-tile,.library-detail,.subject-note-group{
+ -webkit-backdrop-filter:blur(26px) saturate(175%);
+ backdrop-filter:blur(26px) saturate(175%);
+}
+.hero{
+ background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(221,237,255,.54),rgba(235,228,255,.48))!important;
+ border:1px solid rgba(255,255,255,.92)!important;
+ box-shadow:var(--glass-shadow);
+}
+.hero:before,.card:before{
+ content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+ background:linear-gradient(135deg,rgba(255,255,255,.42),transparent 38%,rgba(255,255,255,.08) 72%,transparent);
+}
+.hero{isolation:isolate}
+.card{position:relative;overflow:hidden;background:rgba(255,255,255,.48)!important;border:1px solid rgba(255,255,255,.88)!important;box-shadow:var(--glass-shadow)!important}
+.card h2{position:relative;color:#203650}
+.stat{background:rgba(255,255,255,.48)!important;border:1px solid rgba(255,255,255,.9)!important;box-shadow:0 8px 24px rgba(50,76,112,.08),inset 0 1px 0 #fff}
+button,.btn{border:1px solid rgba(255,255,255,.58);box-shadow:0 7px 18px rgba(24,117,88,.18),inset 0 1px 0 rgba(255,255,255,.35);letter-spacing:.05px}
+button.secondary{background:rgba(255,255,255,.52)!important;border:1px solid rgba(255,255,255,.9)!important;box-shadow:0 5px 15px rgba(44,67,100,.06),inset 0 1px 0 #fff!important}
+input,select,textarea{background:rgba(255,255,255,.54)!important;border:1px solid rgba(255,255,255,.94)!important;box-shadow:inset 0 2px 5px rgba(42,62,91,.045),0 2px 8px rgba(50,70,100,.035)}
+.day{background:rgba(255,255,255,.48)!important;border:1px solid rgba(255,255,255,.9)!important;box-shadow:0 8px 22px rgba(48,70,104,.06),inset 0 1px 0 #fff}
+nav{
+ background:rgba(245,249,255,.58)!important;
+ border:1px solid rgba(255,255,255,.92)!important;
+ -webkit-backdrop-filter:blur(34px) saturate(200%);
+ backdrop-filter:blur(34px) saturate(200%);
+ box-shadow:0 16px 42px rgba(35,54,86,.19),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(160,180,210,.16);
+}
+nav button.active{background:rgba(210,232,255,.58)!important;color:#175b9b!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 3px 12px rgba(65,126,190,.10)}
+.day.today{background:linear-gradient(135deg,rgba(210,235,255,.78),rgba(235,243,255,.55))!important;border:1px solid rgba(111,174,235,.55)!important}
+.priority-badge{display:inline-flex;align-items:center;gap:5px;border-radius:30px;padding:4px 9px;font-size:10px;font-weight:850;letter-spacing:.15px;border:1px solid currentColor;margin:5px 4px 0 0}
+.priority-badge:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 7px currentColor}
+.priority-essential{color:#d92d55;background:rgba(255,226,233,.78);border-color:rgba(217,45,85,.22)}
+.priority-important{color:#a96500;background:rgba(255,241,207,.82);border-color:rgba(196,133,24,.24)}
+.priority-normal{color:#176db3;background:rgba(218,239,255,.82);border-color:rgba(48,135,205,.22)}
+.task-row-essential{border-left:3px solid #ef476f!important;padding-left:10px!important}
+.task-row-important{border-left:3px solid #f4a62a!important;padding-left:10px!important}
+.task-row-normal{border-left:3px solid #2997e8!important;padding-left:10px!important}
+.app-footer{max-width:760px;margin:20px auto 105px;padding:18px 16px 24px;text-align:center;color:#8291a6;font-size:10px;letter-spacing:1.1px;font-weight:750}
+.app-footer span{display:inline-block;padding:8px 13px;border:1px solid rgba(255,255,255,.82);border-radius:30px;background:rgba(255,255,255,.38);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 5px 18px rgba(48,67,98,.06)}
+.app-footer b{color:#506984;font-weight:900}
+.item{transition:background .2s,border-color .2s}
+.item:has(input:checked){opacity:.72}
+@media(max-width:420px){.app-footer{font-size:9px;letter-spacing:.8px}}
+@media(prefers-reduced-motion:no-preference){
+ .card,.stat,.day,.hero{transition:transform .22s ease,box-shadow .22s ease}
+ .card:active{transform:scale(.995)}
+}
+\n</style>
 </head>
 <body>
 <header><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></header>
@@ -294,7 +365,9 @@ function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('ව�
 state.tasks.push({id:Date.now(),title,subject:$('taskSubject').value,date:$('taskDate').value||today(),minutes:+$('taskMinutes').value||0,priority:$('taskPriority').value,detail:$('taskDetail').value,done:false});persist();$('taskTitle').value='';$('taskDetail').value='';$('taskMinutes').value='';renderAll();}
 function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(t)t.done=!t.done;persist();renderAll();}
 function deleteTask(id){if(confirm('මේ වැඩය මකන්නද?')){state.tasks=state.tasks.filter(x=>x.id!==id);persist();renderAll();}}
-function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>`<div class="item ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min · ${esc(t.priority)}</div>${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
+function priorityClass(p){return p==='අත්‍යවශ්‍ය'?'essential':p==='වැදගත්'?'important':'normal';}
+function priorityBadge(p){const cls=priorityClass(p);return '<span class="priority-badge priority-'+cls+'">'+esc(p||'සාමාන්‍ය')+'</span>';}
+function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>{const pc=priorityClass(t.priority);return `<div class="item task-row-${pc} ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`}).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
 function saveDay(){let d=$('editDay').value;state.days[d]={type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value};persist();renderAll();alert('Timetable Update කළා.');}
 function editDay(d){let x=state.days[d];$('editDay').value=d;$('editType').value=x.type;$('editStart').value=x.start;$('editEnd').value=x.end;$('editNote').value=x.note;}
 function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
@@ -392,7 +465,7 @@ function deleteStudy(id){if(!confirm('මේ Study time සටහන ඉවත�
 function clearStudy(){if(!state.study.length)return;if(!confirm('සියලුම Study time සටහන් ඉවත් කරන්නද?'))return;state.study=[];persist();renderAll();}
 function renderTracker(){let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};state.study.forEach(s=>{if(sums[s.subject]!==undefined)sums[s.subject]+=s.minutes;});$('studyTotals').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');$('studyEntries').innerHTML=state.study.length?state.study.slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.id||0)-(a.id||0)).map(s=>`<div class="study-entry"><div class="itemmain"><strong>${esc(s.subject)}</strong><div class="small">${esc(s.date)} · ${s.minutes} මිනිත්තු</div></div><button class="danger" onclick="deleteStudy(${s.id})">ඉවත් කරන්න</button></div>`).join(''):'<div class="empty">තවම Study time සටහන් නැහැ.</div>';$('examDate').value=state.examDate;let days=Math.ceil((new Date(state.examDate+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);$('countdown').textContent=days>=0?`තෝරාගත් දිනයට දවස් ${days}යි.`:'තෝරාගත් දිනය පසු වී ඇත.';}
 function saveExamDate(){state.examDate=$('examDate').value;persist();renderTracker();}
-function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];$('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div></div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=dt.toISOString().slice(0,10)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
+function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];$('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}</div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=dt.toISOString().slice(0,10)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();}
 $('taskDate').value=today();$('filterDate').value=today();renderAll();
