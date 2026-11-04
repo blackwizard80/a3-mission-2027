@@ -341,6 +341,61 @@ header>div:first-child{min-width:0}
 #subjectProgress .progress{height:8px;margin-bottom:9px}
 @media(max-width:380px){.dashboard-hero{padding:17px!important}.hero-mark{width:56px;height:56px;flex-basis:56px;font-size:29px}.quick-action{gap:7px;padding:11px 8px!important}.quick-icon{width:33px;height:33px;flex-basis:33px}.dashboard-hero .stat{gap:7px;padding:9px}.stat-icon{width:29px;height:29px;flex-basis:29px}}
 
+
+/* 2026 visual polish — icon-first, less text, more breathing room */
+.tag{display:none!important}
+header{padding:12px 16px!important}
+.brand{font-size:18px!important;letter-spacing:.55px!important}
+.dashboard-hero{min-height:0!important;padding:20px!important}
+.hero-topline>span:not(.hero-year){display:none!important}
+.hero-copy{margin:14px 0 17px!important}
+.hero-copy h1{font-size:clamp(20px,5vw,25px)!important}
+.hero-mark{width:72px;height:72px;flex-basis:72px;font-size:36px;border-radius:25px;background:linear-gradient(145deg,#fff,rgba(190,222,255,.65));box-shadow:0 12px 28px rgba(72,110,160,.17),inset 0 1px #fff}
+.dashboard-hero .stat{padding:12px 10px!important;border-radius:18px!important}
+.dashboard-hero .stat-icon{width:38px;height:38px;flex-basis:38px;border-radius:14px;font-size:19px}
+.dashboard-hero .stat b{font-size:22px!important}
+.dashboard-hero .stat span:not(.stat-icon){font-size:9px!important;letter-spacing:.15px}
+.quick-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;margin:13px 0 17px!important}
+.quick-action{min-height:105px;flex-direction:column;justify-content:center;gap:7px!important;padding:12px 5px!important;text-align:center!important;border-radius:19px!important;background:linear-gradient(155deg,rgba(255,255,255,.82),rgba(231,240,253,.52))!important;box-shadow:0 8px 22px rgba(43,67,103,.075),inset 0 1px #fff!important}
+.quick-icon{width:47px!important;height:47px!important;flex-basis:47px!important;border-radius:17px!important;font-size:25px!important;box-shadow:inset 0 1px #fff}
+.quick-action>span:nth-child(2){display:block!important;flex:0 1 auto!important}
+.quick-action b{display:block;font-size:11px!important;letter-spacing:.1px}
+.quick-action small,.quick-action i{display:none!important}
+.home-card{padding:15px!important}
+.home-card .section-heading{margin-bottom:9px!important}
+.home-card .section-heading small,.home-card .section-date{display:none!important}
+.home-card .section-heading h2{font-size:14px!important}
+.home-card .section-icon{width:34px;height:34px;flex-basis:34px;border-radius:12px;font-size:18px}
+.home-card .item{padding:10px 2px!important}
+.home-card .itemmain strong{font-size:12px!important}
+.home-card .itemmain .small{font-size:10px!important}
+.home-card .priority-badge{font-size:9px!important;padding:3px 7px!important}
+.home-card .home-more{margin-top:7px!important;padding:9px 12px!important;font-size:10px!important}
+#subjectProgress p{margin:11px 1px 5px!important;font-size:11px!important}
+#subjectProgress p b{font-size:11px}
+#subjectProgress .progress{height:7px!important;margin-bottom:8px!important}
+.rest-card{padding:13px!important;gap:10px!important}
+.rest-card p{display:none!important}
+.rest-card b{font-size:11px!important}
+.rest-icon{width:36px;height:36px;flex-basis:36px;font-size:20px}
+nav button{font-size:0!important;line-height:1!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:48px}
+nav button:before{font-size:20px;line-height:1}
+nav button:after{font-size:9px;line-height:1.1;font-weight:750;letter-spacing:.1px}
+nav button[data-tab="home"]:before{content:"⌂"}nav button[data-tab="todo"]:before{content:"✓"}nav button[data-tab="timetable"]:before{content:"▦"}nav button[data-tab="notes"]:before{content:"▤"}nav button[data-tab="tracker"]:before{content:"◒"}
+nav button[data-tab="home"]:after{content:"Home"}nav button[data-tab="todo"]:after{content:"Tasks"}nav button[data-tab="timetable"]:after{content:"Week"}nav button[data-tab="notes"]:after{content:"Notes"}nav button[data-tab="tracker"]:after{content:"Stats"}
+nav button.active{transform:translateY(-2px);border-radius:15px!important}
+@media(max-width:380px){
+ .quick-grid{gap:6px!important}
+ .quick-action{min-height:96px;padding:9px 3px!important}
+ .quick-icon{width:42px!important;height:42px!important;flex-basis:42px!important}
+ .hero-mark{width:60px;height:60px;flex-basis:60px;font-size:30px}
+ .dashboard-hero{padding:16px!important}
+}
+@media(min-width:600px){
+ .quick-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ .quick-action{min-height:112px}
+}
+
 </style>
 </head>
 <body>
