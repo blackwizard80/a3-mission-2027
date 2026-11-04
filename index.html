@@ -166,6 +166,13 @@ nav button.active{background:rgba(222,242,232,.95);color:#08784e}
  background:rgba(246,249,254,.55);line-height:1.6
 }
 .noteimg{background:#edf2f8;border-radius:14px}
+.day.today{background:linear-gradient(120deg,#dceeff,#edf6ff)!important;border:2px solid #80b8f0!important;box-shadow:0 7px 22px rgba(65,139,211,.17)}
+.day.today .dayhead b{color:#155a9b}.todayBadge{font-size:10px;font-weight:800;background:#c5e2ff;color:#14558e;padding:5px 9px;border-radius:20px;margin-left:auto}
+.note-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:9px}
+.note-gallery .noteimg{width:100%;height:150px;margin:0;object-fit:cover}
+.subject-note-group{margin:12px 0;padding:12px;border:1px solid #dce7f5;border-radius:16px;background:rgba(247,250,255,.7)}
+.subject-note-group h3{margin:0 0 7px;font-size:15px;color:#25466d}
+.note-count{font-size:11px;background:#e4effb;color:#315d8a;border-radius:20px;padding:4px 8px}
 .small,.muted{line-height:1.55}
 @media(max-width:420px){
  main{padding-left:12px;padding-right:12px}
@@ -228,10 +235,10 @@ nav button.active{background:rgba(222,242,232,.95);color:#08784e}
  <div class="card"><h2>📚 Notes & Photos</h2><p class="muted">වැදගත් සටහන්වල ඡායාරූප Phone එකේම තබාගන්න.</p>
   <label>Note එකේ නම</label><input id="noteTitle" placeholder="උදා: Differentiation - Formula sheet">
   <label>විෂය</label><select id="noteSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option><option>Other</option></select>
-  <label>Photo එක</label><input id="notePhoto" type="file" accept="image/*">
+  <label>Photos (එකවර කිහිපයක් තෝරන්න පුළුවන්)</label><input id="notePhoto" type="file" accept="image/*" multiple><p class="small">Gallery එකෙන් Photos කිහිපයක් එකවර තෝරන්න. එක් Note එකකට Photos 12ක් දක්වා.</p>
   <label>කෙටි විස්තර</label><textarea id="noteDetail" rows="2" placeholder="මේ Note එකේ තියෙන්නේ..."></textarea>
   <button style="width:100%;margin-top:10px" onclick="addNote()">Note එක Save කරන්න</button>
- </div><div class="card"><h2>Saved Notes</h2><div id="notesList"></div></div>
+ </div><div class="card"><div class="row between"><h2 style="margin:0">Saved Notes</h2><span class="small">විෂය අනුව වෙන් කර ඇත</span></div><div id="notesList"></div></div>
  <div class="card">
   <h2>📂 Papers & Important PDFs</h2>
   <p class="muted">Combined Maths, Physics සහ Chemistry papers / වැදගත් PDF වෙන වෙනම Phone එකේම save කරගන්න.</p>
@@ -290,12 +297,40 @@ function saveDay(){let d=$('editDay').value;state.days[d]={type:$('editType').va
 function editDay(d){let x=state.days[d];$('editDay').value=d;$('editType').value=x.type;$('editStart').value=x.start;$('editEnd').value=x.end;$('editNote').value=x.note;}
 function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
 const dayNames={1:'සඳුදා',2:'අඟහරුවාදා',3:'බදාදා',4:'බ්‍රහස්පතින්දා',5:'සිකුරාදා',6:'සෙනසුරාදා',0:'ඉරිදා'};
-function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk];$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(state.days[d]||{})};if(Number(sd)===d){x={type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}return `<div class="day"><div class="dayhead"><b>${dayNames[d]}</b><button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+x.end:''}<br>${esc(x.note||'')}</p></div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
+function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk],todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(state.days[d]||{})};if(Number(sd)===d){x={type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}const isToday=d===todayIndex;return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+x.end:''}<br>${esc(x.note||'')}</p></div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
 function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',2);r.onupgradeneeded=()=>{let db=r.result;if(!db.objectStoreNames.contains('notes'))db.createObjectStore('notes',{keyPath:'id'});if(!db.objectStoreNames.contains('resources'))db.createObjectStore('resources',{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
-async function addNote(){let title=$('noteTitle').value.trim(),file=$('notePhoto').files[0];if(!title){alert('Note එකට නමක් දෙන්න.');return}if(file&&file.size>15*1024*1024){alert('Photo එක 15 MB ට වඩා වැඩියි. කුඩා Photo එකක් තෝරන්න.');return}let db=await openDB();let note={id:Date.now(),title,subject:$('noteSubject').value,detail:$('noteDetail').value,photo:file||null,date:today()};let tx=db.transaction('notes','readwrite');tx.objectStore('notes').put(note);tx.oncomplete=()=>{db.close();$('noteTitle').value='';$('noteDetail').value='';$('notePhoto').value='';renderNotes();alert('Note එක Phone එකේ Save කළා.');};}
-async function renderNotes(){let db=await openDB();let tx=db.transaction('notes','readonly'),req=tx.objectStore('notes').getAll();req.onsuccess=()=>{let a=req.result.sort((x,y)=>y.id-x.id);$('notesList').innerHTML=a.length?a.map(n=>`<div class="item"><div class="itemmain"><strong>${esc(n.title)}</strong><div class="small">${esc(n.subject)} · ${n.date}</div>${n.detail?`<p class="small">${esc(n.detail)}</p>`:''}${n.photo?'<img class="noteimg" id="img'+n.id+'" alt="Note photo" onclick="openNoteImage('+n.id+')">':''}</div><button class="danger" onclick="deleteNote(${n.id})">මකන්න</button></div>`).join(''):'<div class="empty">තවම Notes Save කරලා නැහැ.</div>';a.forEach(n=>{if(n.photo){let el=$('img'+n.id);if(el)el.src=URL.createObjectURL(n.photo);}});db.close();};}
-async function openNoteImage(id){const db=await openDB();const tx=db.transaction('notes','readonly'),r=tx.objectStore('notes').get(id);r.onsuccess=()=>{const n=r.result;db.close();if(!n||!n.photo)return;const img=$('largeNoteImage');img.src=URL.createObjectURL(n.photo);$('imageViewer').classList.add('show');};}
-function closeImageViewer(){$('imageViewer').classList.remove('show');$('largeNoteImage').removeAttribute('src');}
+async function addNote(){
+ const title=$('noteTitle').value.trim(),files=Array.from($('notePhoto').files||[]);
+ if(!title){alert('Note එකට නමක් දෙන්න.');return}
+ if(files.length>12){alert('එක් Note එකකට Photos 12ක් දක්වා තෝරන්න.');return}
+ if(files.some(f=>!f.type.startsWith('image/'))){alert('Image files පමණක් තෝරන්න.');return}
+ if(files.some(f=>f.size>15*1024*1024)){alert('එක් Photo එකක් 15 MB ට වඩා වැඩියි.');return}
+ const db=await openDB(),note={id:Date.now(),title,subject:$('noteSubject').value,detail:$('noteDetail').value,photos:files,photo:files[0]||null,date:today()};
+ const tx=db.transaction('notes','readwrite');tx.objectStore('notes').put(note);
+ tx.oncomplete=()=>{db.close();$('noteTitle').value='';$('noteDetail').value='';$('notePhoto').value='';renderNotes();alert('Note එක සහ Photos '+files.length+'ක් Save කළා.');};
+ tx.onerror=()=>{db.close();alert('Save කරන්න බැරි වුණා. Phone storage ඉඩ පරීක්ෂා කරන්න.');};
+}
+async function renderNotes(){
+ const db=await openDB(),tx=db.transaction('notes','readonly'),req=tx.objectStore('notes').getAll();
+ req.onsuccess=()=>{
+  const all=req.result.sort((x,y)=>y.id-x.id),subjects=['Combined Maths','Physics','Chemistry','Other'];
+  $('notesList').innerHTML=subjects.map((subject,index)=>{
+   const list=all.filter(n=>(n.subject||'Other')===subject);
+   const notes=list.map(n=>{
+    const photos=n.photos&&n.photos.length?n.photos:(n.photo?[n.photo]:[]);
+    const gallery=photos.map((photo,i)=>'<img class="noteimg" id="img'+n.id+'_'+i+'" alt="Note photo '+(i+1)+'" onclick="openNoteImage('+n.id+','+i+')">').join('');
+    return '<div class="item"><div class="itemmain"><strong>'+esc(n.title)+'</strong><div class="small">'+esc(n.subject||'Other')+' · '+esc(n.date)+' · '+photos.length+' Photos</div>'+(n.detail?'<p class="small">'+esc(n.detail)+'</p>':'')+(photos.length?'<div class="note-gallery">'+gallery+'</div>':'')+'</div><button class="danger" onclick="deleteNote('+n.id+')">මකන්න</button></div>';
+   }).join('');
+   return '<div class="subject-note-group"><div class="row between"><h3>'+['📘','📗','📙','📂'][index]+' '+esc(subject)+'</h3><span class="note-count">'+list.length+' Notes</span></div>'+(notes||'<div class="empty">මේ විෂයට Notes නැහැ.</div>')+'</div>';
+  }).join('');
+  all.forEach(n=>{const photos=n.photos&&n.photos.length?n.photos:(n.photo?[n.photo]:[]);photos.forEach((photo,i)=>{const el=$('img'+n.id+'_'+i);if(el)el.src=URL.createObjectURL(photo);});});
+  db.close();
+ };
+}
+async function openNoteImage(id,index=0){
+ const db=await openDB(),tx=db.transaction('notes','readonly'),r=tx.objectStore('notes').get(id);
+ r.onsuccess=()=>{const n=r.result;db.close();if(!n)return;const photos=n.photos&&n.photos.length?n.photos:(n.photo?[n.photo]:[]),photo=photos[index];if(!photo)return;const img=$('largeNoteImage');img.src=URL.createObjectURL(photo);$('imageViewer').classList.add('show');};
+}
 async function deleteNote(id){if(!confirm('Note එක මකන්නද?'))return;let db=await openDB();let tx=db.transaction('notes','readwrite');tx.objectStore('notes').delete(id);tx.oncomplete=()=>{db.close();renderNotes();};}
 async function addPDF(){
  const file=$('pdfFile').files[0],title=$('pdfTitle').value.trim()||(file?file.name:'');
