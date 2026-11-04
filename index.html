@@ -288,6 +288,12 @@ header>div:first-child{min-width:0}
 .history-study{display:inline-block;margin:3px 4px 0 0;padding:5px 8px;border-radius:10px;background:rgba(224,238,255,.76);color:#315e8b;font-size:10px}
 .history-empty{padding:20px;text-align:center;color:#70829a;font-size:12px;line-height:1.7}
 @media(prefers-reduced-motion:no-preference){.history-date{animation:historyPop .3s ease both}@keyframes historyPop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}}
+
+/* Glass reminder notification */
+.reminder-label{color:#7dd3fc!important;margin-top:5px}
+.glass-reminder{position:fixed;z-index:9999;left:16px;right:16px;bottom:calc(82px + env(safe-area-inset-bottom));max-width:520px;margin:auto;padding:16px 18px;border:1px solid rgba(255,255,255,.38);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.24),rgba(130,170,220,.13));backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:0 18px 55px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.32);color:inherit;animation:reminderIn .35s ease both}
+.glass-reminder .reminder-kicker{font-size:11px;letter-spacing:.08em;opacity:.75}.glass-reminder strong{display:block;font-size:16px;margin:5px 0}.glass-reminder p{margin:0;font-size:13px;opacity:.85}.glass-reminder button{margin-top:12px;width:100%;border-radius:13px}
+@keyframes reminderIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -311,6 +317,7 @@ header>div:first-child{min-width:0}
    <div class="full"><label>වැඩේ / පාඩම</label><input id="taskTitle" placeholder="උදා: Vectors - Exercise 01"></div>
    <div><label>විෂය</label><select id="taskSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option><option>Other</option></select></div>
    <div><label>දිනය</label><input id="taskDate" type="date"></div>
+   <div><label>මතක් කරන වේලාව (අවශ්‍ය නම්)</label><input id="taskReminder" type="time"></div>
    <div><label>කාලය (මිනිත්තු)</label><input id="taskMinutes" type="number" min="0" placeholder="උදා: 45"></div>
    <div><label>Priority</label><select id="taskPriority"><option>සාමාන්‍ය</option><option>වැදගත්</option><option>අත්‍යවශ්‍ය</option></select></div>
    <div class="full"><label>විස්තර (අවශ්‍ය නම්)</label><textarea id="taskDetail" rows="2" placeholder="කළ යුතු කොටස්..."></textarea></div>
@@ -398,12 +405,12 @@ state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); s
 function persist(){localStorage.setItem(key,JSON.stringify(state));}
 function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(t).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));renderAll();}
 function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('වැඩේ නම ලියන්න.');return}
-state.tasks.push({id:Date.now(),title,subject:$('taskSubject').value,date:$('taskDate').value||today(),minutes:+$('taskMinutes').value||0,priority:$('taskPriority').value,detail:$('taskDetail').value,done:false});persist();$('taskTitle').value='';$('taskDetail').value='';$('taskMinutes').value='';renderAll();}
+const reminderTime=$('taskReminder').value;state.tasks.push({id:Date.now(),title,subject:$('taskSubject').value,date:$('taskDate').value||today(),reminderTime:reminderTime||'',reminded:false,minutes:+$('taskMinutes').value||0,priority:$('taskPriority').value,detail:$('taskDetail').value,done:false});persist();if(reminderTime)enableTaskNotifications();$('taskTitle').value='';$('taskDetail').value='';$('taskMinutes').value='';$('taskReminder').value='';renderAll();}
 function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(t){t.done=!t.done;t.completedAt=t.done?new Date().toISOString():null;}persist();renderAll();}
 function deleteTask(id){if(confirm('මේ වැඩය මකන්නද?')){state.tasks=state.tasks.filter(x=>x.id!==id);persist();renderAll();}}
 function priorityClass(p){return p==='අත්‍යවශ්‍ය'?'essential':p==='වැදගත්'?'important':'normal';}
 function priorityBadge(p){const cls=priorityClass(p);return '<span class="priority-badge priority-'+cls+'">'+esc(p||'සාමාන්‍ය')+'</span>';}
-function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>{const pc=priorityClass(t.priority);return `<div class="item task-row-${pc} ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`}).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
+function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>{const pc=priorityClass(t.priority);return `<div class="item task-row-${pc} ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}${t.reminderTime?`<div class="small reminder-label">🔔 මතක් කිරීම: ${esc(t.reminderTime)}</div>`:''}${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`}).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
 function saveDay(){let d=$('editDay').value;state.days[d]={type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value};persist();renderAll();alert('Timetable Update කළා.');}
 function editDay(d){let x=state.days[d];$('editDay').value=d;$('editType').value=x.type;$('editStart').value=x.start;$('editEnd').value=x.end;$('editNote').value=x.note;}
 function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
@@ -524,7 +531,42 @@ function saveExamDate(){state.examDate=$('examDate').value;persist();renderTrack
 function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];$('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}</div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=dt.toISOString().slice(0,10)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();}
+
+let reminderToastTimer=null;
+function showGlassReminder(task){
+ let box=$('glassReminder');if(!box){box=document.createElement('div');box.id='glassReminder';box.className='glass-reminder';document.body.appendChild(box);}
+ box.innerHTML='<div class="reminder-kicker">A3 MISSION 2027 · REMINDER</div><strong>🔔 '+esc(task.title)+'</strong><p>'+esc(task.subject||'To-Do')+' · '+esc(task.reminderTime||'')+'ට කළ යුතුයි</p><button class="secondary" onclick="this.parentElement.remove()">හරි, මතක් වුණා</button>';
+ clearTimeout(reminderToastTimer);reminderToastTimer=setTimeout(()=>box.remove(),18000);
+}
+async function enableTaskNotifications(){
+ if(!('Notification' in window))return false;
+ if(Notification.permission==='granted')return true;
+ if(Notification.permission==='denied')return false;
+ try{return (await Notification.requestPermission())==='granted';}catch(e){return false;}
+}
+async function fireTaskReminder(task){
+ showGlassReminder(task);
+ if(Notification.permission==='granted'){
+  try{const reg=('serviceWorker' in navigator)?await navigator.serviceWorker.ready:null;
+   if(reg&&reg.showNotification)await reg.showNotification('A3 Mission 2027 · To-Do',{body:task.title+' · '+(task.subject||'')+' — දැන් කරන්න වෙලාවයි!',tag:'task-'+task.id,renotify:false,icon:'./icon-192.png',data:{url:'./'}});
+   else new Notification('A3 Mission 2027 · To-Do',{body:task.title});
+  }catch(e){}
+ }
+}
+function checkTaskReminders(){
+ const now=new Date(),todayStr=today(),nowM=now.getHours()*60+now.getMinutes();
+ let changed=false;
+ state.tasks.forEach(t=>{
+  if(!t.done&&!t.reminded&&t.date===todayStr&&t.reminderTime){
+   const p=t.reminderTime.split(':').map(Number),target=p[0]*60+p[1];
+   if(nowM>=target){t.reminded=true;changed=true;fireTaskReminder(t);}
+  }
+ });
+ if(changed)persist();
+}
+
 $('taskDate').value=today();$('filterDate').value=today();renderAll();
+setInterval(checkTaskReminders,15000);checkTaskReminders();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
 </body></html>
