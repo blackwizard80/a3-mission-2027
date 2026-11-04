@@ -294,22 +294,76 @@ header>div:first-child{min-width:0}
 .glass-reminder{position:fixed;z-index:9999;left:16px;right:16px;bottom:calc(82px + env(safe-area-inset-bottom));max-width:520px;margin:auto;padding:16px 18px;border:1px solid rgba(255,255,255,.38);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.24),rgba(130,170,220,.13));backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:0 18px 55px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.32);color:inherit;animation:reminderIn .35s ease both}
 .glass-reminder .reminder-kicker{font-size:11px;letter-spacing:.08em;opacity:.75}.glass-reminder strong{display:block;font-size:16px;margin:5px 0}.glass-reminder p{margin:0;font-size:13px;opacity:.85}.glass-reminder button{margin-top:12px;width:100%;border-radius:13px}
 @keyframes reminderIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+
+/* A3 Mission visual dashboard refresh */
+.dashboard-hero{padding:22px!important;min-height:220px;background:linear-gradient(135deg,rgba(255,255,255,.82),rgba(219,237,255,.72) 55%,rgba(229,220,255,.68))!important}
+.hero-topline{display:flex;align-items:center;gap:7px;font-size:9px;font-weight:900;letter-spacing:1.7px;color:#6b829e;position:relative;z-index:1}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#24b47e;box-shadow:0 0 0 4px rgba(36,180,126,.12)}
+.hero-year{margin-left:auto;padding:5px 10px;border-radius:20px;background:rgba(255,255,255,.55);border:1px solid #fff;color:#66809f;letter-spacing:1px}
+.hero-copy{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:1;margin:16px 0 18px}
+.hero-copy h1{margin:0 0 5px;font-size:clamp(21px,5vw,27px)}
+.hero-copy p{margin:0!important;font-size:12px}
+.hero-mark{width:66px;height:66px;flex:0 0 66px;border-radius:23px;display:grid;place-items:center;font-size:34px;background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(210,231,255,.65));border:1px solid #fff;box-shadow:0 9px 24px rgba(72,110,160,.14),inset 0 1px #fff;transform:rotate(5deg)}
+.dashboard-hero .stats{margin-top:0;gap:9px}
+.dashboard-hero .stat{display:flex;align-items:center;gap:10px;padding:11px;border-radius:16px}
+.stat-icon{width:34px;height:34px;flex:0 0 34px;border-radius:12px;display:grid;place-items:center;font-size:18px;font-weight:900;background:rgba(255,255,255,.78);color:#16865d;box-shadow:inset 0 1px #fff}
+.stat-time .stat-icon{color:#3478d4}
+.dashboard-hero .stat b{font-size:21px;line-height:1.1}
+.dashboard-hero .stat span:not(.stat-icon){font-size:10px;display:block;margin-top:4px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 16px}
+.quick-action{display:flex;align-items:center;gap:10px;min-width:0;text-align:left;padding:13px 11px!important;border-radius:18px!important;background:rgba(255,255,255,.62)!important;color:#263e5e!important;border:1px solid rgba(255,255,255,.96)!important;box-shadow:0 7px 20px rgba(43,67,103,.075),inset 0 1px #fff!important}
+.quick-action>span:nth-child(2){display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.quick-action b{font-size:13px;font-weight:850}
+.quick-action small{font-size:10px;color:#71839b;font-weight:550}
+.quick-action i{font-style:normal;color:#91a3ba;font-size:14px}
+.quick-icon{width:37px;height:37px;flex:0 0 37px;border-radius:13px;display:grid;place-items:center;font-size:22px;font-weight:700;background:#e5f2ff;color:#2877bd}
+.quick-time .quick-icon{background:#eee9ff;color:#7959bd}
+.quick-notes .quick-icon{background:#e3f6ee;color:#20845f}
+.quick-progress .quick-icon{background:#fff1dc;color:#bd7a16}
+.home-card{padding:16px!important}
+.section-heading{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.section-heading>div{min-width:0;flex:1}
+.section-heading h2{margin:0!important;font-size:15px!important}
+.section-heading small{display:block;margin-top:3px;color:#8a9bb0;font-size:8px;font-weight:850;letter-spacing:1.2px}
+.section-icon{width:37px;height:37px;flex:0 0 37px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(145deg,#fff2d8,#ffe8bd);color:#b77918;font-size:20px}
+.subject-icon{background:linear-gradient(145deg,#dff2ff,#dce8ff);color:#397bc0}
+.section-date{font-size:8px;letter-spacing:1px;font-weight:900;color:#7a91ad;background:rgba(231,240,251,.8);padding:6px 8px;border-radius:20px}
+.home-card .item{padding:11px 3px}
+.home-card .itemmain strong{font-size:13px}
+.home-more{width:100%;margin-top:9px!important;display:flex;justify-content:space-between;align-items:center;font-size:11px!important}
+.home-more span{font-size:17px}
+.rest-card{display:flex;align-items:center;gap:12px;padding:15px 16px;margin:14px 0 20px;border:1px solid rgba(255,255,255,.94);border-radius:19px;background:linear-gradient(110deg,rgba(255,255,255,.68),rgba(230,240,255,.62));box-shadow:0 7px 20px rgba(43,67,103,.06),inset 0 1px #fff}
+.rest-icon{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border-radius:14px;background:#e7edff;color:#6d7ec3;font-size:23px}
+.rest-card b{font-size:12px;color:#314c6e}
+.rest-card p{font-size:10px;color:#74869e;margin:4px 0 0;line-height:1.5}
+#subjectProgress p{font-size:12px;margin:13px 1px 6px}
+#subjectProgress p b{color:#314d6d}
+#subjectProgress .progress{height:8px;margin-bottom:9px}
+@media(max-width:380px){.dashboard-hero{padding:17px!important}.hero-mark{width:56px;height:56px;flex-basis:56px;font-size:29px}.quick-action{gap:7px;padding:11px 8px!important}.quick-icon{width:33px;height:33px;flex-basis:33px}.dashboard-hero .stat{gap:7px;padding:9px}.stat-icon{width:29px;height:29px;flex-basis:29px}}
+
 </style>
 </head>
 <body>
 <header><div><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></div><button class="history-trigger" aria-label="History" title="History" onclick="openHistory()">◷</button></header>
 <main>
 <section id="home" class="tab active">
- <div class="hero">
-  <h1 id="greeting">අද ඉලක්කය ජයගමු!</h1><p id="todayText"></p>
+ <div class="hero dashboard-hero">
+  <div class="hero-topline"><span class="live-dot"></span><span>YOUR STUDY SPACE</span><span class="hero-year">2027</span></div>
+  <div class="hero-copy"><div><h1 id="greeting">අද ඉලක්කය ජයගමු!</h1><p id="todayText"></p></div><div class="hero-mark" aria-hidden="true">🎯</div></div>
   <div class="stats">
-   <div class="stat"><b id="doneCount">0/0</b><span>අද අවසන් කළ වැඩ</span></div>
-   <div class="stat"><b id="streakHours">0h</b><span>අද සටහන් කළ Study time</span></div>
+   <div class="stat stat-done"><span class="stat-icon">✓</span><div><b id="doneCount">0/0</b><span>අද වැඩ අවසන්</span></div></div>
+   <div class="stat stat-time"><span class="stat-icon">◷</span><div><b id="streakHours">0h</b><span>අද Study time</span></div></div>
   </div>
  </div>
- <div class="card"><h2>අද කළ යුතු දේ</h2><div id="todayTasks"></div><button class="secondary" onclick="showTab('todo')">To-Do List එකට යන්න →</button></div>
- <div class="card"><h2>විෂය අනුව සතියේ ඉලක්ක</h2><div id="subjectProgress"></div></div>
- <div class="card"><h2>මතක් කිරීම</h2><p class="muted">Class තියෙන දවස්වල ගෙදර ආවම විවේකයත් නින්දත් අත්‍යවශ්‍යයි. හැම දවසකම අධික වැඩ පුරවන්න එපා. දිගටම කරගෙන යන්න පුළුවන් සැලැස්මක් හදමු.</p></div>
+ <div class="quick-grid" aria-label="Quick actions">
+  <button class="quick-action quick-todo" onclick="showTab('todo')"><span class="quick-icon">＋</span><span><b>To-Do</b><small>වැඩ එකතු කරන්න</small></span><i>↗</i></button>
+  <button class="quick-action quick-time" onclick="showTab('timetable')"><span class="quick-icon">▦</span><span><b>Timetable</b><small>සතිය බලන්න</small></span><i>↗</i></button>
+  <button class="quick-action quick-notes" onclick="showTab('notes')"><span class="quick-icon">▤</span><span><b>Notes</b><small>සටහන් බලන්න</small></span><i>↗</i></button>
+  <button class="quick-action quick-progress" onclick="showTab('tracker')"><span class="quick-icon">↗</span><span><b>Progress</b><small>ඉදිරිය බලන්න</small></span><i>↗</i></button>
+ </div>
+ <div class="card home-card"><div class="section-heading"><span class="section-icon">☀</span><div><h2>අද කළ යුතු දේ</h2><small>TODAY'S FOCUS</small></div><span class="section-date">TODAY</span></div><div id="todayTasks"></div><button class="secondary home-more" onclick="showTab('todo')">සියලු වැඩ බලන්න <span>→</span></button></div>
+ <div class="card home-card"><div class="section-heading"><span class="section-icon subject-icon">◉</span><div><h2>විෂය අනුව සතියේ ඉලක්ක</h2><small>WEEKLY STUDY TRACKER</small></div></div><div id="subjectProgress"></div></div>
+ <div class="rest-card"><span class="rest-icon">☁</span><div><b>විවේකයත් සැලැස්මේ කොටසක්</b><p>Class දවසකින් පස්සේ විවේකයටත් නින්දටත් ඉඩ තබන්න.</p></div></div>
 </section>
 <section id="todo" class="tab">
  <div class="card"><h2>➕ To-Do එකතු කරන්න</h2>
