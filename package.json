@@ -1,0 +1,16 @@
+{
+  "name": "a3-mission-2027",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A3 MISSION 2027 Android app wrapper",
+  "scripts": {
+    "build:android": "npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}
