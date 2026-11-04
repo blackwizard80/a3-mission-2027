@@ -250,7 +250,7 @@ nav button.active{background:rgba(222,242,232,.95);color:#08784e}
  <div class="card"><h2>Exam Countdown</h2><p class="muted">නිල විභාග දිනය දැනගත් පසු මෙතැන වෙනස් කරන්න.</p><label>Target date</label><input id="examDate" type="date" onchange="saveExamDate()"><p id="countdown" class="small"></p></div>
 </section>
 </main>
-<div id="pdfViewer"><div class="pdf-toolbar"><button class="secondary" onclick="closePDFViewer()">← ආපසු</button><strong id="pdfViewerTitle">PDF</strong><button class="secondary" onclick="downloadCurrentPDF()">⬇</button></div><div id="pdfStatus">PDF එක load වෙමින්...</div><div id="pdfPages"></div></div>
+<div id="pdfViewer"><div class="pdf-toolbar"><button class="secondary" onclick="closePDFViewer()">← ආපසු</button><strong id="pdfViewerTitle">PDF</strong><button class="secondary" onclick="changePDFPage(-1)">◀</button><button class="secondary" onclick="changePDFPage(1)">▶</button><button class="secondary" onclick="downloadCurrentPDF()">⬇</button></div><div id="pdfStatus">PDF එක load වෙමින්...</div><div id="pdfPages"></div></div>
 <nav>
 <button class="active" data-tab="home" onclick="showTab('home')">🏠<br>Home</button>
 <button data-tab="todo" onclick="showTab('todo')">☑️<br>To-Do</button>
@@ -319,6 +319,7 @@ async function getPDF(id){const db=await openDB();return new Promise((resolve,re
 let currentPDFFile=null,pdfDoc=null,pdfPage=1;
 async function openPDF(id){const p=await getPDF(id);if(!p)return;currentPDFFile=p.file;$('pdfViewerTitle').textContent=p.title||p.fileName;$('pdfViewer').classList.add('show');$('pdfStatus').textContent='PDF එක විවෘත වෙමින්...';$('pdfPages').innerHTML='';if(!window.pdfjsLib){$('pdfStatus').textContent='PDF viewer එක load වුණේ නැහැ. Download කරලා PDF reader එකෙන් විවෘත කරන්න.';return;}try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';pdfDoc=await pdfjsLib.getDocument({data:await p.file.arrayBuffer()}).promise;pdfPage=1;await renderPDFPage();}catch(e){$('pdfStatus').textContent='PDF එක විවෘත කළ නොහැක. Download කරලා PDF reader එකෙන් බලන්න.';}}
 async function renderPDFPage(){if(!pdfDoc)return;const page=await pdfDoc.getPage(pdfPage),v=page.getViewport({scale:1.25}),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');canvas.width=v.width;canvas.height=v.height;$('pdfPages').innerHTML='';$('pdfPages').appendChild(canvas);await page.render({canvasContext:ctx,viewport:v}).promise;$('pdfStatus').textContent='පිටුව '+pdfPage+' / '+pdfDoc.numPages;}
+function changePDFPage(delta){if(!pdfDoc)return;pdfPage=Math.max(1,Math.min(pdfDoc.numPages,pdfPage+delta));renderPDFPage();}
 function closePDFViewer(){$('pdfViewer').classList.remove('show');$('pdfPages').innerHTML='';pdfDoc=null;currentPDFFile=null;}
 function downloadCurrentPDF(){if(!currentPDFFile)return;const u=URL.createObjectURL(currentPDFFile),a=document.createElement('a');a.href=u;a.download=currentPDFFile.name||'document.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(u),30000);}
 async function downloadPDF(id){const p=await getPDF(id);if(!p)return;const url=URL.createObjectURL(p.file),a=document.createElement('a');a.href=url;a.download=p.fileName||p.title+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
