@@ -275,7 +275,7 @@ state.tasks ||= []; state.days ||= {
 6:{type:'Class',start:'06:30',end:'18:00',note:'උදේ 6.30 පිටත් · හවස 6ට පසු ගෙදර'},
 0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
 };
-state.study ||= []; state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
+state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
 function persist(){localStorage.setItem(key,JSON.stringify(state));}
 function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(t).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));renderAll();}
 function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('වැඩේ නම ලියන්න.');return}
