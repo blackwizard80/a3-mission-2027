@@ -60,6 +60,125 @@ nav button{color:#65748b}nav button.active{color:#08784e;background:#e8f5ef}
 .noteimg{background:#f1f4f8}
 .empty{color:#65748b}
 
+
+/* Glass UI refresh */
+:root{
+ --bg:#edf3fb;--panel:rgba(255,255,255,.76);--panel2:rgba(239,245,253,.92);
+ --text:#17243a;--muted:#64748b;--accent:#16865d;--blue:#3478d4;
+ --line:rgba(151,170,197,.32);
+}
+html{min-height:100%;background:#edf3fb}
+body{
+ background:
+  radial-gradient(ellipse at 8% 4%,rgba(151,205,255,.38),transparent 38%),
+  radial-gradient(ellipse at 92% 22%,rgba(181,164,255,.24),transparent 35%),
+  linear-gradient(145deg,#f7faff 0%,#edf3fb 52%,#f4f7fc 100%)!important;
+ background-attachment:fixed!important;color:var(--text)
+}
+header{
+ background:rgba(255,255,255,.72)!important;
+ -webkit-backdrop-filter:blur(18px) saturate(155%);
+ backdrop-filter:blur(18px) saturate(155%);
+ border-bottom:1px solid rgba(255,255,255,.8);
+ box-shadow:0 5px 24px rgba(37,57,89,.055)
+}
+.brand{letter-spacing:.25px;font-size:21px}
+.tag{font-size:12px}
+main{padding-top:18px}
+.hero{
+ position:relative;overflow:hidden;
+ background:linear-gradient(135deg,rgba(222,239,255,.94),rgba(235,232,255,.88))!important;
+ border:1px solid rgba(255,255,255,.9);
+ border-radius:25px;padding:21px;
+ box-shadow:0 12px 32px rgba(71,111,166,.12);
+}
+.hero:after{
+ content:"";position:absolute;width:155px;height:155px;border-radius:50%;
+ right:-48px;top:-58px;background:rgba(255,255,255,.35);pointer-events:none
+}
+.hero h1{font-size:24px;line-height:1.35;color:#1c3150}
+.hero p{color:#536984!important;line-height:1.6}
+.stats{gap:11px}
+.stat{
+ background:rgba(255,255,255,.68)!important;
+ border:1px solid rgba(255,255,255,.9);
+ border-radius:17px;padding:13px;
+ box-shadow:0 4px 14px rgba(50,75,110,.055)
+}
+.stat b{font-size:24px;color:#1b4d75}
+.stat span{color:#60748d!important;line-height:1.45}
+.card{
+ background:rgba(255,255,255,.72)!important;
+ border:1px solid rgba(255,255,255,.92)!important;
+ border-radius:21px;padding:17px;margin:14px 0;
+ box-shadow:0 8px 26px rgba(35,57,91,.075),inset 0 1px 0 rgba(255,255,255,.8);
+ -webkit-backdrop-filter:blur(14px);
+ backdrop-filter:blur(14px)
+}
+.card h2{font-size:17px;letter-spacing:.05px}
+button,.btn{
+ border-radius:13px;padding:11px 15px;
+ box-shadow:0 4px 10px rgba(22,134,93,.13);
+ transition:transform .16s ease,box-shadow .16s ease,filter .16s ease
+}
+button:active,.btn:active{transform:scale(.97)}
+button.secondary{
+ background:rgba(239,245,253,.9)!important;
+ border:1px solid rgba(190,205,225,.72);
+ box-shadow:none;color:#30445f!important
+}
+button.danger{box-shadow:none}
+input,select,textarea{
+ background:rgba(255,255,255,.82)!important;
+ border:1px solid #d5dfec;border-radius:13px;
+ padding:12px 13px;outline:none;
+ transition:border-color .15s,box-shadow .15s
+}
+input:focus,select:focus,textarea:focus{
+ border-color:#76a9e8;
+ box-shadow:0 0 0 3px rgba(76,139,220,.13)
+}
+label{font-weight:650;letter-spacing:.1px}
+nav{
+ left:10px;right:10px;bottom:calc(7px + env(safe-area-inset-bottom));
+ border:1px solid rgba(255,255,255,.92)!important;
+ border-radius:21px;padding:8px 5px 7px;
+ background:rgba(255,255,255,.82)!important;
+ -webkit-backdrop-filter:blur(20px) saturate(160%);
+ backdrop-filter:blur(20px) saturate(160%);
+ box-shadow:0 8px 30px rgba(34,53,85,.16);
+}
+nav button{border-radius:14px;line-height:1.45;padding:8px 3px;font-weight:700}
+nav button.active{background:rgba(222,242,232,.95);color:#08784e}
+.item{padding:13px 2px;border-bottom-color:rgba(195,207,224,.48)}
+.item input[type=checkbox]{accent-color:#16865d}
+.pill{background:#e8f0fb;color:#3e5c80;border:1px solid #dce7f5}
+.day{
+ background:rgba(248,251,255,.76);border:1px solid rgba(204,217,235,.72);
+ border-radius:16px;padding:13px;margin:10px 0;
+ box-shadow:0 3px 12px rgba(44,67,102,.035)
+}
+.dayhead b{color:#263d5b}
+.progress{height:10px;background:#e3eaf4;border-radius:20px}
+.progress>i{border-radius:20px;background:linear-gradient(90deg,#16865d,#54b995)}
+.empty{
+ padding:20px 14px;border:1px dashed #cbd8e8;border-radius:15px;
+ background:rgba(246,249,254,.55);line-height:1.6
+}
+.noteimg{background:#edf2f8;border-radius:14px}
+.small,.muted{line-height:1.55}
+@media(max-width:420px){
+ main{padding-left:12px;padding-right:12px}
+ .hero{padding:18px;border-radius:22px}
+ .card{padding:15px;border-radius:19px}
+ nav{left:7px;right:7px}
+ nav button{font-size:10px}
+}
+@media(prefers-reduced-motion:no-preference){
+ .card,.hero{animation:softRise .35s ease both}
+ @keyframes softRise{from{opacity:.75;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+}
+
 </style>
 </head>
 <body>
