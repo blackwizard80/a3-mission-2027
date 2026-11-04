@@ -188,6 +188,7 @@ nav button.active{background:rgba(222,242,232,.95);color:#08784e}
 
 #pdfViewer{position:fixed;inset:0;background:#f3f6fb;z-index:30;display:none;flex-direction:column}#pdfViewer.show{display:flex}.pdf-toolbar{display:flex;gap:8px;align-items:center;padding:10px;background:#fff}.pdf-toolbar strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#pdfPages{overflow:auto;flex:1;padding:12px;text-align:center}#pdfPages canvas{max-width:100%;height:auto!important;margin:0 auto 12px;box-shadow:0 2px 12px #0002;background:white}#pdfStatus{padding:8px;color:#53657c;font-size:13px}
 #imageViewer{position:fixed;inset:0;z-index:40;background:rgba(8,16,29,.96);display:none;align-items:center;justify-content:center;padding:16px}#imageViewer.show{display:flex}#imageViewer img{max-width:100%;max-height:86vh;object-fit:contain;border-radius:12px}#imageViewer .imageClose{position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;background:#fff;color:#172033;font-size:20px;border-radius:50%;width:42px;height:42px;padding:0}.noteimg{display:block;max-height:340px;cursor:zoom-in;box-shadow:0 4px 16px rgba(25,45,75,.12)}
+.subject-hub{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.subject-tile{min-height:100px;border:1px solid #d5e4f5;border-radius:17px;background:linear-gradient(145deg,#f5f9ff,#e8f2ff);color:#23476f;padding:12px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}.subject-tile .tile-icon{font-size:25px}.subject-tile strong{font-size:12px;text-align:center}.subject-tile small{font-size:10px;color:#627d9c}.library-back{margin-bottom:12px}.library-list-card{width:100%;text-align:left;display:flex;align-items:center;gap:10px;margin:8px 0;padding:14px;background:#f4f8ff!important;color:#23476f!important;border:1px solid #dce8f7!important;box-shadow:none!important}.library-list-card .list-icon{font-size:22px}.library-list-card .list-title{flex:1;min-width:0;overflow-wrap:anywhere}.library-detail{padding:14px;border:1px solid #dce8f7;border-radius:16px;background:#f7faff;margin-top:10px}.today-task{background:linear-gradient(110deg,#e0efff,#eff7ff)!important;border:1px solid #b9d8fb;border-radius:13px;padding:11px;margin:7px 0;box-shadow:0 3px 12px rgba(66,135,207,.09)}
 </style>
 </head>
 <body>
@@ -248,7 +249,7 @@ nav button.active{background:rgba(222,242,232,.95);color:#08784e}
   <button style="width:100%;margin-top:11px" onclick="addPDF()">📥 PDF එක Save කරන්න</button>
   <p class="small">PDF එක Phone එකේ local storage තුළ save වෙනවා. App එකේ data clear කළොත් මේවා මැකෙන්න පුළුවන්.</p>
  </div>
- <div id="pdfLibrary"></div>
+ <div class="card"><div id="pdfLibrary"></div></div>
 </section>
 <section id="tracker" class="tab">
  <div class="card"><h2>⏱️ Study Time Tracker</h2><p class="muted">පාඩම් කළ සැබෑ කාලය සටහන් කරන්න. මෙය ඉලක්කයක් නොව ඔයාගේ progress එක තේරුම්ගන්න උපකරණයක්.</p>
@@ -275,6 +276,7 @@ const localDateKey=(d=new Date())=>{const y=d.getFullYear(),m=String(d.getMonth(
 const today=()=>localDateKey();
 const weekKey=(d=new Date())=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());const diff=x.getDay()===0?-6:1-x.getDay();x.setDate(x.getDate()+diff);return localDateKey(x);};
 const key='a3mission2027_v1';
+let selectedNoteSubject=null,selectedNoteId=null,selectedPDFSubject=null,selectedPDFId=null;
 let state=JSON.parse(localStorage.getItem(key)||'{}');
 state.tasks ||= []; state.days ||= {
 1:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
@@ -292,7 +294,7 @@ function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('ව�
 state.tasks.push({id:Date.now(),title,subject:$('taskSubject').value,date:$('taskDate').value||today(),minutes:+$('taskMinutes').value||0,priority:$('taskPriority').value,detail:$('taskDetail').value,done:false});persist();$('taskTitle').value='';$('taskDetail').value='';$('taskMinutes').value='';renderAll();}
 function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(t)t.done=!t.done;persist();renderAll();}
 function deleteTask(id){if(confirm('මේ වැඩය මකන්නද?')){state.tasks=state.tasks.filter(x=>x.id!==id);persist();renderAll();}}
-function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min · ${esc(t.priority)}</div>${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
+function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>`<div class="item ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min · ${esc(t.priority)}</div>${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
 function saveDay(){let d=$('editDay').value;state.days[d]={type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value};persist();renderAll();alert('Timetable Update කළා.');}
 function editDay(d){let x=state.days[d];$('editDay').value=d;$('editType').value=x.type;$('editStart').value=x.start;$('editEnd').value=x.end;$('editNote').value=x.note;}
 function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
@@ -310,20 +312,29 @@ async function addNote(){
  tx.oncomplete=()=>{db.close();$('noteTitle').value='';$('noteDetail').value='';$('notePhoto').value='';renderNotes();alert('Note එක සහ Photos '+files.length+'ක් Save කළා.');};
  tx.onerror=()=>{db.close();alert('Save කරන්න බැරි වුණා. Phone storage ඉඩ පරීක්ෂා කරන්න.');};
 }
+function selectNoteSubject(s){selectedNoteSubject=s;selectedNoteId=null;renderNotes()}
+function selectNote(id){selectedNoteId=id;renderNotes()}
+function backToNoteSubjects(){selectedNoteSubject=null;selectedNoteId=null;renderNotes()}
+function backToNoteList(){selectedNoteId=null;renderNotes()}
 async function renderNotes(){
- const db=await openDB(),tx=db.transaction('notes','readonly'),req=tx.objectStore('notes').getAll();
+ const db=await openDB(),tx=db.transaction("notes","readonly"),req=tx.objectStore("notes").getAll();
  req.onsuccess=()=>{
-  const all=req.result.sort((x,y)=>y.id-x.id),subjects=['Combined Maths','Physics','Chemistry','Other'];
-  $('notesList').innerHTML=subjects.map((subject,index)=>{
-   const list=all.filter(n=>(n.subject||'Other')===subject);
-   const notes=list.map(n=>{
+  const all=req.result.sort((x,y)=>y.id-x.id),subjects=["Combined Maths","Physics","Chemistry"],icons={"Combined Maths":"📘","Physics":"📗","Chemistry":"📙"};
+  if(!selectedNoteSubject){
+   $("notesList").innerHTML='<div class="subject-hub">'+subjects.map(s=>'<button class="subject-tile" data-subject="'+s+'" onclick="selectNoteSubject(this.dataset.subject)"><span class="tile-icon">'+icons[s]+'</span><strong>'+s+'</strong><small>'+all.filter(n=>(n.subject||"Other")===s).length+' Notes</small></button>').join("")+'</div>';
+  }else{
+   const list=all.filter(n=>(n.subject||"Other")===selectedNoteSubject);
+   if(selectedNoteId!==null){
+    const n=list.find(x=>x.id===selectedNoteId);
+    if(!n){selectedNoteId=null;renderNotes();db.close();return}
     const photos=n.photos&&n.photos.length?n.photos:(n.photo?[n.photo]:[]);
-    const gallery=photos.map((photo,i)=>'<img class="noteimg" id="img'+n.id+'_'+i+'" alt="Note photo '+(i+1)+'" onclick="openNoteImage('+n.id+','+i+')">').join('');
-    return '<div class="item"><div class="itemmain"><strong>'+esc(n.title)+'</strong><div class="small">'+esc(n.subject||'Other')+' · '+esc(n.date)+' · '+photos.length+' Photos</div>'+(n.detail?'<p class="small">'+esc(n.detail)+'</p>':'')+(photos.length?'<div class="note-gallery">'+gallery+'</div>':'')+'</div><button class="danger" onclick="deleteNote('+n.id+')">මකන්න</button></div>';
-   }).join('');
-   return '<div class="subject-note-group"><div class="row between"><h3>'+['📘','📗','📙','📂'][index]+' '+esc(subject)+'</h3><span class="note-count">'+list.length+' Notes</span></div>'+(notes||'<div class="empty">මේ විෂයට Notes නැහැ.</div>')+'</div>';
-  }).join('');
-  all.forEach(n=>{const photos=n.photos&&n.photos.length?n.photos:(n.photo?[n.photo]:[]);photos.forEach((photo,i)=>{const el=$('img'+n.id+'_'+i);if(el)el.src=URL.createObjectURL(photo);});});
+    const gallery=photos.map((p,i)=>'<img class="noteimg" id="img'+n.id+'_'+i+'" alt="Note photo" onclick="openNoteImage('+n.id+','+i+')">').join("");
+    $("notesList").innerHTML='<button class="secondary library-back" onclick="backToNoteList()">← Notes ලැයිස්තුවට</button><div class="library-detail"><h3>'+esc(n.title)+'</h3><div class="small">'+esc(n.subject||"Other")+' · '+esc(n.date)+'</div>'+(n.detail?'<p>'+esc(n.detail)+'</p>':'<p class="muted">විස්තර එකතු කරලා නැහැ.</p>')+'<p class="small">'+photos.length+' Photos</p>'+(photos.length?'<div class="note-gallery">'+gallery+'</div>':'<div class="empty">මේ Note එකට Photos නැහැ.</div>')+'<button class="danger" style="margin-top:12px" onclick="deleteNote('+n.id+')">Note එක මකන්න</button></div>';
+    photos.forEach((p,i)=>{const el=$("img"+n.id+"_"+i);if(el)el.src=URL.createObjectURL(p)});
+   }else{
+    $("notesList").innerHTML='<button class="secondary library-back" onclick="backToNoteSubjects()">← විෂයන්ට ආපසු</button><h3>'+icons[selectedNoteSubject]+' '+esc(selectedNoteSubject)+'</h3>'+(list.length?list.map(n=>'<button class="library-list-card" onclick="selectNote('+n.id+')"><span class="list-icon">📝</span><strong class="list-title">'+esc(n.title)+'</strong><span>›</span></button>').join(""):'<div class="empty">මේ විෂයට Notes නැහැ.</div>');
+   }
+  }
   db.close();
  };
 }
@@ -343,15 +354,26 @@ async function addPDF(){
  tx.oncomplete=()=>{db.close();$('pdfTitle').value='';$('pdfFile').value='';renderPDFLibrary();alert('PDF එක Phone එකේ Save කළා.');};
  tx.onerror=()=>{db.close();alert('PDF එක Save කරන්න බැරි වුණා. Phone storage ඉඩ පරීක්ෂා කරන්න.');};
 }
+function selectPDFSubject(s){selectedPDFSubject=s;selectedPDFId=null;renderPDFLibrary()}
+function selectPDF(id){selectedPDFId=id;renderPDFLibrary()}
+function backToPDFSubjects(){selectedPDFSubject=null;selectedPDFId=null;renderPDFLibrary()}
+function backToPDFList(){selectedPDFId=null;renderPDFLibrary()}
 async function renderPDFLibrary(){
- const db=await openDB(),tx=db.transaction('resources','readonly'),req=tx.objectStore('resources').getAll();
+ const db=await openDB(),tx=db.transaction("resources","readonly"),req=tx.objectStore("resources").getAll();
  req.onsuccess=()=>{
-  const all=req.result.sort((a,b)=>b.id-a.id),subjects=['Combined Maths','Physics','Chemistry'];
-  $('pdfLibrary').innerHTML=subjects.map((s,i)=>{
-   const list=all.filter(x=>x.subject===s);
-   const entries=list.map(p=>'<div class="item"><div class="itemmain"><strong>📄 '+esc(p.title)+'</strong><div class="small">'+esc(p.fileName)+' · '+(p.size/1024/1024).toFixed(2)+' MB · '+esc(p.date)+'</div><div class="row" style="margin-top:8px"><button class="secondary" onclick="openPDF('+p.id+')">Open PDF</button><button class="secondary" onclick="downloadPDF('+p.id+')">Download</button><button class="danger" onclick="deletePDF('+p.id+')">මකන්න</button></div></div></div>').join('');
-   return '<div class="card"><h2>'+['📘','📗','📙'][i]+' '+esc(s)+' Papers & PDFs</h2>'+(entries||'<div class="empty">මේ විෂයට PDF තවම save කරලා නැහැ.</div>')+'</div>';
-  }).join('');
+  const all=req.result.sort((a,b)=>b.id-a.id),subjects=["Combined Maths","Physics","Chemistry"],icons={"Combined Maths":"📘","Physics":"📗","Chemistry":"📙"};
+  if(!selectedPDFSubject){
+   $("pdfLibrary").innerHTML='<h2>📂 Papers & PDFs</h2><p class="muted">විෂය තෝරන්න</p><div class="subject-hub">'+subjects.map(s=>'<button class="subject-tile" data-subject="'+s+'" onclick="selectPDFSubject(this.dataset.subject)"><span class="tile-icon">'+icons[s]+'</span><strong>'+s+'</strong><small>'+all.filter(x=>x.subject===s).length+' PDFs</small></button>').join("")+'</div>';
+  }else{
+   const list=all.filter(x=>x.subject===selectedPDFSubject);
+   if(selectedPDFId!==null){
+    const f=list.find(x=>x.id===selectedPDFId);
+    if(!f){selectedPDFId=null;renderPDFLibrary();db.close();return}
+    $("pdfLibrary").innerHTML='<button class="secondary library-back" onclick="backToPDFList()">← PDF ලැයිස්තුවට</button><div class="library-detail"><h3>📄 '+esc(f.title)+'</h3><div class="small">'+esc(f.subject)+' · '+esc(f.date)+'</div><p class="small">'+esc(f.fileName)+' · '+(f.size/1024/1024).toFixed(2)+' MB</p><div class="row"><button onclick="openPDF('+f.id+')">📖 PDF එක විවෘත කරන්න</button><button class="secondary" onclick="downloadPDF('+f.id+')">⬇ Download</button><button class="danger" onclick="deletePDF('+f.id+')">මකන්න</button></div></div>';
+   }else{
+    $("pdfLibrary").innerHTML='<button class="secondary library-back" onclick="backToPDFSubjects()">← විෂයන්ට ආපසු</button><h3>'+icons[selectedPDFSubject]+' '+esc(selectedPDFSubject)+'</h3>'+(list.length?list.map(f=>'<button class="library-list-card" onclick="selectPDF('+f.id+')"><span class="list-icon">📄</span><strong class="list-title">'+esc(f.title)+'</strong><span>›</span></button>').join(""):'<div class="empty">මේ විෂයට PDFs නැහැ.</div>');
+   }
+  }
   db.close();
  };
 }
