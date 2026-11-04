@@ -534,8 +534,10 @@ function renderAll(){renderHome();renderTasks();renderDays();renderTracker();ren
 
 let reminderToastTimer=null;
 function showGlassReminder(task){
+ const priority=task.priority||'සාමාන්‍ය';
+ const mark=priority==='අත්‍යවශ්‍ය'?'🔴':priority==='වැදගත්'?'🟠':'🔵';
  let box=$('glassReminder');if(!box){box=document.createElement('div');box.id='glassReminder';box.className='glass-reminder';document.body.appendChild(box);}
- box.innerHTML='<div class="reminder-kicker">A3 MISSION 2027 · REMINDER</div><strong>🔔 '+esc(task.title)+'</strong><p>'+esc(task.subject||'To-Do')+' · '+esc(task.reminderTime||'')+'ට කළ යුතුයි</p><button class="secondary" onclick="this.parentElement.remove()">හරි, මතක් වුණා</button>';
+ box.innerHTML='<div class="reminder-kicker">A3 MISSION 2027 · REMINDER</div><strong>🔔 '+esc(task.title)+'</strong><p>'+mark+' '+esc(priority)+' · '+esc(task.subject||'To-Do')+' · '+esc(task.reminderTime||'')+'ට</p><button class="secondary" onclick="this.parentElement.remove()">හරි, මතක් වුණා</button>';
  clearTimeout(reminderToastTimer);reminderToastTimer=setTimeout(()=>box.remove(),18000);
 }
 async function enableTaskNotifications(){
@@ -546,10 +548,14 @@ async function enableTaskNotifications(){
 }
 async function fireTaskReminder(task){
  showGlassReminder(task);
+ const priority=task.priority||'සාමාන්‍ය';
+ const mark=priority==='අත්‍යවශ්‍ය'?'🔴':priority==='වැදගත්'?'🟠':'🔵';
  if(Notification.permission==='granted'){
   try{const reg=('serviceWorker' in navigator)?await navigator.serviceWorker.ready:null;
-   if(reg&&reg.showNotification)await reg.showNotification('A3 Mission 2027 · To-Do',{body:task.title+' · '+(task.subject||'')+' — දැන් කරන්න වෙලාවයි!',tag:'task-'+task.id,renotify:false,icon:'./icon-192.png',data:{url:'./'}});
-   else new Notification('A3 Mission 2027 · To-Do',{body:task.title});
+   const title=mark+' '+priority+' · A3 Mission 2027';
+   const body=task.title+' · '+(task.subject||'')+' · '+(task.reminderTime||'')+' — දැන් කරන්න වෙලාවයි!';
+   if(reg&&reg.showNotification)await reg.showNotification(title,{body,tag:'task-'+task.id,renotify:false,data:{url:'./'}});
+   else new Notification(title,{body});
   }catch(e){}
  }
 }
