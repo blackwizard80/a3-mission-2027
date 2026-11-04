@@ -671,7 +671,8 @@ const today=()=>localDateKey();
 const weekKey=(d=new Date())=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());const diff=x.getDay()===0?-6:1-x.getDay();x.setDate(x.getDate()+diff);return localDateKey(x);};
 const key='a3mission2027_v1';
 let selectedNoteSubject=null,selectedNoteId=null,selectedPDFSubject=null,selectedPDFId=null;
-let state=JSON.parse(localStorage.getItem(key)||'{}');
+let state={};
+try{state=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(e){console.error('A3 Mission saved data could not be parsed:',e);}
 state.tasks ||= []; state.days ||= {
 1:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
 2:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
@@ -682,7 +683,7 @@ state.tasks ||= []; state.days ||= {
 0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
 };
 state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
-function persist(){localStorage.setItem(key,JSON.stringify(state));}
+function persist(){try{localStorage.setItem(key,JSON.stringify(state));return true;}catch(e){console.error('A3 Mission save failed:',e);alert('දත්ත Save කරන්න බැරි වුණා. Phone storage ඉඩ පරීක්ෂා කරන්න.');return false;}}
 function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(t).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));renderAll();}
 function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('වැඩේ නම ලියන්න.');return}
 const reminderTime=$('taskReminder').value;state.tasks.push({id:Date.now(),title,subject:$('taskSubject').value,date:$('taskDate').value||today(),reminderTime:reminderTime||'',reminded:false,minutes:+$('taskMinutes').value||0,priority:$('taskPriority').value,detail:$('taskDetail').value,done:false});persist();if(reminderTime)enableTaskNotifications();$('taskTitle').value='';$('taskDetail').value='';$('taskMinutes').value='';$('taskReminder').value='';renderAll();}
@@ -712,8 +713,10 @@ function selectNoteSubject(s){selectedNoteSubject=s;selectedNoteId=null;renderNo
 function selectNote(id){selectedNoteId=id;renderNotes()}
 function backToNoteSubjects(){selectedNoteSubject=null;selectedNoteId=null;renderNotes()}
 function backToNoteList(){selectedNoteId=null;renderNotes()}
+let noteGalleryURLs=[];
 async function renderNotes(){
- const db=await openDB(),tx=db.transaction("notes","readonly"),req=tx.objectStore("notes").getAll();
+  noteGalleryURLs.forEach(url=>URL.revokeObjectURL(url));noteGalleryURLs=[];
+  const db=await openDB(),tx=db.transaction("notes","readonly"),req=tx.objectStore("notes").getAll();
  req.onsuccess=()=>{
   const all=req.result.sort((x,y)=>y.id-x.id),subjects=["Combined Maths","Physics","Chemistry"],icons={"Combined Maths":"📘","Physics":"📗","Chemistry":"📙"};
   if(!selectedNoteSubject){
@@ -726,7 +729,7 @@ async function renderNotes(){
     const photos=n.photos&&n.photos.length?n.photos:(n.photo?[n.photo]:[]);
     const gallery=photos.map((p,i)=>'<img class="noteimg" id="img'+n.id+'_'+i+'" alt="Note photo" onclick="openNoteImage('+n.id+','+i+')">').join("");
     $("notesList").innerHTML='<button class="secondary library-back" onclick="backToNoteList()">← Notes ලැයිස්තුවට</button><div class="library-detail"><h3>'+esc(n.title)+'</h3><div class="small">'+esc(n.subject||"Other")+' · '+esc(n.date)+'</div>'+(n.detail?'<p>'+esc(n.detail)+'</p>':'<p class="muted">විස්තර එකතු කරලා නැහැ.</p>')+'<p class="small">'+photos.length+' Photos</p>'+(photos.length?'<div class="note-gallery">'+gallery+'</div>':'<div class="empty">මේ Note එකට Photos නැහැ.</div>')+'<button class="danger" style="margin-top:12px" onclick="deleteNote('+n.id+')">Note එක මකන්න</button></div>';
-    photos.forEach((p,i)=>{const el=$("img"+n.id+"_"+i);if(el)el.src=URL.createObjectURL(p)});
+    photos.forEach((p,i)=>{const el=$("img"+n.id+"_"+i);if(el){const url=URL.createObjectURL(p);noteGalleryURLs.push(url);el.src=url;}});
    }else{
     $("notesList").innerHTML='<button class="secondary library-back" onclick="backToNoteSubjects()">← විෂයන්ට ආපසු</button><h3>'+icons[selectedNoteSubject]+' '+esc(selectedNoteSubject)+'</h3>'+(list.length?list.map(n=>'<button class="library-list-card" onclick="selectNote('+n.id+')"><span class="list-icon">📝</span><strong class="list-title">'+esc(n.title)+'</strong><span>›</span></button>').join(""):'<div class="empty">මේ විෂයට Notes නැහැ.</div>');
    }
@@ -857,7 +860,7 @@ function deleteStudy(id){if(!confirm('මේ Study time සටහන ඉවත�
 function clearStudy(){if(!state.study.length)return;if(!confirm('සියලුම Study time සටහන් ඉවත් කරන්නද?'))return;state.study=[];persist();renderAll();}
 function renderTracker(){let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};state.study.forEach(s=>{if(sums[s.subject]!==undefined)sums[s.subject]+=s.minutes;});$('studyTotals').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');$('studyEntries').innerHTML=state.study.length?state.study.slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.id||0)-(a.id||0)).map(s=>`<div class="study-entry"><div class="itemmain"><strong>${esc(s.subject)}</strong><div class="small">${esc(s.date)} · ${s.minutes} මිනිත්තු</div></div><button class="danger" onclick="deleteStudy(${s.id})">ඉවත් කරන්න</button></div>`).join(''):'<div class="empty">තවම Study time සටහන් නැහැ.</div>';$('examDate').value=state.examDate;let days=Math.ceil((new Date(state.examDate+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);$('countdown').textContent=days>=0?`තෝරාගත් දිනයට දවස් ${days}යි.`:'තෝරාගත් දිනය පසු වී ඇත.';}
 function saveExamDate(){state.examDate=$('examDate').value;persist();renderTracker();}
-function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];$('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}</div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=dt.toISOString().slice(0,10)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
+function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];$('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}</div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=localDateKey(dt)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();}
 
