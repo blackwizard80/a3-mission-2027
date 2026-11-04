@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<title>A3 MISSION 2027</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#1a2940;--text:#edf3ff;--muted:#9fb0ca;--accent:#75e0b2;--blue:#80b7ff;--red:#ff8f9b;--line:#2a3b55}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#0b1220,#101b2d 60%,#11182a);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Sinhala",sans-serif}
+header{padding:20px 16px 14px;position:sticky;top:0;background:#0d1728f2;backdrop-filter:blur(12px);z-index:5;border-bottom:1px solid var(--line)}
+.brand{font-size:20px;font-weight:850;letter-spacing:.5px}.tag{font-size:12px;color:var(--muted);margin-top:3px}
+main{max-width:760px;margin:auto;padding:14px 14px 95px}.hero{background:linear-gradient(135deg,#183a43,#1a2d50);border:1px solid #31556a;border-radius:20px;padding:18px;margin-bottom:14px}
+.hero h1{font-size:23px;margin:0 0 6px}.hero p{color:#c7d8e9;margin:0;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}.stat{background:#0e1d2c99;border:1px solid #426071;border-radius:14px;padding:12px}.stat b{display:block;font-size:22px}.stat span{font-size:11px;color:#c4d5e5}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;margin:12px 0}.card h2{font-size:17px;margin:0 0 12px}.muted{color:var(--muted);font-size:13px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
+button,.btn{border:0;border-radius:11px;padding:10px 13px;background:var(--accent);color:#082018;font-weight:750;font-size:13px;cursor:pointer}
+button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button.danger{background:#512b38;color:#ffe2e7}
+input,select,textarea{width:100%;background:#0b1524;color:var(--text);border:1px solid #344761;border-radius:10px;padding:11px;font:inherit;font-size:14px;min-width:0}
+label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.full{grid-column:1/-1}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#0c1626f5;border-top:1px solid var(--line);padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:8}
+nav button{background:transparent;color:var(--muted);padding:8px 5px;min-width:0;flex:1;font-size:11px}nav button.active{color:var(--accent);background:#193044}
+.tab{display:none}.tab.active{display:block}
+.item{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}
+.item input[type=checkbox]{width:19px;height:19px;margin-top:2px;accent-color:var(--accent)}.itemmain{flex:1;min-width:0}.itemmain strong{display:block;overflow-wrap:anywhere}.small{font-size:11px;color:var(--muted);margin-top:3px}
+.pill{display:inline-block;border-radius:20px;padding:4px 8px;font-size:10px;background:#20354b;color:#cfe2fa;margin:3px 3px 0 0}
+.day{padding:11px;border:1px solid var(--line);border-radius:13px;margin:8px 0;background:#0e1929}.dayhead{display:flex;justify-content:space-between;align-items:center;gap:8px}.dayhead b{font-size:14px}.day p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.noteimg{width:100%;max-height:220px;object-fit:contain;background:#08111d;border-radius:10px;margin-top:8px}
+.progress{height:9px;background:#27364b;border-radius:10px;overflow:hidden}.progress>i{display:block;height:100%;background:var(--accent);width:0}
+.empty{padding:16px;text-align:center;color:var(--muted);font-size:13px}
+.hidden{display:none!important}
+@media(max-width:420px){.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.hero h1{font-size:20px}}
+</style>
+</head>
+<body>
+<header><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></header>
+<main>
+<section id="home" class="tab active">
+ <div class="hero">
+  <h1 id="greeting">අද ඉලක්කය ජයගමු!</h1><p id="todayText"></p>
+  <div class="stats">
+   <div class="stat"><b id="doneCount">0/0</b><span>අද අවසන් කළ වැඩ</span></div>
+   <div class="stat"><b id="streakHours">0h</b><span>අද සටහන් කළ Study time</span></div>
+  </div>
+ </div>
+ <div class="card"><h2>අද කළ යුතු දේ</h2><div id="todayTasks"></div><button class="secondary" onclick="showTab('todo')">To-Do List එකට යන්න →</button></div>
+ <div class="card"><h2>විෂය අනුව සතියේ ඉලක්ක</h2><div id="subjectProgress"></div></div>
+ <div class="card"><h2>මතක් කිරීම</h2><p class="muted">Class තියෙන දවස්වල ගෙදර ආවම විවේකයත් නින්දත් අත්‍යවශ්‍යයි. හැම දවසකම අධික වැඩ පුරවන්න එපා. දිගටම කරගෙන යන්න පුළුවන් සැලැස්මක් හදමු.</p></div>
+</section>
+<section id="todo" class="tab">
+ <div class="card"><h2>➕ To-Do එකතු කරන්න</h2>
+  <div class="formgrid">
+   <div class="full"><label>වැඩේ / පාඩම</label><input id="taskTitle" placeholder="උදා: Vectors - Exercise 01"></div>
+   <div><label>විෂය</label><select id="taskSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option><option>Other</option></select></div>
+   <div><label>දිනය</label><input id="taskDate" type="date"></div>
+   <div><label>කාලය (මිනිත්තු)</label><input id="taskMinutes" type="number" min="0" placeholder="උදා: 45"></div>
+   <div><label>Priority</label><select id="taskPriority"><option>සාමාන්‍ය</option><option>වැදගත්</option><option>අත්‍යවශ්‍ය</option></select></div>
+   <div class="full"><label>විස්තර (අවශ්‍ය නම්)</label><textarea id="taskDetail" rows="2" placeholder="කළ යුතු කොටස්..."></textarea></div>
+  </div><button style="width:100%;margin-top:12px" onclick="addTask()">වැඩය Save කරන්න</button>
+ </div>
+ <div class="card"><div class="row between"><h2 style="margin:0">📋 වැඩ ලැයිස්තුව</h2><input id="filterDate" type="date" style="width:auto" onchange="renderTasks()"></div><div id="taskList"></div></div>
+</section>
+<section id="timetable" class="tab">
+ <div class="card"><h2>🗓️ සතියේ Timetable</h2><p class="muted">ඔයා දුන්න schedule එක මුලින් ඇතුළත් කරලා තියෙනවා. බදාදා / බ්‍රහස්පතින්දා School යන දවස සතියෙන් සතියට වෙනස් නිසා ඒ දවස Edit කරගන්න.</p><div id="daysList"></div></div>
+ <div class="card"><h2>දවසක් Edit කරන්න</h2>
+  <div class="formgrid">
+   <div><label>දවස</label><select id="editDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div>
+   <div><label>වැඩ වර්ගය</label><select id="editType"><option>Class</option><option>School</option><option>Free day</option><option>Other</option></select></div>
+   <div><label>ආරම්භය</label><input id="editStart" type="time" value="06:30"></div>
+   <div><label>අවසන් වේලාව</label><input id="editEnd" type="time" value="18:00"></div>
+   <div class="full"><label>සටහන</label><input id="editNote" placeholder="උදා: Combined Maths / School යනවා"></div>
+  </div><button style="width:100%;margin-top:12px" onclick="saveDay()">Timetable එක Update කරන්න</button>
+ </div>
+ <div class="card"><h2>📌 මේ සතියේ School දවස</h2><p class="muted">බදාදා හෝ බ්‍රහස්පතින්දා තෝරලා මේ සතියට පමණක් School ලෙස සලකුණු කරන්න.</p><div class="row"><button class="secondary" onclick="setSchool(3)">බදාදා School</button><button class="secondary" onclick="setSchool(4)">බ්‍රහස්පතින්දා School</button><button class="secondary" onclick="setSchool(null)">ඉවත් කරන්න</button></div><p class="small" id="schoolWeekStatus"></p></div>
+</section>
+<section id="notes" class="tab">
+ <div class="card"><h2>📚 Notes & Photos</h2><p class="muted">වැදගත් සටහන්වල ඡායාරූප Phone එකේම තබාගන්න.</p>
+  <label>Note එකේ නම</label><input id="noteTitle" placeholder="උදා: Differentiation - Formula sheet">
+  <label>විෂය</label><select id="noteSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option><option>Other</option></select>
+  <label>Photo එක</label><input id="notePhoto" type="file" accept="image/*" capture="environment">
+  <label>කෙටි විස්තර</label><textarea id="noteDetail" rows="2" placeholder="මේ Note එකේ තියෙන්නේ..."></textarea>
+  <button style="width:100%;margin-top:10px" onclick="addNote()">Note එක Save කරන්න</button>
+ </div><div class="card"><h2>Saved Notes</h2><div id="notesList"></div></div>
+</section>
+<section id="tracker" class="tab">
+ <div class="card"><h2>⏱️ Study Time Tracker</h2><p class="muted">පාඩම් කළ සැබෑ කාලය සටහන් කරන්න. මෙය ඉලක්කයක් නොව ඔයාගේ progress එක තේරුම්ගන්න උපකරණයක්.</p>
+  <label>විෂය</label><select id="studySubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option></select>
+  <label>අද පාඩම් කළ මිනිත්තු</label><input id="studyMinutes" type="number" min="1" placeholder="උදා: 40">
+  <button style="width:100%;margin-top:10px" onclick="addStudy()">කාලය Save කරන්න</button>
+ </div><div class="card"><h2>විෂය අනුව එකතුව</h2><div id="studyTotals"></div></div>
+ <div class="card"><h2>Exam Countdown</h2><p class="muted">නිල විභාග දිනය දැනගත් පසු මෙතැන වෙනස් කරන්න.</p><label>Target date</label><input id="examDate" type="date" onchange="saveExamDate()"><p id="countdown" class="small"></p></div>
+</section>
+</main>
+<nav>
+<button class="active" data-tab="home" onclick="showTab('home')">🏠<br>Home</button>
+<button data-tab="todo" onclick="showTab('todo')">☑️<br>To-Do</button>
+<button data-tab="timetable" onclick="showTab('timetable')">🗓️<br>Timetable</button>
+<button data-tab="notes" onclick="showTab('notes')">📷<br>Notes</button>
+<button data-tab="tracker" onclick="showTab('tracker')">📈<br>Progress</button>
+</nav>
+<script>
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toISOString().slice(0,10);
+const key='a3mission2027_v1';
+let state=JSON.parse(localStorage.getItem(key)||'{}');
+state.tasks ||= []; state.days ||= {
+1:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+2:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+3:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
+4:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
+5:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+6:{type:'Class',start:'06:30',end:'18:00',note:'උදේ 6.30 පිටත් · හවස 6ට පසු ගෙදර'},
+0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
+};
+state.study ||= []; state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
+function persist(){localStorage.setItem(key,JSON.stringify(state));}
+function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(t).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));renderAll();}
+function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('වැඩේ නම ලියන්න.');return}
+state.tasks.push({id:Date.now(),title,subject:$('taskSubject').value,date:$('taskDate').value||today(),minutes:+$('taskMinutes').value||0,priority:$('taskPriority').value,detail:$('taskDetail').value,done:false});persist();$('taskTitle').value='';$('taskDetail').value='';$('taskMinutes').value='';renderAll();}
+function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(t)t.done=!t.done;persist();renderAll();}
+function deleteTask(id){if(confirm('මේ වැඩය මකන්නද?')){state.tasks=state.tasks.filter(x=>x.id!==id);persist();renderAll();}}
+function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min · ${esc(t.priority)}</div>${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
+function saveDay(){let d=$('editDay').value;state.days[d]={type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value};persist();renderAll();alert('Timetable Update කළා.');}
+function editDay(d){let x=state.days[d];$('editDay').value=d;$('editType').value=x.type;$('editStart').value=x.start;$('editEnd').value=x.end;$('editNote').value=x.note;}
+function setSchool(d){let monday=new Date();let day=monday.getDay();let diff=(day===0?-6:1-day);monday.setDate(monday.getDate()+diff);let wk=monday.toISOString().slice(0,10);state.schoolWeek[wk]=d; if(d!==null){state.days[d]={type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ School'};}else{[3,4].forEach(n=>{state.days[n]={type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'};});}persist();renderAll();}
+const dayNames={1:'සඳුදා',2:'අඟහරුවාදා',3:'බදාදා',4:'බ්‍රහස්පතින්දා',5:'සිකුරාදා',6:'සෙනසුරාදා',0:'ඉරිදා'};
+function renderDays(){$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x=state.days[d]||{};return `<div class="day"><div class="dayhead"><b>${dayNames[d]}</b><button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+x.end:''}<br>${esc(x.note||'')}</p></div>`}).join('');let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);let wk=dt.toISOString().slice(0,10);let sd=state.schoolWeek[wk];$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
+function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',1);r.onupgradeneeded=()=>r.result.createObjectStore('notes',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+async function addNote(){let title=$('noteTitle').value.trim(),file=$('notePhoto').files[0];if(!title){alert('Note එකට නමක් දෙන්න.');return}let db=await openDB();let note={id:Date.now(),title,subject:$('noteSubject').value,detail:$('noteDetail').value,photo:file||null,date:today()};let tx=db.transaction('notes','readwrite');tx.objectStore('notes').put(note);tx.oncomplete=()=>{db.close();$('noteTitle').value='';$('noteDetail').value='';$('notePhoto').value='';renderNotes();alert('Note එක Phone එකේ Save කළා.');};}
+async function renderNotes(){let db=await openDB();let tx=db.transaction('notes','readonly'),req=tx.objectStore('notes').getAll();req.onsuccess=()=>{let a=req.result.sort((x,y)=>y.id-x.id);$('notesList').innerHTML=a.length?a.map(n=>`<div class="item"><div class="itemmain"><strong>${esc(n.title)}</strong><div class="small">${esc(n.subject)} · ${n.date}</div>${n.detail?`<p class="small">${esc(n.detail)}</p>`:''}${n.photo?'<img class="noteimg" id="img'+n.id+'">':''}</div><button class="danger" onclick="deleteNote(${n.id})">මකන්න</button></div>`).join(''):'<div class="empty">තවම Notes Save කරලා නැහැ.</div>';a.forEach(n=>{if(n.photo){let el=$('img'+n.id);if(el)el.src=URL.createObjectURL(n.photo);}});db.close();};}
+async function deleteNote(id){if(!confirm('Note එක මකන්නද?'))return;let db=await openDB();let tx=db.transaction('notes','readwrite');tx.objectStore('notes').delete(id);tx.oncomplete=()=>{db.close();renderNotes();};}
+function addStudy(){let m=+$('studyMinutes').value;if(!m||m<1){alert('මිනිත්තු ගණන ඇතුළත් කරන්න.');return}state.study.push({date:today(),subject:$('studySubject').value,minutes:m});persist();$('studyMinutes').value='';renderAll();}
+function renderTracker(){let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};state.study.forEach(s=>{if(sums[s.subject]!==undefined)sums[s.subject]+=s.minutes;});$('studyTotals').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');$('examDate').value=state.examDate;let days=Math.ceil((new Date(state.examDate+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);$('countdown').textContent=days>=0?`තෝරාගත් දිනයට දවස් ${days}යි.`:'තෝරාගත් දිනය පසු වී ඇත.';}
+function saveExamDate(){state.examDate=$('examDate').value;persist();renderTracker();}
+function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;$('todayText').textContent=new Date().toLocaleDateString('si-LK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div></div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=dt.toISOString().slice(0,10)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();}
+$('taskDate').value=today();$('filterDate').value=today();renderAll();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
