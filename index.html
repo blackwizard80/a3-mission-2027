@@ -568,42 +568,6 @@ nav button.active:before{filter:drop-shadow(0 2px 4px rgba(83,75,190,.18))}
 }
 
 
-/* Offline study assistant */
-.agent-hero{padding:20px;border-radius:24px;background:linear-gradient(135deg,rgba(83,91,207,.13),rgba(149,104,210,.12));border:1px solid rgba(255,255,255,.9);box-shadow:0 12px 32px rgba(44,53,111,.08)}
-.agent-hero-top{display:flex;align-items:center;gap:12px}
-.agent-orb{width:48px;height:48px;display:grid;place-items:center;border-radius:17px;background:linear-gradient(145deg,#6c76dd,#9a72d4);color:white;font-size:24px;box-shadow:0 8px 20px rgba(101,103,211,.25)}
-.agent-hero h2{margin:0 0 3px;font-size:19px}
-.agent-hero p{margin:0;color:#66748a;font-size:12px}
-.agent-live{margin-left:auto;border-radius:30px;padding:6px 9px;background:rgba(255,255,255,.72);font-size:10px;color:#5b60ad;white-space:nowrap}
-.agent-live:before{content:"";display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:#43b98d}
-.agent-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:15px}
-.agent-stat{padding:12px 10px;border-radius:16px;background:rgba(255,255,255,.67);border:1px solid rgba(255,255,255,.9);min-width:0}
-.agent-stat b{display:block;font-size:19px;color:#34436b}
-.agent-stat span{display:block;font-size:10px;color:#738097;line-height:1.35}
-.agent-panel{padding:15px;border-radius:21px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.92);box-shadow:0 10px 28px rgba(45,60,93,.07);margin-top:13px}
-.agent-panel h3{margin:0 0 10px;font-size:15px}
-.agent-shortcuts{display:flex;flex-wrap:wrap;gap:7px}
-.agent-shortcuts button{border:1px solid rgba(110,117,203,.17);border-radius:30px;padding:8px 11px;background:rgba(232,235,255,.72);color:#53599f;font-size:11px}
-#agentChat{display:flex;flex-direction:column;gap:9px;max-height:330px;overflow:auto;padding:12px;border-radius:17px;background:rgba(235,240,250,.52);scroll-behavior:smooth}
-.agent-bubble{max-width:91%;padding:11px 13px;border-radius:16px;font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
-.agent-assistant{align-self:flex-start;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.95);color:#34415a;border-bottom-left-radius:5px}
-.agent-user{align-self:flex-end;background:linear-gradient(135deg,#5e70cf,#8171ce);color:#fff;border-bottom-right-radius:5px}
-.agent-compose{display:flex;gap:8px;margin-top:10px;align-items:center}
-.agent-compose input{flex:1;min-width:0;margin:0;border-radius:14px}
-.agent-compose button{white-space:nowrap;border-radius:14px;padding:12px 15px}
-.agent-note{font-size:10px;color:#7d899b;line-height:1.5;margin:10px 2px 0}
-.agent-draft{margin-top:12px;padding:13px;border-radius:17px;background:linear-gradient(135deg,rgba(231,236,255,.9),rgba(247,239,255,.86));border:1px solid rgba(125,121,208,.2)}
-.agent-draft label{margin-top:8px}
-.agent-draft-actions{display:flex;gap:8px;margin-top:11px}
-.agent-draft-actions button{flex:1}
-.agent-report{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.agent-report div{padding:10px;border-radius:13px;background:rgba(241,244,252,.8)}
-.agent-report b{display:block;font-size:13px;color:#40517b}
-.agent-report span{display:block;font-size:10px;color:#7a8799}
-nav{gap:3px!important}
-nav button{flex:1!important;min-width:0!important;padding-left:2px!important;padding-right:2px!important;font-size:10px!important}
-@media(max-width:390px){.agent-stats{gap:6px}.agent-stat{padding:10px 7px}.agent-stat b{font-size:17px}.agent-live{font-size:9px;padding:5px 7px}.agent-compose button{padding:11px 10px}}
-
 </style>
 </head>
 <body>
@@ -683,47 +647,6 @@ nav button{flex:1!important;min-width:0!important;padding-left:2px!important;pad
  <div class="card"><h2>Exam Countdown</h2><p class="muted">නිල විභාග දිනය දැනගත් පසු මෙතැන වෙනස් කරන්න.</p><label>Target date</label><input id="examDate" type="date" onchange="saveExamDate()"><p id="countdown" class="small"></p></div>
 </section>
 
-<section id="agent" class="tab">
- <div class="agent-hero">
-  <div class="agent-hero-top">
-   <div class="agent-orb">🤖</div>
-   <div><h2>A3 Study Assistant</h2><p>ඔයාගේ study progress එකට smart සහායකයෙක්</p></div>
-   <span class="agent-live">OFFLINE</span>
-  </div>
-  <div id="agentStats" class="agent-stats"></div>
- </div>
- <div class="agent-panel">
-  <h3>⚡ ඉක්මන් විශ්ලේෂණ</h3>
-  <div class="agent-shortcuts">
-   <button onclick="agentQuick('progress')">📊 මගේ Progress</button>
-   <button onclick="agentQuick('today')">☀ අද වැඩ</button>
-   <button onclick="agentQuick('subjects')">📚 විෂය අනුව</button>
-   <button onclick="agentQuick('focus')">🎯 ඊළඟ ඉලක්කය</button>
-  </div>
- </div>
- <div class="agent-panel">
-  <h3>💬 Assistant සමඟ කතා කරන්න</h3>
-  <div id="agentChat" aria-live="polite">
-   <div class="agent-bubble agent-assistant">ආයුබෝවන්! 👋 මම A3 Study Assistant. ඔයාගේ To-Do සහ Study Time බලලා progress එක විශ්ලේෂණය කරන්න මට පුළුවන්. පහළින් ප්‍රශ්නයක් අහන්න.</div>
-  </div>
-  <div class="agent-compose">
-   <input id="agentInput" type="text" placeholder="උදා: මගේ progress කොහොමද?" onkeydown="if(event.key==='Enter')agentSend()">
-   <button onclick="agentSend()">යවන්න ➤</button>
-  </div>
-  <p class="agent-note">🔒 Privacy: මේ Assistant එක Notes/PDF වල අන්තර්ගතය කියවන්නේ නැහැ. ඔයාගේ To-Do සහ Study Time දත්ත මේ phone එකේම විශ්ලේෂණය කරනවා. Internet හෝ API key අවශ්‍ය නැහැ.</p>
-  <div id="agentDraft"></div>
- </div>
- <div class="agent-panel">
-  <h3>🧠 මේ Assistant එකට කළ හැකි දේ</h3>
-  <div class="agent-report">
-   <div><b>Progress</b><span>අවසන් කළ සහ ඉතිරි වැඩ ගණනය</span></div>
-   <div><b>Study Time</b><span>විෂය අනුව කාලය විශ්ලේෂණය</span></div>
-   <div><b>Daily Focus</b><span>අද කළ යුතු වැඩ පෙන්වීම</span></div>
-   <div><b>To-Do Draft</b><span>ඔයා අනුමත කළ පසු පමණක් වැඩ එකතු කිරීම</span></div>
-  </div>
-  <p class="agent-note">මෙය app එක තුළ ක්‍රියා කරන සීමිත offline assistant එකක්. ChatGPT වගේ ඕනෑම ප්‍රශ්නයකට අලුත් පිළිතුරු නිර්මාණය කරන generative AI එකක් නොවේ.</p>
- </div>
-</section>
 </main>
 <div id="historyBackdrop" class="glass-history-backdrop" onclick="closeHistory()"></div>
 <aside id="historyDrawer" class="history-drawer" aria-hidden="true">
@@ -742,7 +665,6 @@ nav button{flex:1!important;min-width:0!important;padding-left:2px!important;pad
 <button data-tab="notes" onclick="showTab('notes')">📷<br>Notes</button>
 <button data-tab="tracker" onclick="showTab('tracker')">📈<br>Progress</button>
 
-<button data-tab="agent" onclick="showTab('agent')">🤖<br>AI</button>
 </nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
@@ -943,120 +865,8 @@ function renderTracker(){let sums={'Combined Maths':0,'Physics':0,'Chemistry':0}
 function saveExamDate(){state.examDate=$('examDate').value;persist();renderTracker();}
 function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];$('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}</div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=localDateKey(dt)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();renderAgent();}
+function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();}
 
-
-function agentGetStats(){
- const subjects=["Combined Maths","Physics","Chemistry"];
- const now=new Date();
- const start=new Date(now.getFullYear(),now.getMonth(),now.getDate());
- start.setDate(start.getDate()-(start.getDay()===0?6:start.getDay()-1));
- const startKey=localDateKey(start);
- const weekStudy=state.study.filter(x=>x.date>=startKey&&x.date<=today());
- const totals={};
- subjects.forEach(x=>totals[x]=weekStudy.filter(v=>v.subject===x).reduce((a,v)=>a+(Number(v.minutes)||0),0));
- const allTasks=state.tasks;
- const pending=allTasks.filter(x=>!x.done);
- const todayTasks=allTasks.filter(x=>x.date===today());
- const todayDone=todayTasks.filter(x=>x.done).length;
- const weekMinutes=weekStudy.reduce((a,x)=>a+(Number(x.minutes)||0),0);
- return {subjects:subjects,totals:totals,allTasks:allTasks,pending:pending,todayTasks:todayTasks,todayDone:todayDone,weekMinutes:weekMinutes,startKey:startKey};
-}
-function renderAgent(){
- const box=$("agentStats");
- if(!box)return;
- const d=agentGetStats();
- box.innerHTML='<div class="agent-stat"><b>'+d.pending.length+'</b><span>ඉතිරි වැඩ</span></div><div class="agent-stat"><b>'+d.todayDone+'/'+d.todayTasks.length+'</b><span>අද අවසන් කළ වැඩ</span></div><div class="agent-stat"><b>'+Math.floor(d.weekMinutes/60)+'h '+(d.weekMinutes%60)+'m</b><span>මේ සතියේ පාඩම්</span></div>';
-}
-function agentBubble(message,type){
- const chat=$("agentChat");
- if(!chat)return;
- const node=document.createElement("div");
- node.className="agent-bubble "+(type==="user"?"agent-user":"agent-assistant");
- node.textContent=message;
- chat.appendChild(node);
- chat.scrollTop=chat.scrollHeight;
-}
-function agentReply(message){agentBubble(message,"assistant");}
-function agentAnalyze(){
- const d=agentGetStats();
- const total=d.allTasks.length;
- const completed=d.allTasks.filter(x=>x.done).length;
- const percent=total?Math.round(completed/total*100):0;
- let subjectLines=d.subjects.map(x=>x+": "+Math.floor(d.totals[x]/60)+"h "+(d.totals[x]%60)+"m").join("\n");
- let answer="📊 ඔයාගේ Progress වාර්තාව\n\n";
- answer+="To-Do අවසන්: "+completed+"/"+total+" ("+percent+"%)\n";
- answer+="තව ඉතිරි වැඩ: "+d.pending.length+"\n";
- answer+="මේ සතියේ Study Time: "+Math.floor(d.weekMinutes/60)+"h "+(d.weekMinutes%60)+"m\n\n";
- answer+="විෂය අනුව මේ සතිය:\n"+subjectLines;
- if(total===0&&d.weekMinutes===0)answer+="\n\nතව දත්ත එකතු කරලා නැහැ. පොඩි To-Do එකක් සහ Study Time සටහනක් එක් කළාම මට progress එක විශ්ලේෂණය කරන්න පුළුවන්.";
- else if(percent>=80)answer+="\n\nහොඳ වැඩක්! සැලැස්ම දිගටම පවත්වාගෙන යන්න. විවේකයත් අමතක කරන්න එපා.";
- else answer+="\n\nඊළඟට ඉතිරි වැඩවලින් එකක් තෝරාගෙන සන්සුන්ව පටන් ගන්න.";
- return answer;
-}
-function agentToday(){
- const d=agentGetStats();
- if(!d.todayTasks.length)return "අදට To-Do වැඩක් දාලා නැහැ. අද කරන්න ඕන පොඩි ඉලක්කයක් එකතු කරමුද?";
- let lines=d.todayTasks.map((x,i)=>(i+1)+". "+(x.done?"✅ ":"⬜ ")+x.title+" · "+(x.subject||"සාමාන්‍ය"));
- return "☀ අදගේ වැඩ ("+d.todayDone+"/"+d.todayTasks.length+" අවසන්)\n\n"+lines.join("\n");
-}
-function agentSubjects(){
- const d=agentGetStats();
- let lines=d.subjects.map(x=>x+" — "+Math.floor(d.totals[x]/60)+"h "+(d.totals[x]%60)+"m");
- const used=d.subjects.filter(x=>d.totals[x]>0).sort((a,b)=>d.totals[a]-d.totals[b]);
- let answer="📚 මේ සතියේ විෂය අනුව Study Time:\n"+lines.join("\n");
- if(used.length)answer+="\n\nසටහන් අනුව අඩුම කාලයක් ගත කරලා තියෙන්නේ "+used[0]+" විෂයට. ඒකටත් සාධාරණ කාලයක් වෙන් කරලා බලන්න.";
- else answer+="\n\nතවම මේ සතියට Study Time සටහන් නැහැ.";
- return answer;
-}
-function agentFocus(){
- const d=agentGetStats();
- const pending=d.pending.slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
- if(pending.length){
-  const first=pending[0];
-  return "🎯 ඊළඟට කරන්න හොඳම පියවර:\n\n“"+first.title+"”\nවිෂය: "+(first.subject||"නියම කරලා නැහැ")+"\nදිනය: "+(first.date||"නියම කරලා නැහැ")+"\n\nමේක ඉක්මනින් අවසන් කරන්න පුළුවන් නම් පටන් ගන්න. එකවර වැඩ ගොඩක් කරන්න අවශ්‍ය නැහැ.";
- }
- return "🎯 දැනට ඉතිරි To-Do එකක් නැහැ. ඊළඟට ඉගෙනගන්න විෂය තෝරලා කුඩා ඉලක්කයක් එකතු කරගන්න.";
-}
-function agentQuick(kind){
- const labels={progress:"මගේ Progress බලන්න",today:"අද මගේ වැඩ මොනවාද?",subjects:"විෂය අනුව Study Time කියන්න",focus:"ඊළඟට කළ යුත්තේ මොකක්ද?"};
- agentBubble(labels[kind]||"විශ්ලේෂණයක් කරන්න","user");
- const answers={progress:agentAnalyze(),today:agentToday(),subjects:agentSubjects(),focus:agentFocus()};
- agentReply(answers[kind]||"මේ විකල්පය හඳුනාගන්න බැහැ.");
-}
-function agentSuggestTask(){
- const d=agentGetStats();
- const lowest=d.subjects.slice().sort((a,b)=>d.totals[a]-d.totals[b])[0]||"Combined Maths";
- const titles={"Combined Maths":"Combined Maths ප්‍රශ්න 5ක් පුහුණු වන්න","Physics":"Physics පාඩමක් නැවත අධ්‍යයනය කරන්න","Chemistry":"Chemistry ප්‍රශ්න කිහිපයක් පුහුණු වන්න"};
- $("agentDraft").innerHTML='<div class="agent-draft"><b>📝 අලුත් To-Do යෝජනාව</b><label>වැඩේ</label><input id="agentDraftTitle" value="'+esc(titles[lowest])+'"><label>විෂය</label><select id="agentDraftSubject"><option '+(lowest==="Combined Maths"?"selected":"")+'>Combined Maths</option><option '+(lowest==="Physics"?"selected":"")+'>Physics</option><option '+(lowest==="Chemistry"?"selected":"")+'>Chemistry</option></select><label>දිනය</label><input id="agentDraftDate" type="date" value="'+today()+'"><label>ප්‍රමුඛතාව</label><select id="agentDraftPriority"><option>සාමාන්‍ය</option><option selected>වැදගත්</option><option>අත්‍යවශ්‍ය</option></select><div class="agent-draft-actions"><button onclick="agentCreateTask()">✓ එකතු කරන්න</button><button class="secondary" onclick="agentCancelDraft()">අවලංගු</button></div></div>';
-}
-function agentCancelDraft(){$("agentDraft").innerHTML="";}
-function agentCreateTask(){
- const title=$("agentDraftTitle").value.trim();
- if(!title){alert("වැඩේ නම ඇතුළත් කරන්න.");return;}
- const task={id:Date.now()+Math.floor(Math.random()*1000),title:title,subject:$("agentDraftSubject").value,date:$("agentDraftDate").value||today(),reminderTime:"",reminded:false,minutes:0,priority:$("agentDraftPriority").value,detail:"A3 Study Assistant යෝජනාව",done:false};
- state.tasks.push(task);
- if(!persist()){state.tasks.pop();return;}
- agentCancelDraft();
- renderAll();
- agentReply("✅ “"+title+"” To-Do ලැයිස්තුවට එකතු කළා. අවශ්‍ය නම් To-Do tab එකෙන් වෙනස් කරන්න පුළුවන්.");
-}
-function agentSend(){
- const input=$("agentInput");
- const raw=input.value.trim();
- if(!raw)return;
- input.value="";
- agentBubble(raw,"user");
- const q=raw.toLowerCase();
- if(q.includes("progress")||q.includes("ප්‍රගතිය")||q.includes("කොහොමද")||q.includes("වාර්තාව")){agentReply(agentAnalyze());return;}
- if(q.includes("අද")||q.includes("today")){agentReply(agentToday());return;}
- if(q.includes("physics")||q.includes("chemistry")||q.includes("maths")||q.includes("විෂය")||q.includes("study time")){agentReply(agentSubjects());return;}
- if(q.includes("ඊළඟ")||q.includes("ඉලක්කය")||q.includes("focus")){agentReply(agentFocus());return;}
- if(q.includes("note")||q.includes("සටහන්")||q.includes("pdf")){agentReply("ඔයාගේ Notes සහ PDF වල අන්තර්ගතය මම කියවන්නේ නැහැ. ඒවා පුද්ගලිකව මේ phone එකේම තබාගන්නවා. මට විශ්ලේෂණය කළ හැක්කේ To-Do සහ Study Time දත්ත පමණයි.");return;}
- if(q.includes("එකතු")||q.includes("todo")||q.includes("to-do")||q.includes("task")||q.includes("වැඩක් දා")){agentReply("හරි! මේ යෝජනාව බලලා කැමති නම් edit කරලා “එකතු කරන්න” ඔබන්න. ඔයා අනුමත කරන තුරු To-Do එකට දාන්නේ නැහැ.");agentSuggestTask();return;}
- if(q.includes("ඉතිරි")||q.includes("pending")||q.includes("වැඩ")){const d=agentGetStats();agentReply("දැනට ඉතිරි To-Do වැඩ "+d.pending.length+"ක් තියෙනවා.\n\n"+(d.pending.length?d.pending.slice(0,6).map((x,i)=>(i+1)+". "+x.title).join("\n"):"ඉතිරි වැඩ නැහැ."));return;}
- agentReply("මට දැනට මේ app එකේ To-Do සහ Study Time දත්ත ගැන උදව් කරන්න පුළුවන්.\n\n“මගේ progress”, “අද වැඩ”, “විෂය අනුව කාලය”, “ඊළඟ ඉලක්කය” වගේ දෙයක් අහන්න. අලුත් To-Do එකක් යෝජනා කරන්නත් කියන්න පුළුවන්.");
-}
 
 let reminderToastTimer=null;
 function showGlassReminder(task){
