@@ -568,6 +568,7 @@ nav button.active:before{filter:drop-shadow(0 2px 4px rgba(83,75,190,.18))}
 }
 
 
+#pdfPages{overflow:auto!important;text-align:left!important;touch-action:pan-x pan-y}#pdfPages canvas{max-width:none!important;height:auto!important;display:block;margin:0 auto 12px}.pdf-toolbar{flex-wrap:wrap}.pdf-toolbar strong{min-width:70px}#imageViewer{overflow:auto;align-items:center;justify-content:center;touch-action:pan-x pan-y}#imageViewer img{max-width:none;max-height:none;width:auto;height:auto;object-fit:contain;transform-origin:center center}.imageZoomBar{position:fixed;z-index:2;top:calc(12px + env(safe-area-inset-top));left:14px;display:flex;align-items:center;gap:6px;padding:6px;border-radius:16px;background:rgba(255,255,255,.9);box-shadow:0 5px 22px #0003}.imageZoomBar button{padding:8px 11px}.imageZoomBar span{font-size:12px;font-weight:800;color:#172033;min-width:42px;text-align:center}.day-activities{margin-top:9px;display:grid;gap:7px}.day-activity{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;background:rgba(226,239,255,.7);border:1px solid rgba(130,170,215,.25)}.day-activity-main{flex:1;min-width:0}.day-activity strong{display:block;font-size:12px;overflow-wrap:anywhere}.day-activity small{color:#60748d;font-size:10px}.day-activity button{padding:6px 9px;font-size:11px}
 </style>
 </head>
 <body>
@@ -617,7 +618,8 @@ nav button.active:before{filter:drop-shadow(0 2px 4px rgba(83,75,190,.18))}
    <div class="full"><label>සටහන</label><input id="editNote" placeholder="උදා: Combined Maths / School යනවා"></div>
   </div><button style="width:100%;margin-top:12px" onclick="saveDay()">Timetable එක Update කරන්න</button>
  </div>
- <div class="card"><h2>📌 මේ සතියේ School දවස</h2><p class="muted">බදාදා හෝ බ්‍රහස්පතින්දා තෝරලා මේ සතියට පමණක් School ලෙස සලකුණු කරන්න.</p><div class="row"><button class="secondary" onclick="setSchool(3)">බදාදා School</button><button class="secondary" onclick="setSchool(4)">බ්‍රහස්පතින්දා School</button><button class="secondary" onclick="setSchool(null)">ඉවත් කරන්න</button></div><p class="small" id="schoolWeekStatus"></p></div>
+ <div class="card"><h2>➕ දවසේ වෙනම වැඩ එකතු කරන්න</h2><p class="muted">Class එකට අමතරව homework, revision, assignments, exam practice වගේ වැඩ දවසකට වෙන වෙනම දාගන්න.</p><div class="formgrid"><div><label>දවස</label><select id="activityDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div><div><label>වැඩ වර්ගය</label><select id="activityType"><option>Homework</option><option>Revision</option><option>Assignment</option><option>Exam practice</option><option>Personal</option><option>Other</option></select></div><div class="full"><label>කරන්න තියෙන වැඩේ</label><input id="activityTitle" maxlength="100" placeholder="උදා: Physics - තරංග ප්‍රශ්න 20ක්"></div><div><label>ආරම්භ වේලාව (විකල්ප)</label><input id="activityStart" type="time"></div><div><label>අවසන් වේලාව (විකල්ප)</label><input id="activityEnd" type="time"></div></div><button style="width:100%;margin-top:12px" onclick="addDayActivity()">මේ දවසට වැඩේ එකතු කරන්න</button></div>
+<div class="card"><h2>📌 මේ සතියේ School දවස</h2><p class="muted">බදාදා හෝ බ්‍රහස්පතින්දා තෝරලා මේ සතියට පමණක් School ලෙස සලකුණු කරන්න.</p><div class="row"><button class="secondary" onclick="setSchool(3)">බදාදා School</button><button class="secondary" onclick="setSchool(4)">බ්‍රහස්පතින්දා School</button><button class="secondary" onclick="setSchool(null)">ඉවත් කරන්න</button></div><p class="small" id="schoolWeekStatus"></p></div>
 </section>
 <section id="notes" class="tab">
  <div class="card"><h2>📚 Notes & Photos</h2><p class="muted">වැදගත් සටහන්වල ඡායාරූප Phone එකේම තබාගන්න.</p>
@@ -655,8 +657,8 @@ nav button.active:before{filter:drop-shadow(0 2px 4px rgba(83,75,190,.18))}
  <div id="historySummary" class="history-summary"></div>
  <div id="historyDays"></div>
 </aside>
-<div id="imageViewer" onclick="closeImageViewer()"><button class="imageClose" onclick="closeImageViewer()">×</button><img id="largeNoteImage" alt="Note image" onclick="event.stopPropagation()"></div>
-<div id="pdfViewer"><div class="pdf-toolbar"><button class="secondary" onclick="closePDFViewer()">← ආපසු</button><strong id="pdfViewerTitle">PDF</strong><button class="secondary" onclick="changePDFPage(-1)">◀</button><button class="secondary" onclick="changePDFPage(1)">▶</button><button class="secondary" onclick="downloadCurrentPDF()">⬇</button></div><div id="pdfStatus">PDF එක load වෙමින්...</div><div id="pdfPages"></div></div>
+<div id="imageViewer" onclick="closeImageViewer()"><button class="imageClose" onclick="event.stopPropagation();closeImageViewer()">×</button><div class="imageZoomBar" onclick="event.stopPropagation()"><button class="secondary" onclick="changeImageZoom(-0.25)">−</button><span id="imageZoomLabel">100%</span><button class="secondary" onclick="changeImageZoom(0.25)">＋</button><button class="secondary" onclick="resetImageZoom()">Reset</button></div><img id="largeNoteImage" alt="Note image" onclick="event.stopPropagation()"></div>
+<div id="pdfViewer"><div class="pdf-toolbar"><button class="secondary" onclick="closePDFViewer()">← ආපසු</button><strong id="pdfViewerTitle">PDF</strong><button class="secondary" onclick="changePDFPage(-1)">◀</button><button class="secondary" onclick="changePDFPage(1)">▶</button><button class="secondary" onclick="changePDFZoom(-0.25)">−</button><button class="secondary" onclick="changePDFZoom(0.25)">＋</button><button class="secondary" onclick="resetPDFZoom()">100%</button><button class="secondary" onclick="downloadCurrentPDF()">⬇</button></div><div id="pdfStatus">PDF එක load වෙමින්...</div><div id="pdfPages"></div></div>
 <footer class="app-footer"><span>MADE WITH FOCUS · <b>CREATED BY BLACKWIZARD</b> · A3 MISSION 2027</span></footer>
 <nav>
 <button class="active" data-tab="home" onclick="showTab('home')">🏠<br>Home</button>
@@ -695,11 +697,13 @@ function deleteTask(id){if(confirm('මේ වැඩය මකන්නද?')){s
 function priorityClass(p){return p==='අත්‍යවශ්‍ය'?'essential':p==='වැදගත්'?'important':'normal';}
 function priorityBadge(p){const cls=priorityClass(p);return '<span class="priority-badge priority-'+cls+'">'+esc(p||'සාමාන්‍ය')+'</span>';}
 function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort((a,b)=>Number(a.done)-Number(b.done));$('taskList').innerHTML=arr.length?arr.map(t=>{const pc=priorityClass(t.priority);return `<div class="item task-row-${pc} ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}${t.reminderTime?`<div class="small reminder-label">🔔 මතක් කිරීම: ${esc(t.reminderTime)}</div>`:''}${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`}).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
-function saveDay(){let d=$('editDay').value;state.days[d]={type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value};persist();renderAll();alert('Timetable Update කළා.');}
-function editDay(d){let x=state.days[d];$('editDay').value=d;$('editType').value=x.type;$('editStart').value=x.start;$('editEnd').value=x.end;$('editNote').value=x.note;}
+function saveDay(){let d=$('editDay').value,old=state.days[d]||{};state.days[d]={...old,type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value,activities:Array.isArray(old.activities)?old.activities:[]};persist();renderAll();alert('Timetable Update කළා.');}
+function editDay(d){let x=state.days[d]||{};$('editDay').value=d;$('editType').value=x.type||'Free day';$('editStart').value=x.start||'';$('editEnd').value=x.end||'';$('editNote').value=x.note||'';}
+function addDayActivity(){const d=$('activityDay').value,title=$('activityTitle').value.trim();if(!title){alert('කරන්න තියෙන වැඩේ ලියන්න.');return;}const day=state.days[d]||(state.days[d]={type:'Free day',start:'',end:'',note:''});day.activities=Array.isArray(day.activities)?day.activities:[];day.activities.push({id:Date.now(),title,type:$('activityType').value,start:$('activityStart').value,end:$('activityEnd').value});if(!persist())return;$('activityTitle').value='';$('activityStart').value='';$('activityEnd').value='';renderAll();}
+function deleteDayActivity(day,id){const x=state.days[day];if(!x||!Array.isArray(x.activities))return;x.activities=x.activities.filter(a=>a.id!==id);persist();renderAll();}
 function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
 const dayNames={1:'සඳුදා',2:'අඟහරුවාදා',3:'බදාදා',4:'බ්‍රහස්පතින්දා',5:'සිකුරාදා',6:'සෙනසුරාදා',0:'ඉරිදා'};
-function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk],todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(state.days[d]||{})};if(Number(sd)===d){x={type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}const isToday=d===todayIndex;return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+x.end:''}<br>${esc(x.note||'')}</p></div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
+function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk],todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(state.days[d]||{})};if(Number(sd)===d){x={...x,type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}const isToday=d===todayIndex,activities=Array.isArray(x.activities)?x.activities:[];const items=activities.length?'<div class="day-activities">'+activities.map(a=>'<div class="day-activity"><div class="day-activity-main"><strong>'+esc(a.title)+'</strong><small>'+esc(a.type||'Other')+(a.start?' · '+a.start+(a.end?' – '+a.end:''):'')+'</small></div><button class="danger" onclick="deleteDayActivity('+d+','+a.id+')">×</button></div>').join('')+'</div>':'';return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+(x.end||''):''}<br>${esc(x.note||'')}</p>${items}</div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
 function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',2);r.onupgradeneeded=()=>{let db=r.result;if(!db.objectStoreNames.contains('notes'))db.createObjectStore('notes',{keyPath:'id'});if(!db.objectStoreNames.contains('resources'))db.createObjectStore('resources',{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function addNote(){
  const title=$('noteTitle').value.trim(),files=Array.from($('notePhoto').files||[]);
@@ -740,7 +744,10 @@ async function renderNotes(){
   db.close();
  };
 }
-let currentNoteImageURL=null;
+let currentNoteImageURL=null,imageZoom=1;
+function applyImageZoom(){const img=$('largeNoteImage');if(!img)return;img.style.width=(Math.min(window.innerWidth-32,900)*imageZoom)+'px';img.style.height='auto';$('imageZoomLabel').textContent=Math.round(imageZoom*100)+'%';}
+function changeImageZoom(delta){imageZoom=Math.max(.5,Math.min(4,Math.round((imageZoom+delta)*100)/100));applyImageZoom();}
+function resetImageZoom(){imageZoom=1;applyImageZoom();}
 async function openNoteImage(id,index=0){
  const db=await openDB();
  return new Promise((resolve,reject)=>{
@@ -752,7 +759,7 @@ async function openNoteImage(id,index=0){
    if(currentNoteImageURL)URL.revokeObjectURL(currentNoteImageURL);
    currentNoteImageURL=URL.createObjectURL(photo);
    $('largeNoteImage').src=currentNoteImageURL;
-   $('imageViewer').classList.add('show');
+   imageZoom=1;applyImageZoom();$('imageViewer').classList.add('show');
    resolve();
   };
   r.onerror=()=>{db.close();reject(r.error);};
@@ -761,8 +768,8 @@ async function openNoteImage(id,index=0){
 function closeImageViewer(){
  const viewer=$('imageViewer'),img=$('largeNoteImage');
  if(viewer)viewer.classList.remove('show');
- if(img)img.removeAttribute('src');
- if(currentNoteImageURL){URL.revokeObjectURL(currentNoteImageURL);currentNoteImageURL=null;}
+ if(img){img.removeAttribute('src');img.style.width='';img.style.height='';}
+ if(currentNoteImageURL){URL.revokeObjectURL(currentNoteImageURL);currentNoteImageURL=null;}imageZoom=1;
 }
 async function deleteNote(id){if(!confirm('Note එක මකන්නද?'))return;let db=await openDB();let tx=db.transaction('notes','readwrite');tx.objectStore('notes').delete(id);tx.oncomplete=()=>{db.close();renderNotes();};}
 async function addPDF(){
@@ -800,7 +807,7 @@ async function renderPDFLibrary(){
  };
 }
 async function getPDF(id){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction('resources','readonly'),r=tx.objectStore('resources').get(id);r.onsuccess=()=>{const value=r.result;db.close();resolve(value);};r.onerror=()=>{db.close();reject(r.error);};});}
-let currentPDFFile=null,pdfDoc=null,pdfPage=1,currentPDFUrl=null;
+let currentPDFFile=null,pdfDoc=null,pdfPage=1,currentPDFUrl=null,pdfZoom=1.25;
 function showNativePDFFallback(file){
  const pages=$('pdfPages');pages.innerHTML='';
  if(currentPDFUrl)URL.revokeObjectURL(currentPDFUrl);
@@ -819,17 +826,19 @@ async function openPDF(id){
  try{
   pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   pdfDoc=await pdfjsLib.getDocument({data:await p.file.arrayBuffer()}).promise;
-  pdfPage=1;await renderPDFPage();
+  pdfPage=1;pdfZoom=1.25;await renderPDFPage();
  }catch(e){pdfDoc=null;showNativePDFFallback(p.file);}
 }
 async function renderPDFPage(){
  if(!pdfDoc)return;
- const page=await pdfDoc.getPage(pdfPage),v=page.getViewport({scale:1.25}),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ const page=await pdfDoc.getPage(pdfPage),v=page.getViewport({scale:pdfZoom}),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
  canvas.width=v.width;canvas.height=v.height;$('pdfPages').innerHTML='';$('pdfPages').appendChild(canvas);
  await page.render({canvasContext:ctx,viewport:v}).promise;
  $('pdfStatus').textContent='පිටුව '+pdfPage+' / '+pdfDoc.numPages;
 }
 function changePDFPage(delta){if(!pdfDoc)return;pdfPage=Math.max(1,Math.min(pdfDoc.numPages,pdfPage+delta));renderPDFPage();}
+function changePDFZoom(delta){if(!pdfDoc){$('pdfStatus').textContent='Browser PDF viewer එකේ pinch zoom භාවිතා කරන්න.';return;}pdfZoom=Math.max(.6,Math.min(3.5,Math.round((pdfZoom+delta)*100)/100));renderPDFPage();}
+function resetPDFZoom(){if(!pdfDoc)return;pdfZoom=1.25;renderPDFPage();}
 function closePDFViewer(){
  $('pdfViewer').classList.remove('show');$('pdfPages').innerHTML='';pdfDoc=null;currentPDFFile=null;
  if(currentPDFUrl){URL.revokeObjectURL(currentPDFUrl);currentPDFUrl=null;}
