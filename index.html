@@ -569,6 +569,41 @@ nav button.active:before{filter:drop-shadow(0 2px 4px rgba(83,75,190,.18))}
 
 
 #pdfPages{overflow:auto!important;text-align:left!important;touch-action:pan-x pan-y}#pdfPages canvas{max-width:none!important;height:auto!important;display:block;margin:0 auto 12px}.pdf-toolbar{flex-wrap:wrap}.pdf-toolbar strong{min-width:70px}#imageViewer{overflow:auto;align-items:center;justify-content:center;touch-action:pan-x pan-y}#imageViewer img{max-width:none;max-height:none;width:auto;height:auto;object-fit:contain;transform-origin:center center}.imageZoomBar{position:fixed;z-index:2;top:calc(12px + env(safe-area-inset-top));left:14px;display:flex;align-items:center;gap:6px;padding:6px;border-radius:16px;background:rgba(255,255,255,.9);box-shadow:0 5px 22px #0003}.imageZoomBar button{padding:8px 11px}.imageZoomBar span{font-size:12px;font-weight:800;color:#172033;min-width:42px;text-align:center}.day-activities{margin-top:9px;display:grid;gap:7px}.day-activity{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;background:rgba(226,239,255,.7);border:1px solid rgba(130,170,215,.25)}.day-activity-main{flex:1;min-width:0}.day-activity strong{display:block;font-size:12px;overflow-wrap:anywhere}.day-activity small{color:#60748d;font-size:10px}.day-activity button{padding:6px 9px;font-size:11px}
+
+/* Low-end Android performance profile: keep the visual style, avoid GPU-heavy effects */
+html{scroll-behavior:auto!important}
+body{
+ background:linear-gradient(145deg,#f7faff 0%,#edf3fb 55%,#f5f7fc 100%)!important;
+ background-attachment:scroll!important;
+}
+header,nav,.card,.hero,.dashboard-hero,.stat,.day,.subject-tile,
+.library-detail,.subject-note-group,.app-footer span,.history-drawer,
+.glass-reminder,#imageViewer,.glass-history-backdrop{
+ -webkit-backdrop-filter:none!important;
+ backdrop-filter:none!important;
+}
+header{background:#f4f8ff!important;box-shadow:0 2px 8px rgba(39,65,105,.05)!important}
+nav{background:#f4f8ff!important;box-shadow:0 3px 12px rgba(37,58,92,.10)!important}
+.card{background:#fff!important;box-shadow:0 3px 10px rgba(38,62,98,.055)!important}
+.hero,.dashboard-hero{background:linear-gradient(130deg,#fff,#e8f2ff 65%,#f0ebff)!important;box-shadow:0 4px 14px rgba(65,103,158,.08)!important}
+.stat,.day,.subject-tile,.library-detail,.subject-note-group{background:#fff!important;box-shadow:0 2px 8px rgba(48,72,110,.045)!important}
+.history-drawer{background:#f5f8fd!important}
+.glass-reminder{background:#f5f8fd!important;box-shadow:0 5px 18px rgba(30,51,82,.14)!important}
+.hero:before,.card:before{display:none!important}
+.hero:after{opacity:.35}
+button,.btn,.card,.hero,.stat,.day,.subject-tile,.library-list-card,
+nav button,.history-drawer,.glass-history-backdrop,.glass-reminder,
+input,select,textarea{
+ animation:none!important;
+ transition:none!important;
+}
+button:active,.btn:active,.card:active,.nav button.active,
+.subject-tile:active{transform:none!important;filter:none!important}
+.tab.active{animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
 </style>
 </head>
 <body>
