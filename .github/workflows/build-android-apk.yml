@@ -61,15 +61,21 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          for attempt in 1 2 3; do
-            echo "Gradle build attempt $attempt/3"
-            ./gradlew --no-daemon assembleDebug && exit 0
-            if [ "$attempt" -lt 3 ]; then
-              echo "Build attempt failed; waiting 20 seconds before retry."
-              sleep 20
+
+          # setup-gradle restores the distribution ZIP into the wrapper cache.
+          # Unpack it ourselves so Gradle does not try the failing GitHub redirect again.
+          ZIP="$(find "$HOME/.gradle/wrapper/dists/gradle-8.11.1-bin" -type f -name 'gradle-8.11.1-bin.zip' -print -quit 2>/dev/null || true)"
+          if [ -n "$ZIP" ]; then
+            DIST_DIR="$(dirname "$ZIP")/gradle-8.11.1"
+            if [ ! -x "$DIST_DIR/bin/gradle" ]; then
+              echo "Using cached Gradle distribution: $ZIP"
+              unzip -q "$ZIP" -d "$(dirname "$ZIP")"
             fi
-          done
-          exit 1
+            "$DIST_DIR/bin/gradle" --no-daemon assembleDebug
+          else
+            echo "Cached Gradle ZIP not found; using the Gradle wrapper."
+            ./gradlew --no-daemon assembleDebug
+          fi
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
