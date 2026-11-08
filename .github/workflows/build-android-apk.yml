@@ -49,8 +49,13 @@ jobs:
 
       - name: Configure reliable Gradle download
         run: |
-          # Use the smaller binary distribution and allow slow runner downloads.
-          sed -i 's/gradle-8.11.1-all.zip/gradle-8.11.1-bin.zip/' android/gradle/wrapper/gradle-wrapper.properties
+          # Use a pinned mirror and verify the official Gradle SHA-256.
+          sed -i 's#^distributionUrl=.*#distributionUrl=https\\://mirrors.aliyun.com/gradle/distributions/v8.11.1/gradle-8.11.1-bin.zip#' android/gradle/wrapper/gradle-wrapper.properties
+          if grep -q '^distributionSha256Sum=' android/gradle/wrapper/gradle-wrapper.properties; then
+            sed -i 's/^distributionSha256Sum=.*/distributionSha256Sum=f397b287023acdba1e9f6fc5ea72d22dd63669d59ed4a289a29b1a76eee151c6/' android/gradle/wrapper/gradle-wrapper.properties
+          else
+            echo 'distributionSha256Sum=f397b287023acdba1e9f6fc5ea72d22dd63669d59ed4a289a29b1a76eee151c6' >> android/gradle/wrapper/gradle-wrapper.properties
+          fi
           if grep -q '^networkTimeout=' android/gradle/wrapper/gradle-wrapper.properties; then
             sed -i 's/^networkTimeout=.*/networkTimeout=120000/' android/gradle/wrapper/gradle-wrapper.properties
           else
@@ -61,17 +66,7 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-
-          # setup-gradle caches the extracted distribution, not necessarily its ZIP.
-          CACHED_GRADLE="$(find "$HOME/.gradle/wrapper/dists/gradle-8.11.1-bin" -type f -path '*/gradle-8.11.1/bin/gradle' -print -quit 2>/dev/null || true)"
-          if [ -n "$CACHED_GRADLE" ]; then
-            echo "Using cached Gradle executable: $CACHED_GRADLE"
-            "$CACHED_GRADLE" --no-daemon assembleDebug
-          else
-            echo "Cached Gradle executable not found; listing restored distribution cache:"
-            find "$HOME/.gradle/wrapper/dists/gradle-8.11.1-bin" -maxdepth 4 -type f -print 2>/dev/null || true
-            ./gradlew --no-daemon assembleDebug
-          fi
+          ./gradlew --no-daemon assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
