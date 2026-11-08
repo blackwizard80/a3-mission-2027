@@ -1007,6 +1007,150 @@ nav button.active{color:#1e63bd!important;background:linear-gradient(145deg,#d5e
 .todayBadge{background:#dceaff!important;color:#245fae!important}
 input:focus,select:focus,textarea:focus{border-color:#80b5f5!important;box-shadow:0 0 0 3px rgba(52,120,246,.14)!important}
 
+
+/* A3 VISUAL DESIGN PACK 20 — blue-first, varied glass surfaces */
+:root{
+ --a3-blue:#3478f6;--a3-sky:#65b7ff;--a3-ink:#183456;
+ --a3-violet:#8067e8;--a3-cyan:#16a6c9;--a3-amber:#e99a32;
+ --a3-rose:#e56b86;--a3-glass:rgba(255,255,255,.68);
+ --a3-edge:rgba(255,255,255,.94);
+}
+body{
+ background:
+ radial-gradient(ellipse at 4% 8%,rgba(89,163,255,.20),transparent 28%),
+ radial-gradient(ellipse at 96% 28%,rgba(128,103,232,.13),transparent 29%),
+ radial-gradient(ellipse at 55% 100%,rgba(22,166,201,.10),transparent 32%),
+ linear-gradient(145deg,#f6f9ff,#eaf2fd 48%,#f7f9ff)!important;
+ background-attachment:fixed!important;
+}
+main{max-width:820px;padding-top:20px}
+.brand{font-size:22px;font-weight:950;letter-spacing:-.55px;background:linear-gradient(100deg,#183d70,#3478f6 60%,#16a6c9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{letter-spacing:.25px}
+header{padding-left:18px!important;padding-right:18px!important}
+header:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(52,120,246,.24),transparent)}
+/* 01 — dashboard hero */
+.dashboard-hero{border-radius:30px!important;min-height:190px;padding:23px!important;background:linear-gradient(125deg,#12345f 0%,#245da6 55%,#428de4 100%)!important;color:#fff!important;box-shadow:0 18px 38px rgba(32,89,158,.24),inset 0 1px rgba(255,255,255,.3)!important}
+.dashboard-hero h1,.dashboard-hero h2,.dashboard-hero strong{color:#fff!important}
+.dashboard-hero p,.dashboard-hero .muted{color:#d8e8ff!important}
+.hero-mark{width:48px;height:48px;border-radius:17px;display:grid;place-items:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);box-shadow:inset 0 1px rgba(255,255,255,.22)}
+.hero-year{border:1px solid rgba(255,255,255,.22)!important;background:rgba(255,255,255,.15)!important;color:#fff!important}
+/* 02 — stat cards */
+.stats{gap:12px}
+.stat{position:relative;overflow:hidden;border-radius:20px!important;padding:15px!important}
+.stat:after{content:"";position:absolute;width:72px;height:72px;right:-28px;top:-30px;border-radius:50%;background:rgba(101,183,255,.13)}
+.stat b{font-size:26px;letter-spacing:-.8px}
+.stat-icon{width:36px;height:36px;border-radius:13px;display:grid;place-items:center}
+/* 03 — quick action tiles */
+.quick-grid{gap:10px!important}
+.quick-action{min-height:105px!important;border-radius:20px!important;padding:13px!important;background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(231,241,255,.72))!important;border:1px solid #fff!important;box-shadow:0 9px 22px rgba(48,83,133,.09),inset 0 1px #fff!important;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between}
+.quick-action strong{color:#23456f!important;font-size:12px}
+.quick-icon{width:38px;height:38px;border-radius:14px;display:grid;place-items:center;font-size:19px}
+/* 04 — section heading */
+.section-heading{display:flex;align-items:center;gap:9px;margin:21px 2px 9px}
+.section-heading h2{font-size:15px;letter-spacing:-.2px;margin:0;color:#1e3c62}
+.section-icon{width:31px;height:31px;border-radius:11px;display:grid;place-items:center;background:#e4efff;color:#3478f6}
+/* 05 — cards gain different elevation */
+.card{border-radius:23px!important;padding:17px!important;box-shadow:0 10px 27px rgba(39,67,108,.075),inset 0 1px rgba(255,255,255,.95)!important}
+.home-card{background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(241,247,255,.64))!important}
+.card h2{font-weight:900;letter-spacing:-.3px}
+/* 06 — daily goal */
+.daily-goal-summary{display:flex;align-items:center;gap:15px;padding:13px;border-radius:19px;background:linear-gradient(120deg,#e8f2ff,#f5f8ff);border:1px solid #fff}
+.daily-goal-ring{width:83px!important;height:83px!important;flex:0 0 83px;border:6px solid rgba(255,255,255,.8);box-shadow:0 5px 16px rgba(52,120,246,.12)}
+.daily-goal-copy strong{font-size:13px;color:#23456f}
+.daily-goal-copy p{font-size:11px;color:#6b7f99}
+/* 07 — task cards */
+.daily-task-card{border-radius:16px!important;padding:12px!important;margin:8px 0!important;background:rgba(255,255,255,.78)!important;border:1px solid #e4edf9!important;box-shadow:0 4px 13px rgba(37,67,111,.055)}
+.daily-task-card.maths{border-left:4px solid #3478f6!important}
+.daily-task-card.physics{border-left:4px solid #8067e8!important}
+.daily-task-card.chemistry{border-left:4px solid #16a6c9!important}
+.daily-task-card.is-done{opacity:.58}
+.daily-task-content strong{font-size:12px;color:#233f63}
+.daily-subject-chip{border-radius:20px;padding:4px 7px;background:#e9f2ff;color:#35649c;font-size:9px;font-weight:800}
+/* 08 — priority chips */
+.daily-priority{border-radius:9px!important;padding:5px 7px!important;font-size:9px!important;font-weight:900}
+.priority-essential{background:#ffedf1!important;color:#c33d5d!important}
+.priority-important{background:#fff3df!important;color:#a96612!important}
+.priority-normal{background:#e8f3ff!important;color:#246bb4!important}
+/* 09 — weekly insight mini-cards */
+.weekly-insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.insight-tile{min-width:0;border-radius:17px!important;padding:12px!important;background:linear-gradient(145deg,#fff,#edf4ff)!important;border:1px solid #fff!important;box-shadow:0 6px 17px rgba(40,70,115,.07)}
+.insight-tile>span{width:29px;height:29px;border-radius:10px;display:grid;place-items:center;background:#e1edff;color:#3478f6}
+.insight-tile b{display:block;font-size:15px;color:#24466f;margin-top:8px;overflow-wrap:anywhere}
+.insight-tile small{font-size:9px;color:#7185a0}
+/* 10 — subject progress */
+.subject-progress-row{padding:11px 12px;border:1px solid rgba(207,222,243,.8);border-radius:15px;background:rgba(255,255,255,.65);margin:8px 0}
+.subject-progress-row b{font-size:11px;color:#29496f}
+.subject-progress-row .progress{height:7px;margin-top:8px}
+.subject-progress-row.maths .progress i{background:linear-gradient(90deg,#3478f6,#65b7ff)!important}
+.subject-progress-row.physics .progress i{background:linear-gradient(90deg,#8067e8,#b29aff)!important}
+.subject-progress-row.chemistry .progress i{background:linear-gradient(90deg,#16a6c9,#72d8e8)!important}
+/* 11 — study chart panel */
+.study-chart-card{padding:15px;border-radius:20px;background:linear-gradient(145deg,#f9fbff,#edf4ff);border:1px solid #fff}
+.study-chart-track{border-radius:9px 9px 4px 4px;overflow:hidden}
+.study-chart-day{gap:5px}
+.study-chart-value{font-size:9px;font-weight:850;color:#587392}
+.study-chart-label{font-size:10px;color:#7186a1}
+.study-chart-legend{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.study-chart-legend span{font-size:9px;color:#5e7593}
+.study-chart-legend i{width:8px;height:8px;border-radius:3px;display:inline-block;margin-right:4px}
+/* 12 — timetable day panels */
+.day{border-radius:18px!important;padding:14px!important;background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(241,247,255,.7))!important}
+.dayhead b{font-size:13px!important;color:#23456f}
+.day-activities{display:grid;gap:7px;margin-top:9px}
+.day-activity{border-radius:12px;padding:9px 10px;background:rgba(228,239,255,.68);border:1px solid rgba(204,222,247,.7)}
+.day-activity-main{font-size:11px;color:#315579}
+/* 13 — subject hub tiles */
+.subject-hub{gap:11px}
+.subject-tile{min-height:116px!important;border-radius:21px!important;background:linear-gradient(145deg,#fff,#eaf3ff)!important;box-shadow:0 8px 20px rgba(44,83,135,.09)!important;transition:transform .2s,box-shadow .2s}
+.subject-tile:nth-child(2){background:linear-gradient(145deg,#fff,#f0edff)!important}
+.subject-tile:nth-child(3){background:linear-gradient(145deg,#fff,#e8f8fc)!important}
+.tile-icon{width:43px;height:43px;border-radius:15px;background:rgba(255,255,255,.85);display:grid;place-items:center;box-shadow:0 4px 10px rgba(45,70,110,.07)}
+/* 14 — notes gallery */
+.note-gallery{gap:10px}
+.note-gallery .noteimg{height:165px!important;border:1px solid #fff;box-shadow:0 6px 17px rgba(31,55,91,.12)}
+.subject-note-group{border-radius:19px!important;background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(237,245,255,.7))!important;box-shadow:0 6px 18px rgba(39,67,108,.055)}
+/* 15 — library list */
+.library-list-card{border-radius:16px!important;padding:13px!important;background:linear-gradient(100deg,#fff,#eff5ff)!important;box-shadow:0 5px 15px rgba(43,76,125,.06)!important}
+.list-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:#e3efff}
+/* 16 — history drawer */
+.history-drawer{border-radius:27px 27px 0 0!important;background:rgba(248,251,255,.96)!important;box-shadow:0 -18px 55px rgba(24,48,82,.2)!important}
+.history-head{padding-bottom:13px;border-bottom:1px solid #e1eaf6}
+.history-metric{border-radius:16px;background:linear-gradient(145deg,#fff,#edf4ff);border:1px solid #fff;padding:12px}
+.history-status.done{border-radius:20px;padding:5px 9px;font-weight:900}
+/* 17 — form controls */
+input,select,textarea{border-radius:14px!important;min-height:43px;color:#1d3656!important}
+textarea{line-height:1.55}
+label{font-size:11px!important;font-weight:850!important;letter-spacing:.25px;color:#637c9c!important}
+/* 18 — buttons */
+button,.btn{border-radius:14px!important;font-weight:850!important;letter-spacing:.05px}
+button.secondary{background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(230,240,253,.88))!important;color:#31577f!important;border:1px solid #dce8f8!important}
+button.danger{background:linear-gradient(145deg,#fff0f3,#ffe3e9)!important;color:#b83e5a!important;border:1px solid #ffd6df!important}
+/* 19 — bottom glass navigation */
+nav{padding:8px 5px calc(8px + env(safe-area-inset-bottom))!important;border-radius:23px!important}
+nav button{font-size:10px!important;font-weight:850!important;min-height:47px}
+nav button.active{background:linear-gradient(145deg,#d7eaff,#edf5ff)!important;color:#1d61b5!important;box-shadow:0 4px 12px rgba(52,120,246,.12),inset 0 1px #fff!important}
+/* 20 — empty states, focus, and micro-interactions */
+.empty,.daily-empty,.history-empty{border:1px dashed #c8d9ef!important;border-radius:18px!important;background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(237,245,255,.55))!important;padding:20px!important;color:#7186a1!important}
+:focus-visible{outline:3px solid rgba(52,120,246,.28)!important;outline-offset:2px}
+@media(prefers-reduced-motion:no-preference){
+ .quick-action,.subject-tile,.library-list-card,.daily-task-card{transition:transform .2s ease,box-shadow .2s ease}
+ .quick-action:active,.subject-tile:active,.library-list-card:active{transform:translateY(1px) scale(.985)}
+ .stat,.insight-tile{transition:transform .2s ease,box-shadow .2s ease}
+ .stat:active,.insight-tile:active{transform:scale(.985)}
+}
+@media(max-width:480px){
+ main{padding-left:12px;padding-right:12px}
+ .weekly-insights{gap:6px}
+ .insight-tile{padding:9px!important}
+ .insight-tile b{font-size:13px}
+ .daily-goal-summary{gap:10px;padding:10px}
+ .daily-goal-ring{width:72px!important;height:72px!important;flex-basis:72px}
+ .subject-hub{gap:7px}
+ .subject-tile{min-height:105px!important;padding:9px 4px!important}
+ .note-gallery .noteimg{height:135px!important}
+}
+@media(prefers-reduced-motion:reduce){.quick-action,.subject-tile,.library-list-card,.daily-task-card,.stat,.insight-tile{transition:none!important}}
+
 </style>
 </head>
 <body>
