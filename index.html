@@ -1151,6 +1151,45 @@ nav button.active{background:linear-gradient(145deg,#d7eaff,#edf5ff)!important;c
 }
 @media(prefers-reduced-motion:reduce){.quick-action,.subject-tile,.library-list-card,.daily-task-card,.stat,.insight-tile{transition:none!important}}
 
+
+/* A3 task clarity refinement — distinct history states + restrained blue checkbox */
+.item input[type="checkbox"]{
+  -webkit-appearance:none;appearance:none;
+  width:20px;height:20px;min-width:20px;
+  margin:2px 1px 0 0;border-radius:6px;
+  border:1.8px solid #3478f6;
+  background:rgba(255,255,255,.92);
+  display:inline-grid;place-content:center;
+  accent-color:#3478f6;cursor:pointer;
+  box-shadow:0 1px 4px rgba(52,120,246,.10);
+}
+.item input[type="checkbox"]::before{
+  content:"";width:9px;height:5px;
+  border-left:2px solid #2468cf;border-bottom:2px solid #2468cf;
+  transform:rotate(-45deg) scale(0);transform-origin:center;
+  margin-top:-2px;transition:transform .12s ease;
+}
+.item input[type="checkbox"]:checked{
+  background:#e5efff;border-color:#3478f6;
+  box-shadow:inset 0 0 0 2px rgba(52,120,246,.08);
+}
+.item input[type="checkbox"]:checked::before{transform:rotate(-45deg) scale(1)}
+.item input[type="checkbox"]:focus-visible{outline:3px solid rgba(52,120,246,.2);outline-offset:2px}
+.daily-task-check{background:rgba(255,255,255,.92)!important;color:#3478f6!important;border:1.5px solid rgba(52,120,246,.55)!important}
+.daily-task-check.checked{background:#e5efff!important;color:#2468cf!important;border-color:#3478f6!important}
+.history-status.done{background:#dcf7e8!important;color:#16834f!important;border:1px solid #b7ebce}
+.history-status.pending{background:#fff2df!important;color:#a96500!important;border:1px solid #f5d9aa}
+.history-task{display:flex;align-items:center;gap:10px;padding:10px 9px;margin:7px 0;border:1px solid rgba(190,207,230,.48);border-radius:13px;background:rgba(255,255,255,.55);border-top:1px solid rgba(190,207,230,.48)}
+.history-task-icon{width:28px;height:28px;flex:0 0 28px;display:grid;place-items:center;border-radius:9px;font-size:14px;font-weight:900}
+.history-task-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+.history-task-copy b{font-size:12px;overflow-wrap:anywhere}
+.history-task-copy small{font-size:10px;color:#7a8da7}
+.history-task-done{background:linear-gradient(105deg,rgba(230,250,238,.84),rgba(255,255,255,.64));border-left:3px solid #27a866}
+.history-task-done .history-task-icon{background:#d9f5e5;color:#16834f}
+.history-task-pending{background:linear-gradient(105deg,rgba(255,244,224,.82),rgba(255,255,255,.66));border-left:3px solid #e99a32}
+.history-task-pending .history-task-icon{background:#fff0d5;color:#a96500}
+@media(max-width:380px){.history-task{gap:7px;padding:9px 7px}.history-task-copy b{font-size:11px}.history-status{font-size:9px;padding:3px 6px}}
+
 </style>
 </head>
 <body>
@@ -1475,7 +1514,7 @@ function renderHistory(){
  $('historySummary').innerHTML='<div class="history-metric"><b>'+dates.length+'</b><span>දින ගණන</span></div><div class="history-metric"><b>'+totalDone+'</b><span>අවසන් කළ වැඩ</span></div><div class="history-metric"><b>'+Math.floor(totalMinutes/60)+'h '+totalMinutes%60+'m</b><span>Study Time</span></div>';
  $('historyDays').innerHTML=dates.length?dates.map(date=>{
   const x=byDate[date],done=x.tasks.filter(t=>t.done).length,mins=x.study.reduce((n,s)=>n+(+s.minutes||0),0);
-  const taskHtml=x.tasks.length?x.tasks.slice().sort((a,b)=>Number(b.done)-Number(a.done)).map(t=>'<div class="history-line"><b>'+esc(t.title)+'</b> · '+esc(t.subject||'Other')+' <span class="history-status '+(t.done?'done':'pending')+'">'+(t.done?'අවසන්':'ඉතිරි')+'</span></div>').join(''):'<div class="history-line">To-Do වැඩ සටහන් නැහැ.</div>';
+  const taskHtml=x.tasks.length?x.tasks.slice().sort((a,b)=>Number(b.done)-Number(a.done)).map(t=>'<div class="history-line history-task '+(t.done?'history-task-done':'history-task-pending')+'"><span class="history-task-icon">'+(t.done?'✓':'◷')+'</span><div class="history-task-copy"><b>'+esc(t.title)+'</b><small>'+esc(t.subject||'Other')+'</small></div><span class="history-status '+(t.done?'done':'pending')+'">'+(t.done?'අවසන්':'ඉතිරි')+'</span></div>').join(''):'<div class="history-line">To-Do වැඩ සටහන් නැහැ.</div>';
   const studyHtml=x.study.length?'<div class="history-line"><b>📚 Study Time</b> · '+Math.floor(mins/60)+'h '+mins%60+'m<br>'+x.study.map(s=>'<span class="history-study">'+esc(s.subject)+' · '+s.minutes+' min</span>').join('')+'</div>':'<div class="history-line">Study Time සටහන් නැහැ.</div>';
   return '<section class="history-date"><div class="history-date-title"><strong>📅 '+esc(formatHistoryDate(date))+'</strong><span class="history-count">'+done+'/'+x.tasks.length+' වැඩ අවසන්</span></div>'+taskHtml+studyHtml+'</section>';
  }).join(''):'<div class="history-empty">තවම History එකක් නැහැ.<br>To-Do හෝ Study Time සටහන් එකතු කළාම මෙතැන පෙන්වයි.</div>';
