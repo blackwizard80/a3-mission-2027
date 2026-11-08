@@ -1190,6 +1190,37 @@ nav button.active{background:linear-gradient(145deg,#d7eaff,#edf5ff)!important;c
 .history-task-pending .history-task-icon{background:#fff0d5;color:#a96500}
 @media(max-width:380px){.history-task{gap:7px;padding:9px 7px}.history-task-copy b{font-size:11px}.history-status{font-size:9px;padding:3px 6px}}
 
+/* A3 reference-inspired dashboard: daily timeline + clearer weekly analytics */
+.daily-timeline{display:flex;flex-direction:column;gap:0;padding:5px 1px 2px}
+.timeline-event{display:grid;grid-template-columns:82px 18px minmax(0,1fr);gap:8px;min-height:66px;position:relative}
+.timeline-time{font-size:11px;font-weight:850;color:#526d8d;padding-top:3px;font-variant-numeric:tabular-nums}
+.timeline-rail{position:relative;display:flex;justify-content:center}
+.timeline-rail:before{content:'';position:absolute;top:8px;bottom:-8px;width:2px;background:#dce8f7}
+.timeline-event:last-of-type .timeline-rail:before{bottom:50%}
+.timeline-rail i{position:relative;z-index:1;width:10px;height:10px;margin-top:5px;border-radius:50%;background:#8ab8ef;border:2px solid #fff;box-shadow:0 0 0 3px #e6f1ff}
+.timeline-class .timeline-rail i{background:#3478f6;box-shadow:0 0 0 3px #e4efff}
+.timeline-task .timeline-rail i{background:#16a6c9;box-shadow:0 0 0 3px #e0f7fb}
+.timeline-copy{min-width:0;padding:0 0 15px}
+.timeline-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.timeline-title-row b{font-size:12px;color:#203d61;overflow-wrap:anywhere}
+.timeline-copy small{display:block;margin-top:4px;font-size:10px;color:#71839a;line-height:1.45}
+.timeline-status{flex:0 0 auto;border-radius:20px;padding:3px 7px;background:#edf3fb;color:#71839a;font-size:9px;font-weight:800}
+.timeline-event.is-current .timeline-title-row b{color:#1765b4}
+.timeline-event.is-current .timeline-status{background:#e3f1ff;color:#1765b4}
+.timeline-event.is-done .timeline-status{background:#e7f7ef;color:#238252}
+.timeline-event.is-done .timeline-rail i{background:#31a66b;box-shadow:0 0 0 3px #e5f6ed}
+.timeline-empty{display:grid;justify-items:center;text-align:center;gap:5px;padding:20px 12px;border:1px dashed #cbdcf0;border-radius:17px;background:rgba(242,247,255,.65)}
+.timeline-empty>span{font-size:24px;color:#5794d5}
+.timeline-empty b{font-size:12px;color:#365575}
+.timeline-empty small{font-size:10px;color:#788ba3;line-height:1.5}
+.timeline-unplanned{display:grid;gap:7px;margin:5px 0 0 108px;padding:11px 12px;border-radius:14px;background:#f2f7ff;border:1px solid #e0eaf7}
+.timeline-unplanned>b{font-size:10px;color:#456483}
+.timeline-unplanned>span{font-size:11px;color:#304d6c}
+.timeline-unplanned small{color:#8293a8}
+.weekly-insights{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.insight-average{background:linear-gradient(145deg,#edf6ff,#f8fbff)!important}
+@media(max-width:520px){.weekly-insights{grid-template-columns:repeat(2,minmax(0,1fr))!important}.timeline-event{grid-template-columns:68px 16px minmax(0,1fr);gap:6px}.timeline-time{font-size:10px}.timeline-unplanned{margin-left:90px}.timeline-title-row{align-items:flex-start}}
+@media(prefers-reduced-motion:no-preference){.timeline-event{animation:timelineEnter .28s ease both}@keyframes timelineEnter{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}}
 </style>
 </head>
 <body>
@@ -1212,6 +1243,7 @@ nav button.active{background:linear-gradient(145deg,#d7eaff,#edf5ff)!important;c
  </div>
  <div class="card home-card study-chart-card"><div class="section-heading"><span class="section-icon">▥</span><div><h2>පාඩම් කළ කාලය</h2><small>WEEKLY STUDY TIME</small></div><button class="secondary chart-period" onclick="showTab('tracker')">සියල්ල →</button></div><div id="weeklyStudyChart" class="weekly-chart"></div></div>
  <div class="card home-card daily-focus-card"><div class="section-heading"><span class="section-icon">☀</span><div><h2>අද දවසේ ඉලක්ක</h2><small>DAILY GOALS</small></div><span class="section-date">TODAY</span></div><div id="dailyGoalSummary" class="daily-goal-summary"></div><div class="daily-task-heading"><b>අද කළ යුතු වැඩ</b><span>DAILY TASKS</span></div><div id="todayTasks"></div><button class="secondary home-more" onclick="showTab('todo')">සියලු වැඩ බලන්න <span>→</span></button></div>
+ <div class="card home-card daily-timeline-card"><div class="section-heading"><span class="section-icon">◷</span><div><h2>අද දවසේ Timeline</h2><small>YOUR DAY · TIME FLOW</small></div><button class="secondary chart-period" onclick="showTab('timetable')">Timetable →</button></div><div id="dailyTimeline" class="daily-timeline"></div></div>
  <div class="card home-card"><div class="section-heading"><span class="section-icon subject-icon">◉</span><div><h2>විෂය අනුව සතියේ ඉලක්ක</h2><small>WEEKLY STUDY TRACKER</small></div></div><div id="subjectProgress"></div></div>
  <div class="card home-card weekly-insight-card"><div class="section-heading"><span class="section-icon">✦</span><div><h2>සතියේ දළ විශ්ලේෂණය</h2><small>YOUR WEEK AT A GLANCE</small></div></div><div id="weeklyInsights" class="weekly-insights"><div class="insight-tile"><span>⏱</span><b>0h 0m</b><small>Study time</small></div><div class="insight-tile"><span>◷</span><b>0 / 7</b><small>Active days</small></div><div class="insight-tile"><span>✦</span><b>—</b><small>Top subject</small></div></div><div class="insight-footnote">පසුගිය සඳුදා සිට අද දක්වා සටහන් කළ කාලය.</div></div>
  <div class="rest-card"><span class="rest-icon">☁</span><div><b>විවේකයත් සැලැස්මේ කොටසක්</b><p>Class දවසකින් පස්සේ විවේකයටත් නින්දටත් ඉඩ තබන්න.</p></div></div>
@@ -1572,13 +1604,31 @@ function renderHome(){
  const colors={'Combined Maths':'#3478f6','Physics':'#8b6cf6','Chemistry':'#18a9cf'};
  $('subjectProgress').innerHTML=Object.entries(sums).map(([subject,mins])=>'<div class="subject-progress-row '+(subject==='Combined Maths'?'maths':subject==='Physics'?'physics':'chemistry')+'"><div class="row between"><b>'+subject+'</b><span>'+Math.floor(mins/60)+'h '+mins%60+'m</span></div><div class="progress"><i style="width:'+Math.min(100,mins/600*100)+'%;background:'+colors[subject]+'"></i></div></div>').join('');
  renderStudyChart('weeklyStudyChart',7);
+ renderDailyTimeline();
  renderWeeklyInsights(weekStart);
+}
+function clockMinutes(value){if(!/^\d{2}:\d{2}$/.test(String(value||'')))return null;const p=value.split(':').map(Number);return p[0]<24&&p[1]<60?p[0]*60+p[1]:null;}
+function clockLabel(minutes){const n=((minutes%1440)+1440)%1440;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
+function renderDailyTimeline(){
+ const root=$('dailyTimeline');if(!root)return;
+ const now=new Date(),dayIndex=now.getDay(),nowMinutes=now.getHours()*60+now.getMinutes(),events=[],unplanned=[];
+ let day={...(state.days[dayIndex]||{})};
+ if(Number(state.schoolWeek?.[weekKey()])===dayIndex)day={...day,type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};
+ const baseStart=clockMinutes(day.start),baseEnd=clockMinutes(day.end);
+ if(['Class','School'].includes(day.type)&&baseStart!==null&&baseEnd!==null&&baseEnd>baseStart)events.push({start:baseStart,end:baseEnd,title:day.type==='School'?'School':'Class',detail:day.note||'Timetable',kind:'class'});
+ (Array.isArray(day.activities)?day.activities:[]).forEach(a=>{const start=clockMinutes(a.start),end=clockMinutes(a.end);if(start===null){unplanned.push({title:a.title||a.type||'Timetable activity',detail:a.type||'වෙලාවක් නියම කර නැහැ'});return;}events.push({start,end:end!==null&&end>start?end:null,title:a.title||a.type||'Activity',detail:a.type||'Timetable activity',kind:'activity'});});
+ state.tasks.filter(t=>t.date===today()&&t.reminderTime).forEach(t=>{const start=clockMinutes(t.reminderTime);if(start===null)return;const duration=Math.max(0,Number(t.minutes)||0);events.push({start,end:duration?start+duration:null,title:t.title,detail:(t.subject||'To-Do')+(t.done?' · අවසන්':' · කළ යුතුයි'),kind:'task',done:!!t.done});});
+ events.sort((a,b)=>a.start-b.start||(a.kind==='class'?-1:1));
+ const eventHtml=events.map(e=>{const current=e.start<=nowMinutes&&e.end!==null&&nowMinutes<e.end;const past=e.end!==null?e.end<=nowMinutes:e.start<nowMinutes;const status=e.done?'අවසන්':current?'දැන්':past?'පසු වී ඇත':'ඉදිරියට';const time=clockLabel(e.start)+(e.end!==null?' – '+clockLabel(e.end):'');return '<div class="timeline-event '+(e.kind==='class'?'timeline-class':e.kind==='task'?'timeline-task':'timeline-activity')+(current?' is-current':'')+(e.done?' is-done':'')+'"><div class="timeline-time">'+time+'</div><div class="timeline-rail"><i></i></div><div class="timeline-copy"><div class="timeline-title-row"><b>'+esc(e.title)+'</b><span class="timeline-status">'+status+'</span></div><small>'+esc(e.detail||'')+'</small></div></div>';}).join('');
+ const unplannedHtml=unplanned.length?'<div class="timeline-unplanned"><b>වෙලාවක් නියම කර නැති වැඩ</b>'+unplanned.map(x=>'<span>• '+esc(x.title)+' <small>'+esc(x.detail)+'</small></span>').join('')+'</div>':'';
+ root.innerHTML=(eventHtml||'<div class="timeline-empty"><span>◷</span><b>අදට වේලාවක් වෙන් කළ වැඩ නැහැ</b><small>Timetable එකට හෝ To-Do එකට වේලාවක් එකතු කළාම මෙතැන පෙන්වයි.</small></div>')+unplannedHtml;
 }
 function renderWeeklyInsights(weekStart){
  const end=today(),items=state.study.filter(x=>x.date>=weekStart&&x.date<=end),total=items.reduce((n,x)=>n+(Number(x.minutes)||0),0),active=new Set(items.filter(x=>(Number(x.minutes)||0)>0).map(x=>x.date)).size;
  const totals={'Combined Maths':0,'Physics':0,'Chemistry':0};items.forEach(x=>{if(totals[x.subject]!==undefined)totals[x.subject]+=Number(x.minutes)||0;});
  const top=Object.entries(totals).sort((a,b)=>b[1]-a[1]).find(x=>x[1]>0);
- $('weeklyInsights').innerHTML='<div class="insight-tile insight-total"><span>⏱</span><b>'+Math.floor(total/60)+'h '+total%60+'m</b><small>Study time</small></div><div class="insight-tile insight-days"><span>◷</span><b>'+active+' / 7</b><small>Active days</small></div><div class="insight-tile insight-top"><span>✦</span><b>'+(top?esc(top[0]):'—')+'</b><small>Top subject</small></div>';
+ const average=active?Math.round(total/active):0;
+ $('weeklyInsights').innerHTML='<div class="insight-tile insight-total"><span>⏱</span><b>'+Math.floor(total/60)+'h '+total%60+'m</b><small>Study time</small></div><div class="insight-tile insight-days"><span>◷</span><b>'+active+' / 7</b><small>Active days</small></div><div class="insight-tile insight-average"><span>↗</span><b>'+Math.floor(average/60)+'h '+average%60+'m</b><small>Avg. per active day</small></div><div class="insight-tile insight-top"><span>✦</span><b>'+(top?esc(top[0]):'—')+'</b><small>Top subject</small></div>';
 }
 
 
