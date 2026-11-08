@@ -1345,13 +1345,12 @@ nav button.active{background:linear-gradient(145deg,#d7eaff,#edf5ff)!important;c
 <div id="imageViewer" onclick="closeImageViewer()"><button class="imageClose" onclick="event.stopPropagation();closeImageViewer()">×</button><div class="imageZoomBar" onclick="event.stopPropagation()"><button class="secondary" onclick="changeImageZoom(-0.25)">−</button><span id="imageZoomLabel">100%</span><button class="secondary" onclick="changeImageZoom(0.25)">＋</button><button class="secondary" onclick="resetImageZoom()">Reset</button></div><img id="largeNoteImage" alt="Note image" onclick="event.stopPropagation()"></div>
 <div id="pdfViewer"><div class="pdf-toolbar"><button class="secondary" onclick="closePDFViewer()">← ආපසු</button><strong id="pdfViewerTitle">PDF</strong><button class="secondary" onclick="changePDFPage(-1)">◀</button><button class="secondary" onclick="changePDFPage(1)">▶</button><button class="secondary" onclick="changePDFZoom(-0.25)">−</button><button class="secondary" onclick="changePDFZoom(0.25)">＋</button><button class="secondary" onclick="resetPDFZoom()">100%</button><button class="secondary" onclick="downloadCurrentPDF()">⬇</button></div><div id="pdfStatus">PDF එක load වෙමින්...</div><div id="pdfPages"></div></div>
 <footer class="app-footer"><span>MADE WITH FOCUS · <b>CREATED BY BLACKWIZARD</b> · A3 MISSION 2027</span></footer>
-<nav>
-<button class="active" data-tab="home" onclick="showTab('home')">🏠<br>Home</button>
-<button data-tab="todo" onclick="showTab('todo')">☑️<br>To-Do</button>
-<button data-tab="timetable" onclick="showTab('timetable')">🗓️<br>Timetable</button>
-<button data-tab="notes" onclick="showTab('notes')">📷<br>Notes</button>
-<button data-tab="tracker" onclick="showTab('tracker')">📈<br>Progress</button>
-
+<nav aria-label="Main navigation">
+<button class="active" data-tab="home" aria-label="Home" onclick="showTab('home')"></button>
+<button data-tab="todo" aria-label="To-Do" onclick="showTab('todo')"></button>
+<button data-tab="timetable" aria-label="Timetable" onclick="showTab('timetable')"></button>
+<button data-tab="notes" aria-label="Notes" onclick="showTab('notes')"></button>
+<button data-tab="tracker" aria-label="Progress" onclick="showTab('tracker')"></button>
 </nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
