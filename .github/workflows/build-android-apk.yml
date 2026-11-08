@@ -30,6 +30,9 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      - name: Cache Gradle distributions and dependencies
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Install dependencies
         run: npm install
 
@@ -48,7 +51,6 @@ jobs:
         run: |
           # Use the smaller binary distribution and allow slow runner downloads.
           sed -i 's/gradle-8.11.1-all.zip/gradle-8.11.1-bin.zip/' android/gradle/wrapper/gradle-wrapper.properties
-          sed -i 's#https\\://services.gradle.org/distributions/#https\\://downloads.gradle.org/distributions/#' android/gradle/wrapper/gradle-wrapper.properties
           if grep -q '^networkTimeout=' android/gradle/wrapper/gradle-wrapper.properties; then
             sed -i 's/^networkTimeout=.*/networkTimeout=120000/' android/gradle/wrapper/gradle-wrapper.properties
           else
