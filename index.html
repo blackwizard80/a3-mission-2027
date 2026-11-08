@@ -790,6 +790,59 @@ nav button.active{background:rgba(203,225,255,.72)!important;color:#1456a8!impor
  .quick-action:hover,.subject-tile:hover{transform:translateY(-2px);filter:saturate(1.06)}
 }
 
+
+/* Subject analytics + daily goals premium dashboard */
+.study-chart-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:9px 15px;margin:13px 0 2px}
+.study-chart-legend span{display:inline-flex;align-items:center;gap:6px;font-size:9px;font-weight:750;color:#526d91}
+.study-chart-legend i{width:8px;height:8px;border-radius:50%;box-shadow:0 0 0 3px rgba(90,140,210,.10)}
+.study-chart-track{display:flex!important;flex-direction:column-reverse!important;justify-content:flex-start!important;gap:1px!important;overflow:hidden;border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 4px rgba(31,68,120,.08)}
+.study-chart-segment{display:block;width:100%;min-height:0;border-radius:3px 3px 1px 1px;transition:height .3s ease}
+.study-chart-day.today .study-chart-track{outline:2px solid rgba(37,99,235,.2);outline-offset:2px}
+.study-chart-day.today .study-chart-label{color:#205eb4!important}
+.daily-goal-summary{display:flex;align-items:center;gap:15px;padding:13px 14px;margin:7px 0 15px;border:1px solid rgba(255,255,255,.96);border-radius:20px;background:linear-gradient(120deg,rgba(224,238,255,.86),rgba(247,251,255,.9));box-shadow:0 8px 22px rgba(37,99,235,.07),inset 0 1px #fff}
+.daily-goal-ring{--goal-progress:0%;width:70px;height:70px;flex:0 0 70px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#3478f6 var(--goal-progress),rgba(104,145,196,.16) 0);position:relative;box-shadow:0 5px 15px rgba(37,99,235,.12)}
+.daily-goal-ring:before{content:"";position:absolute;inset:6px;border-radius:50%;background:linear-gradient(145deg,#fff,#eaf3ff);box-shadow:inset 0 2px 5px rgba(45,86,145,.08)}
+.daily-goal-ring>div{position:relative;text-align:center;display:flex;flex-direction:column;line-height:1}
+.daily-goal-ring b{font-size:18px;color:#1e58a4}
+.daily-goal-ring small{font-size:8px;letter-spacing:1px;color:#7690b0;font-weight:800;margin-top:3px}
+.daily-goal-copy{min-width:0;flex:1}
+.daily-goal-copy>strong{font-size:12px;color:#214b7d}
+.daily-goal-copy p{font-size:10px;color:#6b83a1;margin:4px 0 7px}
+.daily-goal-copy>small{font-size:9px;color:#7890ad;font-weight:700}
+.daily-goal-track{height:6px;border-radius:10px;background:rgba(80,125,183,.13);overflow:hidden;margin-bottom:5px}
+.daily-goal-track i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#3478f6,#65b7ff);transition:width .3s}
+.daily-task-heading{display:flex;align-items:center;justify-content:space-between;margin:3px 2px 8px}
+.daily-task-heading b{font-size:12px;color:#294d78}
+.daily-task-heading span{font-size:8px;letter-spacing:1px;color:#91a6c0;font-weight:850}
+.daily-task-card{--task-color:#3478f6;display:flex;align-items:center;gap:10px;padding:11px 10px;margin:8px 0;border-radius:16px;border:1px solid rgba(255,255,255,.96);border-left:3px solid var(--task-color);background:linear-gradient(110deg,rgba(255,255,255,.9),rgba(231,241,255,.76));box-shadow:0 5px 14px rgba(35,75,130,.055),inset 0 1px #fff}
+.daily-task-card.physics{--task-color:#8b6cf6;background:linear-gradient(110deg,rgba(255,255,255,.9),rgba(241,237,255,.78))}
+.daily-task-card.chemistry{--task-color:#18a9cf;background:linear-gradient(110deg,rgba(255,255,255,.9),rgba(225,247,252,.8))}
+.daily-task-card.other{--task-color:#7d91aa}
+.daily-task-card.is-done{opacity:.68}
+.daily-task-check{width:25px;height:25px;min-width:25px;padding:0!important;border-radius:9px!important;background:rgba(255,255,255,.9)!important;color:var(--task-color)!important;border:1px solid color-mix(in srgb,var(--task-color) 40%,white)!important;box-shadow:inset 0 1px #fff!important;font-size:14px!important}
+.daily-task-check.checked{background:var(--task-color)!important;color:white!important}
+.daily-task-content{flex:1;min-width:0}
+.daily-task-content>strong{display:block;font-size:11px;color:#294766;line-height:1.45;overflow-wrap:anywhere}
+.is-done .daily-task-content>strong{text-decoration:line-through;color:#8b9bb0}
+.daily-task-meta{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:5px;font-size:9px;color:#7890ad}
+.daily-subject-chip{padding:3px 7px;border-radius:7px;background:color-mix(in srgb,var(--task-color) 12%,white);color:var(--task-color);font-weight:800}
+.daily-task-time{font-weight:750}
+.daily-priority{font-size:8px;font-weight:850;padding:4px 6px;border-radius:7px;white-space:nowrap;background:#edf3fb;color:#6b819c}
+.daily-priority.essential{background:#fff0f1;color:#d34c61}
+.daily-priority.important{background:#fff5e8;color:#c47a25}
+.daily-empty{display:flex;align-items:center;flex-direction:column;text-align:center;padding:17px 8px;border-radius:17px;background:linear-gradient(145deg,rgba(240,247,255,.8),rgba(255,255,255,.7));border:1px dashed rgba(128,166,215,.42)}
+.daily-empty>span{font-size:23px;color:#4b8be7}
+.daily-empty b{font-size:11px;color:#365a85;margin-top:5px}
+.daily-empty small{font-size:9px;color:#8398b3;margin:4px 0 10px}
+.daily-empty button{font-size:10px!important;padding:8px 12px!important}
+.subject-progress-row{margin:10px 0 13px}
+.subject-progress-row .row{margin-bottom:5px}
+.subject-progress-row b{font-size:11px;color:#35577f}
+.subject-progress-row .row span{font-size:10px;color:#6d85a3;font-weight:750}
+.subject-progress-row .progress{height:7px!important;background:rgba(93,132,182,.12)!important;border-radius:8px;overflow:hidden}
+.subject-progress-row .progress i{display:block;height:100%;border-radius:8px}
+@media(max-width:380px){.daily-goal-summary{gap:11px;padding:11px}.daily-goal-ring{width:62px;height:62px;flex-basis:62px}.daily-task-card{gap:8px;padding:10px 8px}.daily-priority{font-size:7px}}
+
 </style>
 </head>
 <body>
@@ -811,7 +864,7 @@ nav button.active{background:rgba(203,225,255,.72)!important;color:#1456a8!impor
   <button class="quick-action quick-progress" onclick="showTab('tracker')"><span class="quick-icon">↗</span><span><b>Progress</b><small>ඉදිරිය බලන්න</small></span><i>↗</i></button>
  </div>
  <div class="card home-card study-chart-card"><div class="section-heading"><span class="section-icon">▥</span><div><h2>පාඩම් කළ කාලය</h2><small>WEEKLY STUDY TIME</small></div><button class="secondary chart-period" onclick="showTab('tracker')">සියල්ල →</button></div><div id="weeklyStudyChart" class="weekly-chart"></div></div>
- <div class="card home-card"><div class="section-heading"><span class="section-icon">☀</span><div><h2>අද කළ යුතු දේ</h2><small>TODAY'S FOCUS</small></div><span class="section-date">TODAY</span></div><div id="todayTasks"></div><button class="secondary home-more" onclick="showTab('todo')">සියලු වැඩ බලන්න <span>→</span></button></div>
+ <div class="card home-card daily-focus-card"><div class="section-heading"><span class="section-icon">☀</span><div><h2>අද දවසේ ඉලක්ක</h2><small>DAILY GOALS</small></div><span class="section-date">TODAY</span></div><div id="dailyGoalSummary" class="daily-goal-summary"></div><div class="daily-task-heading"><b>අද කළ යුතු වැඩ</b><span>DAILY TASKS</span></div><div id="todayTasks"></div><button class="secondary home-more" onclick="showTab('todo')">සියලු වැඩ බලන්න <span>→</span></button></div>
  <div class="card home-card"><div class="section-heading"><span class="section-icon subject-icon">◉</span><div><h2>විෂය අනුව සතියේ ඉලක්ක</h2><small>WEEKLY STUDY TRACKER</small></div></div><div id="subjectProgress"></div></div>
  <div class="rest-card"><span class="rest-icon">☁</span><div><b>විවේකයත් සැලැස්මේ කොටසක්</b><p>Class දවසකින් පස්සේ විවේකයටත් නින්දටත් ඉඩ තබන්න.</p></div></div>
 </section>
@@ -1092,10 +1145,54 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHistory();});
 function addStudy(){let m=+$('studyMinutes').value;if(!m||m<1){alert('මිනිත්තු ගණන ඇතුළත් කරන්න.');return}state.study.push({id:Date.now(),date:today(),subject:$('studySubject').value,minutes:m});persist();$('studyMinutes').value='';renderAll();}
 function deleteStudy(id){if(!confirm('මේ Study time සටහන ඉවත් කරන්නද?'))return;state.study=state.study.filter(x=>x.id!==id);persist();renderAll();}
 function clearStudy(){if(!state.study.length)return;if(!confirm('සියලුම Study time සටහන් ඉවත් කරන්නද?'))return;state.study=[];persist();renderAll();}
-function renderStudyChart(targetId,count=7){const root=$(targetId);if(!root)return;const now=new Date();const labels=['ඉරි','සඳු','අඟ','බදා','බ්‍රහ','සිකු','සෙන'];const days=[];for(let n=count-1;n>=0;n--){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-n),date=localDateKey(d),mins=state.study.filter(x=>x.date===date).reduce((a,x)=>a+(Number(x.minutes)||0),0);days.push({mins,label:labels[d.getDay()],today:n===0});}const max=Math.max(60,...days.map(x=>x.mins));root.innerHTML=days.some(x=>x.mins>0)?days.map(x=>{const h=x.mins/60,height=x.mins?Math.max(5,x.mins/max*100):0;return `<div class="study-chart-day ${x.today?'today':''}"><span class="study-chart-value">${h?(Number.isInteger(h)?h+'h':h.toFixed(1)+'h'):'—'}</span><div class="study-chart-track"><i class="study-chart-bar" style="height:${height}%"></i></div><span class="study-chart-label">${x.label}</span></div>`;}).join(''):'<div class="study-chart-empty">Study time එකතු කළාම සතියේ graph එක මෙතැන පෙන්වයි.</div>';}
+function renderStudyChart(targetId,count=7){
+ const root=$(targetId);if(!root)return;
+ const now=new Date(),labels=['ඉරි','සඳු','අඟ','බදා','බ්‍රහ','සිකු','සෙන'];
+ const subjects=[
+  {name:'Combined Maths',key:'maths',color:'#3478f6',soft:'#dceaff'},
+  {name:'Physics',key:'physics',color:'#8b6cf6',soft:'#e9e2ff'},
+  {name:'Chemistry',key:'chemistry',color:'#18a9cf',soft:'#d9f5fc'}
+ ];
+ const days=[];
+ for(let n=count-1;n>=0;n--){
+  const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-n),date=localDateKey(d);
+  const totals={};subjects.forEach(x=>totals[x.name]=0);
+  state.study.filter(x=>x.date===date).forEach(x=>{if(totals[x.subject]!==undefined)totals[x.subject]+=Number(x.minutes)||0;});
+  const mins=Object.values(totals).reduce((a,b)=>a+b,0);
+  days.push({date,mins,totals,label:labels[d.getDay()],today:n===0});
+ }
+ const max=Math.max(60,...days.map(x=>x.mins));
+ const bars=days.map(day=>{
+  const totalHours=day.mins/60,segments=subjects.map(sub=>{
+   const mins=day.totals[sub.name],height=mins?mins/max*100:0;
+   return mins?'<i class="study-chart-segment '+sub.key+'" title="'+sub.name+': '+mins+' min" style="height:'+height+'%;background:'+sub.color+'"></i>':'';
+  }).join('');
+  return '<div class="study-chart-day '+(day.today?'today':'')+'"><span class="study-chart-value">'+(day.mins?(Number.isInteger(totalHours)?totalHours+'h':totalHours.toFixed(1)+'h'):'—')+'</span><div class="study-chart-track">'+segments+'</div><span class="study-chart-label">'+day.label+'</span></div>';
+ }).join('');
+ const legend='<div class="study-chart-legend">'+subjects.map(x=>'<span><i style="background:'+x.color+'"></i>'+x.name+'</span>').join('')+'</div>';
+ root.innerHTML=days.some(x=>x.mins>0)?bars+legend:'<div class="study-chart-empty">Study time එකතු කළාම විෂය අනුව graph එක මෙතැන පෙන්වයි.</div>'+legend;
+}
 function renderTracker(){renderStudyChart('trackerStudyChart',7);let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};state.study.forEach(s=>{if(sums[s.subject]!==undefined)sums[s.subject]+=s.minutes;});$('studyTotals').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');$('studyEntries').innerHTML=state.study.length?state.study.slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.id||0)-(a.id||0)).map(s=>`<div class="study-entry"><div class="itemmain"><strong>${esc(s.subject)}</strong><div class="small">${esc(s.date)} · ${s.minutes} මිනිත්තු</div></div><button class="danger" onclick="deleteStudy(${s.id})">ඉවත් කරන්න</button></div>`).join(''):'<div class="empty">තවම Study time සටහන් නැහැ.</div>';$('examDate').value=state.examDate;let days=Math.ceil((new Date(state.examDate+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);$('countdown').textContent=days>=0?`තෝරාගත් දිනයට දවස් ${days}යි.`:'තෝරාගත් දිනය පසු වී ඇත.';}
 function saveExamDate(){state.examDate=$('examDate').value;persist();renderTracker();}
-function renderHome(){let d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length;const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];$('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];$('doneCount').textContent=done+'/'+arr.length;$('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+s.minutes,0)/60).toFixed(1)+'h';$('todayTasks').innerHTML=arr.length?arr.map(t=>`<div class="item"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong>${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}</div></div>`).join(''):'<div class="empty">අදට To-Do එකක් නැහැ. පොඩි ඉලක්කයක් එකතු කරමු.</div>';let week=state.study.filter(s=>{let dt=new Date(),day=dt.getDay(),diff=day===0?-6:1-day;dt.setDate(dt.getDate()+diff);return s.date>=localDateKey(dt)});let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};week.forEach(s=>sums[s.subject]+=s.minutes);$('subjectProgress').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');renderStudyChart('weeklyStudyChart',7);}
+function renderHome(){
+ const d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length,remaining=arr.length-done;
+ const now=new Date(),months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];
+ $('todayText').textContent=now.getFullYear()+' '+months[now.getMonth()]+' '+now.getDate()+' · '+dayNames[now.getDay()];
+ $('doneCount').textContent=done+'/'+arr.length;
+ $('streakHours').textContent=(state.study.filter(s=>s.date===d).reduce((a,s)=>a+(Number(s.minutes)||0),0)/60).toFixed(1)+'h';
+ const pct=arr.length?Math.round(done/arr.length*100):0,totalMinutes=arr.reduce((a,t)=>a+(Number(t.minutes)||0),0),doneMinutes=arr.filter(t=>t.done).reduce((a,t)=>a+(Number(t.minutes)||0),0);
+ $('dailyGoalSummary').innerHTML='<div class="daily-goal-ring" style="--goal-progress:'+pct+'%"><div><b>'+pct+'%</b><small>DONE</small></div></div><div class="daily-goal-copy"><strong>'+(arr.length?(remaining?'ඉලක්කයට තව ටිකයි!':'අද ඉලක්කය සම්පූර්ණයි!'):'අදට ඉලක්කයක් තෝරගමු')+'</strong><p>'+done+' / '+arr.length+' වැඩ අවසන් · '+(remaining?remaining+'ක් ඉතිරියි':'හොඳ වැඩක්!')+'</p><div class="daily-goal-track"><i style="width:'+pct+'%"></i></div><small>'+doneMinutes+' / '+totalMinutes+' min planned</small></div>';
+ $('todayTasks').innerHTML=arr.length?arr.sort((a,b)=>Number(a.done)-Number(b.done)).map(t=>{
+  const subjectClass=t.subject==='Combined Maths'?'maths':t.subject==='Physics'?'physics':t.subject==='Chemistry'?'chemistry':'other';
+  const pc=priorityClass(t.priority),time=t.reminderTime?'<span class="daily-task-time">◷ '+esc(t.reminderTime)+'</span>':'';
+  return '<div class="daily-task-card '+subjectClass+' '+(t.done?'is-done':'')+'"><button class="daily-task-check '+(t.done?'checked':'')+'" aria-label="වැඩ අවසන් කරන්න" onclick="toggleTask('+t.id+')">'+(t.done?'✓':'')+'</button><div class="daily-task-content"><strong>'+esc(t.title)+'</strong><div class="daily-task-meta"><span class="daily-subject-chip">'+esc(t.subject)+'</span>'+time+(t.minutes?'<span>'+esc(t.minutes)+' min</span>':'')+'</div></div><span class="daily-priority '+pc+'">'+esc(t.priority||'සාමාන්‍ය')+'</span></div>';
+ }).join(''):'<div class="daily-empty"><span>✦</span><b>අදට වැඩ ලැයිස්තුව හිස්</b><small>පොඩි ඉලක්කයක් එකතු කරලා පටන් ගමු.</small><button class="secondary" onclick="showTab(\'todo\')">＋ වැඩයක් එකතු කරන්න</button></div>';
+ const weekStart=weekKey(),sums={'Combined Maths':0,'Physics':0,'Chemistry':0};
+ state.study.filter(x=>x.date>=weekStart).forEach(x=>{if(sums[x.subject]!==undefined)sums[x.subject]+=Number(x.minutes)||0;});
+ const colors={'Combined Maths':'#3478f6','Physics':'#8b6cf6','Chemistry':'#18a9cf'};
+ $('subjectProgress').innerHTML=Object.entries(sums).map(([subject,mins])=>'<div class="subject-progress-row '+(subject==='Combined Maths'?'maths':subject==='Physics'?'physics':'chemistry')+'"><div class="row between"><b>'+subject+'</b><span>'+Math.floor(mins/60)+'h '+mins%60+'m</span></div><div class="progress"><i style="width:'+Math.min(100,mins/600*100)+'%;background:'+colors[subject]+'"></i></div></div>').join('');
+ renderStudyChart('weeklyStudyChart',7);
+}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();}
 
