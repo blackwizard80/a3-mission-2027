@@ -3,7 +3,7 @@
   "short_name": "A3 Mission",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#f5f7ff",
+  "theme_color": "#6558d9",
   "description": "Personal A/L 2027 study planner"
 }
