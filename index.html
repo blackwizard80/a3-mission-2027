@@ -1501,6 +1501,31 @@ state.tasks ||= []; state.days ||= {
 state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
 state.pomodoro ||= {mode:'focus',remainingSeconds:1500,endAt:null,running:false,cycles:0,focusMinutes:25,shortBreakMinutes:5,longBreakMinutes:15};
 state.pomodoroSessions ||= [];
+
+// Weekly timetable: keep edits and activities only for the active Monday-Sunday week.
+const defaultWeekDays={
+  1:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+  2:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+  3:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
+  4:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
+  5:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+  6:{type:'Class',start:'06:30',end:'18:00',note:'උදේ 6.30 පිටත් · හවස 6ට පසු ගෙදර'},
+  0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
+};
+const activeWeekKey=weekKey();
+if(!state.weeklyDays){
+  // One-time migration: preserve the user's existing timetable and activities for this week.
+  state.weeklyDays={[activeWeekKey]:JSON.parse(JSON.stringify(state.days))};
+}
+if(!state.weeklyDays[activeWeekKey]){
+  state.weeklyDays[activeWeekKey]=JSON.parse(JSON.stringify(defaultWeekDays));
+}
+// Remove expired weekly edits/activities and one-week school overrides.
+// Study records, tasks, notes and their history are deliberately untouched.
+Object.keys(state.weeklyDays).forEach(k=>{if(k!==activeWeekKey)delete state.weeklyDays[k];});
+Object.keys(state.schoolWeek).forEach(k=>{if(k!==activeWeekKey)delete state.schoolWeek[k];});
+function weekDays(){return state.weeklyDays[weekKey()];}
+persist();
 function persist(){try{localStorage.setItem(key,JSON.stringify(state));return true;}catch(e){console.error('A3 Mission save failed:',e);alert('දත්ත Save කරන්න බැරි වුණා. Phone storage ඉඩ පරීක්ෂා කරන්න.');return false;}}
 function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(t).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));renderAll();}
 function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('වැඩේ නම ලියන්න.');return}
@@ -1517,13 +1542,13 @@ function compareTaskSchedule(a,b){
  return Number(a.done)-Number(b.done)||String(a.title||'').localeCompare(String(b.title||''),'si');
 }
 function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort(compareTaskSchedule);$('taskList').innerHTML=arr.length?arr.map(t=>{const pc=priorityClass(t.priority);return `<div class="item task-row-${pc} ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}${t.reminderTime?`<div class="small reminder-label">🔔 මතක් කිරීම: ${esc(t.reminderTime)}</div>`:''}${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`}).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
-function saveDay(){let d=$('editDay').value,old=state.days[d]||{};state.days[d]={...old,type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value,activities:Array.isArray(old.activities)?old.activities:[]};persist();renderAll();alert('Timetable Update කළා.');}
-function editDay(d){let x=state.days[d]||{};$('editDay').value=d;$('editType').value=x.type||'Free day';$('editStart').value=x.start||'';$('editEnd').value=x.end||'';$('editNote').value=x.note||'';}
-function addDayActivity(){const d=$('activityDay').value,title=$('activityTitle').value.trim();if(!title){alert('කරන්න තියෙන වැඩේ ලියන්න.');return;}const day=state.days[d]||(state.days[d]={type:'Free day',start:'',end:'',note:''});day.activities=Array.isArray(day.activities)?day.activities:[];day.activities.push({id:Date.now(),title,type:$('activityType').value,start:$('activityStart').value,end:$('activityEnd').value});if(!persist())return;$('activityTitle').value='';$('activityStart').value='';$('activityEnd').value='';renderAll();}
-function deleteDayActivity(day,id){const x=state.days[day];if(!x||!Array.isArray(x.activities))return;x.activities=x.activities.filter(a=>a.id!==id);persist();renderAll();}
+function saveDay(){let d=$('editDay').value,days=weekDays(),old=days[d]||{};days[d]={...old,type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value,activities:Array.isArray(old.activities)?old.activities:[]};persist();renderAll();alert('Timetable Update කළා.');}
+function editDay(d){let x=weekDays()[d]||{};$('editDay').value=d;$('editType').value=x.type||'Free day';$('editStart').value=x.start||'';$('editEnd').value=x.end||'';$('editNote').value=x.note||'';}
+function addDayActivity(){const d=$('activityDay').value,title=$('activityTitle').value.trim();if(!title){alert('කරන්න තියෙන වැඩේ ලියන්න.');return;}const days=weekDays(),day=days[d]||(days[d]={type:'Free day',start:'',end:'',note:''});day.activities=Array.isArray(day.activities)?day.activities:[];day.activities.push({id:Date.now(),title,type:$('activityType').value,start:$('activityStart').value,end:$('activityEnd').value});if(!persist())return;$('activityTitle').value='';$('activityStart').value='';$('activityEnd').value='';renderAll();}
+function deleteDayActivity(day,id){const x=weekDays()[day];if(!x||!Array.isArray(x.activities))return;x.activities=x.activities.filter(a=>a.id!==id);persist();renderAll();}
 function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
 const dayNames={1:'සඳුදා',2:'අඟහරුවාදා',3:'බදාදා',4:'බ්‍රහස්පතින්දා',5:'සිකුරාදා',6:'සෙනසුරාදා',0:'ඉරිදා'};
-function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk],todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(state.days[d]||{})};if(Number(sd)===d){x={...x,type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}const isToday=d===todayIndex,activities=Array.isArray(x.activities)?x.activities:[];const items=activities.length?'<div class="day-activities">'+activities.map(a=>'<div class="day-activity"><div class="day-activity-main"><strong>'+esc(a.title)+'</strong><small>'+esc(a.type||'Other')+(a.start?' · '+a.start+(a.end?' – '+a.end:''):'')+'</small></div><button class="danger" onclick="deleteDayActivity('+d+','+a.id+')">×</button></div>').join('')+'</div>':'';return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+(x.end||''):''}<br>${esc(x.note||'')}</p>${items}</div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
+function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk],todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(weekDays()[d]||{})};if(Number(sd)===d){x={...x,type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}const isToday=d===todayIndex,activities=Array.isArray(x.activities)?x.activities:[];const items=activities.length?'<div class="day-activities">'+activities.map(a=>'<div class="day-activity"><div class="day-activity-main"><strong>'+esc(a.title)+'</strong><small>'+esc(a.type||'Other')+(a.start?' · '+a.start+(a.end?' – '+a.end:''):'')+'</small></div><button class="danger" onclick="deleteDayActivity('+d+','+a.id+')">×</button></div>').join('')+'</div>':'';return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+(x.end||''):''}<br>${esc(x.note||'')}</p>${items}</div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
 function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',2);r.onupgradeneeded=()=>{let db=r.result;if(!db.objectStoreNames.contains('notes'))db.createObjectStore('notes',{keyPath:'id'});if(!db.objectStoreNames.contains('resources'))db.createObjectStore('resources',{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function addNote(){
  const title=$('noteTitle').value.trim(),files=Array.from($('notePhoto').files||[]);
@@ -1745,7 +1770,7 @@ function clockLabel(minutes){const n=((minutes%1440)+1440)%1440;return String(Ma
 function renderDailyTimeline(){
  const root=$('dailyTimeline');if(!root)return;
  const now=new Date(),dayIndex=now.getDay(),nowMinutes=now.getHours()*60+now.getMinutes(),events=[],unplanned=[];
- let day={...(state.days[dayIndex]||{})};
+ let day={...(weekDays()[dayIndex]||{})};
  if(Number(state.schoolWeek?.[weekKey()])===dayIndex)day={...day,type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};
  const baseStart=clockMinutes(day.start),baseEnd=clockMinutes(day.end);
  if(['Class','School'].includes(day.type)&&baseStart!==null&&baseEnd!==null&&baseEnd>baseStart)events.push({start:baseStart,end:baseEnd,title:day.type==='School'?'School':'Class',detail:day.note||'Timetable',kind:'class'});
