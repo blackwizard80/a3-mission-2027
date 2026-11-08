@@ -62,21 +62,16 @@ jobs:
           cd android
           chmod +x gradlew
 
-          # setup-gradle restores the distribution ZIP into the wrapper cache.
-          # Unpack it ourselves so Gradle does not try the failing GitHub redirect again.
-          ZIP="$(find "$HOME/.gradle/wrapper/dists/gradle-8.11.1-bin" -type f -name 'gradle-8.11.1-bin.zip' -print -quit 2>/dev/null || true)"
-          if [ -n "$ZIP" ]; then
-            DIST_DIR="$(dirname "$ZIP")/gradle-8.11.1"
-            if [ ! -x "$DIST_DIR/bin/gradle" ]; then
-              echo "Using cached Gradle distribution: $ZIP"
-              unzip -q "$ZIP" -d "$(dirname "$ZIP")"
-            fi
-            "$DIST_DIR/bin/gradle" --no-daemon assembleDebug
+          # setup-gradle caches the extracted distribution, not necessarily its ZIP.
+          CACHED_GRADLE="$(find "$HOME/.gradle/wrapper/dists/gradle-8.11.1-bin" -type f -path '*/gradle-8.11.1/bin/gradle' -print -quit 2>/dev/null || true)"
+          if [ -n "$CACHED_GRADLE" ]; then
+            echo "Using cached Gradle executable: $CACHED_GRADLE"
+            "$CACHED_GRADLE" --no-daemon assembleDebug
           else
-            echo "Cached Gradle ZIP not found; using the Gradle wrapper."
+            echo "Cached Gradle executable not found; listing restored distribution cache:"
+            find "$HOME/.gradle/wrapper/dists/gradle-8.11.1-bin" -maxdepth 4 -type f -print 2>/dev/null || true
             ./gradlew --no-daemon assembleDebug
           fi
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
