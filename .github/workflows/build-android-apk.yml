@@ -44,11 +44,29 @@ jobs:
       - name: Sync app
         run: npx cap sync android
 
+      - name: Configure reliable Gradle download
+        run: |
+          # Use the smaller binary distribution and allow slow runner downloads.
+          sed -i 's/gradle-8.11.1-all.zip/gradle-8.11.1-bin.zip/' android/gradle/wrapper/gradle-wrapper.properties
+          if grep -q '^networkTimeout=' android/gradle/wrapper/gradle-wrapper.properties; then
+            sed -i 's/^networkTimeout=.*/networkTimeout=120000/' android/gradle/wrapper/gradle-wrapper.properties
+          else
+            printf '\\nnetworkTimeout=120000\\n' >> android/gradle/wrapper/gradle-wrapper.properties
+          fi
+
       - name: Build debug APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          for attempt in 1 2 3; do
+            echo "Gradle build attempt $attempt/3"
+            ./gradlew --no-daemon assembleDebug && exit 0
+            if [ "$attempt" -lt 3 ]; then
+              echo "Build attempt failed; waiting 20 seconds before retry."
+              sleep 20
+            fi
+          done
+          exit 1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
