@@ -1709,7 +1709,7 @@ function renderHistory(){
   return '<section class="history-date"><div class="history-date-title"><strong>📅 '+esc(formatHistoryDate(date))+'</strong><span class="history-count">'+done+'/'+x.tasks.length+' වැඩ අවසන්</span></div>'+taskHtml+studyHtml+'</section>';
  }).join(''):'<div class="history-empty">තවම History එකක් නැහැ.<br>To-Do හෝ Study Time සටහන් එකතු කළාම මෙතැන පෙන්වයි.</div>';
 }
-function formatHistoryDate(s){const p=s.split('-');if(p.length!==3)return s;const d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString('si-LK',{year:'numeric',month:'long',day:'numeric',weekday:'long'});}
+function formatHistoryDate(s){const p=s.split('-');if(p.length!==3)return s;const y=Number(p[0]),m=Number(p[1])-1,day=Number(p[2]);if(!Number.isInteger(y)||m<0||m>11||day<1||day>31)return s;const d=new Date(y,m,day);const months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];const weekdays=['ඉරිදා','සඳුදා','අඟහරුවාදා','බදාදා','බ්‍රහස්පතින්දා','සිකුරාදා','සෙනසුරාදා'];return y+' '+months[m]+' '+day+' · '+weekdays[d.getDay()];}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHistory();});
 
 function addStudy(){let m=+$('studyMinutes').value;if(!m||m<1){alert('මිනිත්තු ගණන ඇතුළත් කරන්න.');return}state.study.push({id:Date.now(),date:today(),subject:$('studySubject').value,minutes:m});persist();$('studyMinutes').value='';renderAll();}
