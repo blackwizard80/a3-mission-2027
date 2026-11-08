@@ -1221,6 +1221,79 @@ nav button.active{background:linear-gradient(145deg,#d7eaff,#edf5ff)!important;c
 .insight-average{background:linear-gradient(145deg,#edf6ff,#f8fbff)!important}
 @media(max-width:520px){.weekly-insights{grid-template-columns:repeat(2,minmax(0,1fr))!important}.timeline-event{grid-template-columns:68px 16px minmax(0,1fr);gap:6px}.timeline-time{font-size:10px}.timeline-unplanned{margin-left:90px}.timeline-title-row{align-items:flex-start}}
 @media(prefers-reduced-motion:no-preference){.timeline-event{animation:timelineEnter .28s ease both}@keyframes timelineEnter{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}}
+
+/* Colorful Aurora theme — lightweight surfaces, no data or layout changes */
+:root{
+ --accent:#6558d9;--blue:#2686dc;--line:#dce4f1;
+ --essential:#ed5575;--important:#e99b2d;--normal:#278bd8;
+}
+body{
+ background:
+  radial-gradient(ellipse at 8% 3%,rgba(114,166,255,.22),transparent 34%),
+  radial-gradient(ellipse at 94% 12%,rgba(185,139,255,.19),transparent 31%),
+  radial-gradient(ellipse at 78% 90%,rgba(255,166,190,.13),transparent 34%),
+  linear-gradient(145deg,#f8faff,#f0f4fc 55%,#fbf7ff)!important;
+}
+header{border-bottom-color:rgba(177,192,222,.34)!important}
+.brand{background:linear-gradient(90deg,#4b63c8,#8057c8,#d45e91);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{color:#71809b}
+.hero{
+ background:linear-gradient(125deg,#e2eaff 0%,#e9e5ff 52%,#ffe8f0 100%)!important;
+ border-color:#fff!important;box-shadow:0 10px 26px rgba(82,91,166,.12)!important;
+}
+.hero h1{color:#344b8e}
+.hero p{color:#5d668d!important}
+.stat{border-color:#fff!important}
+.stat:nth-child(1){background:linear-gradient(145deg,#e5edff,#f7f9ff)!important}
+.stat:nth-child(2){background:linear-gradient(145deg,#f0e9ff,#fbf8ff)!important}
+.stat:nth-child(3){background:linear-gradient(145deg,#ffe9ef,#fff8fa)!important}
+.stat:nth-child(4){background:linear-gradient(145deg,#e3f5ff,#f6fcff)!important}
+.stat b{color:#354f91}
+.card{border-color:rgba(255,255,255,.96)!important}
+button,.btn{
+ background:linear-gradient(115deg,#536fe0,#795bd5)!important;color:#fff!important;
+ box-shadow:0 5px 13px rgba(91,99,203,.19)!important;
+}
+button.secondary{
+ background:linear-gradient(120deg,#edf2ff,#f5efff)!important;
+ color:#4b5796!important;border-color:#dfe5fa!important;
+}
+button.danger{background:linear-gradient(120deg,#ffe8ee,#fff1f3)!important;color:#b63c5a!important}
+nav button.active{background:linear-gradient(135deg,#e3eaff,#efe6ff)!important;color:#4d56b5!important}
+.pill{background:#edf0ff;color:#555eaa;border-color:#dfe3ff}
+.priority-essential{color:#d92d55;background:#fff0f3}
+.priority-important{color:#a96500;background:#fff5df}
+.priority-normal{color:#176db3;background:#eaf5ff}
+.daily-task-card.maths{background:linear-gradient(110deg,#e7efff,#f5f8ff)!important;border-color:#d6e3ff!important}
+.daily-task-card.physics{background:linear-gradient(110deg,#f0eaff,#faf7ff)!important;border-color:#e3d9ff!important}
+.daily-task-card.chemistry{background:linear-gradient(110deg,#e3f7ff,#f5fcff)!important;border-color:#cceefa!important}
+.daily-task-card.other{background:linear-gradient(110deg,#fff0f3,#fff9fa)!important;border-color:#f8dce5!important}
+.subject-progress-row.maths .progress>i{background:linear-gradient(90deg,#3478f6,#79a9ff)!important}
+.subject-progress-row.physics .progress>i{background:linear-gradient(90deg,#8b6cf6,#b69cff)!important}
+.subject-progress-row.chemistry .progress>i{background:linear-gradient(90deg,#18a9cf,#72d7e8)!important}
+.insight-total{background:linear-gradient(145deg,#e7efff,#f6f8ff)!important}
+.insight-days{background:linear-gradient(145deg,#f0eaff,#fbf8ff)!important}
+.insight-average{background:linear-gradient(145deg,#e3f7ff,#f7fcff)!important}
+.insight-top{background:linear-gradient(145deg,#ffeaf0,#fff8fa)!important}
+.timeline-class{--timeline-color:#5275dc}
+.timeline-activity{--timeline-color:#8a62d7}
+.timeline-task{--timeline-color:#df7095}
+.timeline-event .timeline-rail i{background:var(--timeline-color,#6b78ce)}
+.progress>i{background:linear-gradient(90deg,#536fe0,#a06bd8)!important}
+.subject-tile:nth-child(3n+1){background:linear-gradient(145deg,#e8efff,#f8faff)!important}
+.subject-tile:nth-child(3n+2){background:linear-gradient(145deg,#f0eaff,#fbf8ff)!important}
+.subject-tile:nth-child(3n){background:linear-gradient(145deg,#e4f7ff,#f7fcff)!important}
+.app-footer b{color:#6259b4}
+#pomoRing{--timer-color:#725ed7}
+.perf-lite body{
+ background:linear-gradient(145deg,#f6f8ff,#f0f3fb)!important;
+}
+.perf-lite .hero{background:linear-gradient(120deg,#e6edff,#f0eaff,#fff0f4)!important}
+.perf-lite .card,.perf-lite .stat,.perf-lite .day{box-shadow:0 2px 7px rgba(55,65,110,.055)!important}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
 </style>
 <style>
 /* Adaptive performance mode: keep the design, reduce expensive paint work on slower phones */
