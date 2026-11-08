@@ -1696,18 +1696,21 @@ async function deletePDF(id){if(!confirm('මේ PDF එක මකන්නද?'
 function openHistory(){renderHistory();$('historyBackdrop').classList.add('open');$('historyDrawer').classList.add('open');$('historyDrawer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
 function closeHistory(){$('historyBackdrop').classList.remove('open');$('historyDrawer').classList.remove('open');$('historyDrawer').setAttribute('aria-hidden','true');document.body.style.overflow='';}
 function renderHistory(){
+ const cutoff=today();
+ const visibleTasks=state.tasks.filter(t=>(t.date||cutoff)<=cutoff);
+ const visibleStudy=state.study.filter(s=>(s.date||cutoff)<=cutoff);
  const byDate={};
- state.tasks.forEach(t=>{(byDate[t.date||today()]||= {tasks:[],study:[]}).tasks.push(t);});
- state.study.forEach(s=>{(byDate[s.date||today()]||= {tasks:[],study:[]}).study.push(s);});
- const dates=Object.keys(byDate).sort((a,b)=>b.localeCompare(a));
- const totalDone=state.tasks.filter(t=>t.done).length,totalMinutes=state.study.reduce((n,s)=>n+(+s.minutes||0),0);
+ visibleTasks.forEach(t=>{(byDate[t.date||cutoff]||= {tasks:[],study:[]}).tasks.push(t);});
+ visibleStudy.forEach(s=>{(byDate[s.date||cutoff]||= {tasks:[],study:[]}).study.push(s);});
+ const dates=Object.keys(byDate).filter(date=>date<=cutoff).sort((a,b)=>b.localeCompare(a));
+ const totalDone=visibleTasks.filter(t=>t.done).length,totalMinutes=visibleStudy.reduce((n,s)=>n+(+s.minutes||0),0);
  $('historySummary').innerHTML='<div class="history-metric"><b>'+dates.length+'</b><span>දින ගණන</span></div><div class="history-metric"><b>'+totalDone+'</b><span>අවසන් කළ වැඩ</span></div><div class="history-metric"><b>'+Math.floor(totalMinutes/60)+'h '+totalMinutes%60+'m</b><span>Study Time</span></div>';
  $('historyDays').innerHTML=dates.length?dates.map(date=>{
   const x=byDate[date],done=x.tasks.filter(t=>t.done).length,mins=x.study.reduce((n,s)=>n+(+s.minutes||0),0);
   const taskHtml=x.tasks.length?x.tasks.slice().sort((a,b)=>Number(b.done)-Number(a.done)).map(t=>'<div class="history-line history-task '+(t.done?'history-task-done':'history-task-pending')+'"><span class="history-task-icon">'+(t.done?'✓':'◷')+'</span><div class="history-task-copy"><b>'+esc(t.title)+'</b><small>'+esc(t.subject||'Other')+'</small></div><span class="history-status '+(t.done?'done':'pending')+'">'+(t.done?'අවසන්':'ඉතිරි')+'</span></div>').join(''):'<div class="history-line">To-Do වැඩ සටහන් නැහැ.</div>';
   const studyHtml=x.study.length?'<div class="history-line"><b>📚 Study Time</b> · '+Math.floor(mins/60)+'h '+mins%60+'m<br>'+x.study.map(s=>'<span class="history-study">'+esc(s.subject)+' · '+s.minutes+' min</span>').join('')+'</div>':'<div class="history-line">Study Time සටහන් නැහැ.</div>';
   return '<section class="history-date"><div class="history-date-title"><strong>📅 '+esc(formatHistoryDate(date))+'</strong><span class="history-count">'+done+'/'+x.tasks.length+' වැඩ අවසන්</span></div>'+taskHtml+studyHtml+'</section>';
- }).join(''):'<div class="history-empty">තවම History එකක් නැහැ.<br>To-Do හෝ Study Time සටහන් එකතු කළාම මෙතැන පෙන්වයි.</div>';
+ }).join(''):'<div class="history-empty">තවම History එකක් නැහැ.<br>අද හෝ පසුගිය දිනවල To-Do / Study Time සටහන් මෙතැන පෙන්වයි.</div>';
 }
 function formatHistoryDate(s){const p=s.split('-');if(p.length!==3)return s;const y=Number(p[0]),m=Number(p[1])-1,day=Number(p[2]);if(!Number.isInteger(y)||m<0||m>11||day<1||day>31)return s;const d=new Date(y,m,day);const months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];const weekdays=['ඉරිදා','සඳුදා','අඟහරුවාදා','බදාදා','බ්‍රහස්පතින්දා','සිකුරාදා','සෙනසුරාදා'];return y+' '+months[m]+' '+day+' · '+weekdays[d.getDay()];}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHistory();});
