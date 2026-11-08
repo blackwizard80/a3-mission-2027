@@ -918,10 +918,84 @@ nav button.active{color:#1e63bd!important;background:linear-gradient(145deg,rgba
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
+
+/* Pomodoro Focus Studio + remove legacy green accents */
+:root{--accent:#3478f6;--blue:#3478f6;--focus-blue:#3478f6;--focus-violet:#8b6cf6;--focus-cyan:#18a9cf}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:calc(14px + env(safe-area-inset-top))}
+.header-actions{display:flex;flex-direction:column;align-items:center;gap:7px;flex:0 0 48px}
+.history-trigger,.pomodoro-trigger{width:43px;height:43px;flex:0 0 43px;border-radius:15px!important;display:flex;align-items:center;justify-content:center}
+.pomodoro-trigger{padding:3px!important;flex-direction:column;gap:0;background:linear-gradient(145deg,#e8f2ff,#d8e8ff)!important;color:#245fae!important;border:1px solid #fff!important;box-shadow:0 7px 19px rgba(52,120,246,.16),inset 0 1px #fff!important}
+.pomodoro-trigger span{font-size:19px;line-height:20px}.pomodoro-trigger small{font-size:7px;font-weight:950;letter-spacing:.7px;line-height:10px}
+.pomodoro-screen{padding-bottom:18px}
+.pomo-topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 0 12px}
+.pomo-back{padding:8px 11px!important;font-size:12px}
+.pomo-kicker{font-size:9px;font-weight:950;letter-spacing:1.2px;color:#7890ad}
+.pomo-live{font-size:9px;font-weight:850;color:#3478f6;display:flex;align-items:center;gap:5px}
+.pomo-live i{width:7px;height:7px;border-radius:50%;background:#3478f6;box-shadow:0 0 0 4px rgba(52,120,246,.12)}
+.pomo-hero{position:relative;overflow:hidden;border-radius:29px;padding:21px 16px 18px;background:radial-gradient(circle at 50% 56%,rgba(103,162,255,.15),transparent 34%),linear-gradient(150deg,#152d50,#1d3c67 55%,#273b68);color:#fff;box-shadow:0 18px 45px rgba(30,62,108,.22),inset 0 1px rgba(255,255,255,.2)}
+.pomo-orbit{position:absolute;border:1px solid rgba(173,207,255,.12);border-radius:50%;pointer-events:none}
+.pomo-orbit-one{width:340px;height:340px;top:105px;left:50%;transform:translateX(-50%)}
+.pomo-orbit-two{width:440px;height:440px;top:55px;left:50%;transform:translateX(-50%)}
+.pomo-hero-copy,.pomo-mode-switch,.pomo-timer-wrap,.pomo-controls,.pomo-cycle-row{position:relative;z-index:1}
+.pomo-hero-copy{text-align:center}
+.pomo-eyebrow{font-size:9px;letter-spacing:2px;font-weight:900;color:#a9c9f7}
+.pomo-hero h1{font-size:25px;letter-spacing:-.7px;margin:7px 0 5px;color:#fff}
+.pomo-hero-copy p{font-size:11px;line-height:1.6;color:#c4d6ef;margin:0 auto;max-width:280px}
+.pomo-mode-switch{display:flex;gap:5px;padding:5px;border-radius:15px;background:rgba(8,21,42,.35);border:1px solid rgba(255,255,255,.11);margin:18px auto 17px;max-width:340px}
+.pomo-mode{flex:1;min-width:0;padding:9px 5px!important;border-radius:11px!important;font-size:10px!important;font-weight:800!important;background:transparent!important;color:#c3d5ef!important;border:1px solid transparent!important;box-shadow:none!important;white-space:nowrap}
+.pomo-mode.active{background:rgba(255,255,255,.17)!important;border-color:rgba(255,255,255,.19)!important;color:#fff!important;box-shadow:inset 0 1px rgba(255,255,255,.15)!important}
+.pomo-timer-wrap{display:flex;justify-content:center;margin:5px auto 16px}
+.pomo-ring{--timer-progress:0%;width:min(68vw,245px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from -90deg,#68baff var(--timer-progress),rgba(255,255,255,.13) var(--timer-progress));padding:9px;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 14px 35px rgba(4,17,39,.22),inset 0 1px rgba(255,255,255,.2);transition:background .3s}
+.pomo-ring-inner{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 20%,rgba(68,111,171,.48),rgba(9,25,49,.96) 72%);border:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:inset 0 8px 22px rgba(2,12,28,.25)}
+.pomo-ring-inner>span{font-size:9px;letter-spacing:1.7px;font-weight:900;color:#a9c9f7}
+.pomo-ring-inner strong{font-size:clamp(43px,12vw,59px);letter-spacing:-2px;line-height:1.2;font-variant-numeric:tabular-nums;color:#fff;margin:4px 0}
+.pomo-ring-inner small{font-size:10px;color:#bfd0e7}
+.pomo-controls{display:flex;justify-content:center;align-items:center;gap:9px}
+.pomo-start{min-width:155px!important;padding:13px 21px!important;border-radius:15px!important;background:linear-gradient(135deg,#5ba6ff,#3478f6)!important;box-shadow:0 9px 22px rgba(39,111,218,.35),inset 0 1px rgba(255,255,255,.3)!important}
+.pomo-reset,.pomo-skip{width:43px;height:43px;padding:0!important;border-radius:14px!important;background:rgba(255,255,255,.12)!important;color:#e4efff!important;border:1px solid rgba(255,255,255,.18)!important;box-shadow:none!important}
+.pomo-reset{font-size:20px}.pomo-skip{width:auto;padding:0 12px!important;font-size:11px!important}
+.pomo-cycle-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:19px}
+.pomo-cycle-row>span{font-size:8px;letter-spacing:1px;font-weight:900;color:#9db8dc}
+.pomo-cycle-row>b{font-size:10px;color:#dceaff}
+.pomo-cycle-dots{display:flex;gap:5px}
+.pomo-cycle-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.18)}
+.pomo-cycle-dots i.done{background:#67b9ff;border-color:#9bd0ff;box-shadow:0 0 9px rgba(103,185,255,.5)}
+.pomo-setup,.pomo-how,.pomo-history{margin-top:13px!important}
+.pomo-fields{display:grid;grid-template-columns:1fr;gap:7px}
+.pomo-duration-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.pomo-duration-grid label{font-size:10px;font-weight:850;color:#7085a1}
+.pomo-duration-grid select{font-size:11px;padding:9px 7px}
+.pomo-flow{display:flex;align-items:center;justify-content:space-between;gap:5px}
+.pomo-flow>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pomo-flow>div>b{font-size:9px;color:#3478f6;letter-spacing:1px}
+.pomo-flow>div>span{font-size:11px;font-weight:900;color:#29486f}
+.pomo-flow>div>small{font-size:9px;color:#8395ad;line-height:1.4}
+.pomo-flow>i{font-style:normal;color:#9bb4d3;font-size:15px}
+.pomo-count{border-radius:20px;background:#e8f1ff;color:#3478f6;padding:5px 9px;font-size:10px;font-weight:900}
+.pomo-session-list{display:flex;flex-direction:column;gap:7px}
+.pomo-session{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid rgba(178,201,232,.45);border-radius:14px;background:rgba(247,250,255,.76)}
+.pomo-session-icon{width:33px;height:33px;flex:0 0 33px;display:grid;place-items:center;border-radius:11px;background:#e5efff;color:#3478f6}
+.pomo-session-main{min-width:0;flex:1}
+.pomo-session-main b{display:block;font-size:11px;color:#29476d;overflow-wrap:anywhere}
+.pomo-session-main small{font-size:9px;color:#8294ac}
+.pomo-session-mins{font-size:11px;font-weight:900;color:#3478f6;white-space:nowrap}
+.pomodoro-screen .empty{border:1px dashed #cfdbeb;background:rgba(246,249,254,.6)}
+:root{--accent:#3478f6}
+button:not(.danger){accent-color:#3478f6}
+.item input[type=checkbox],.daily-task-check{accent-color:#3478f6!important}
+button,.btn{background:linear-gradient(135deg,#4388ff,#2869df)!important}
+nav button.active{color:#1e63bd!important;background:linear-gradient(145deg,#d5e8ff,#e7f1ff)!important}
+.daily-goal-ring{background:conic-gradient(#3478f6 var(--goal-progress),#e5edf8 0)!important}
+.daily-goal-track i,.progress>i{background:linear-gradient(90deg,#3478f6,#65b7ff)!important}
+.daily-task-check{background:#3478f6!important}
+.stat-done .stat-icon,.quick-todo .quick-icon{background:#e5efff!important;color:#3478f6!important}
+@media(max-width:420px){.pomo-hero{padding:18px 12px 16px;border-radius:25px}.pomo-hero h1{font-size:23px}.pomo-mode{font-size:9px!important;padding:9px 3px!important}.pomo-duration-grid{gap:5px}.pomo-flow>div>small{font-size:8px}.header-actions{gap:6px}}
+@media(prefers-reduced-motion:reduce){.pomo-ring{transition:none}}
+
 </style>
 </head>
 <body>
-<header><div><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></div><button class="history-trigger" aria-label="History" title="History" onclick="openHistory()">◷</button></header>
+<header><div><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></div><div class="header-actions"><button class="history-trigger" aria-label="History" title="History" onclick="openHistory()">◷</button><button class="pomodoro-trigger" aria-label="Pomodoro timer" title="Pomodoro Focus" onclick="showTab('pomodoro')"><span>◷</span><small>FOCUS</small></button></div></header>
 <main>
 <section id="home" class="tab active">
  <div class="hero dashboard-hero">
@@ -1000,6 +1074,36 @@ nav button.active{color:#1e63bd!important;background:linear-gradient(145deg,rgba
  <div class="card"><h2>Exam Countdown</h2><p class="muted">නිල විභාග දිනය දැනගත් පසු මෙතැන වෙනස් කරන්න.</p><label>Target date</label><input id="examDate" type="date" onchange="saveExamDate()"><p id="countdown" class="small"></p></div>
 </section>
 
+
+<section id="pomodoro" class="tab pomodoro-screen">
+ <div class="pomo-topbar"><button class="secondary pomo-back" onclick="showTab('home')">← Home</button><span class="pomo-kicker">A3 FOCUS STUDIO</span><span class="pomo-live"><i></i> READY</span></div>
+ <div class="pomo-hero">
+  <div class="pomo-orbit pomo-orbit-one"></div><div class="pomo-orbit pomo-orbit-two"></div>
+  <div class="pomo-hero-copy"><span class="pomo-eyebrow">POMODORO TECHNIQUE</span><h1>Focus. Rest. Repeat.</h1><p>එක වරකට එක වැඩක්. අවධානයෙන් ඉගෙනගෙන අතරමැද විවේකයක් ගන්න.</p></div>
+  <div class="pomo-mode-switch" role="group" aria-label="Timer mode">
+   <button class="pomo-mode active" data-mode="focus" onclick="pomodoroSetMode('focus')">◉ Focus</button>
+   <button class="pomo-mode" data-mode="short" onclick="pomodoroSetMode('short')">☁ Short break</button>
+   <button class="pomo-mode" data-mode="long" onclick="pomodoroSetMode('long')">✦ Long break</button>
+  </div>
+  <div class="pomo-timer-wrap"><div id="pomoRing" class="pomo-ring"><div class="pomo-ring-inner"><span id="pomoModeLabel">FOCUS SESSION</span><strong id="pomoClock">25:00</strong><small id="pomoStatus">පටන් ගන්න සූදානම්</small></div></div></div>
+  <div class="pomo-controls"><button id="pomoStartBtn" class="pomo-start" onclick="pomodoroToggle()">▶ Start Focus</button><button class="pomo-reset" onclick="pomodoroReset()" aria-label="Reset timer">↻</button><button class="pomo-skip" onclick="pomodoroSkip()">Skip →</button></div>
+  <div class="pomo-cycle-row"><span>FOCUS CYCLES</span><div id="pomoCycleDots" class="pomo-cycle-dots"><i></i><i></i><i></i><i></i></div><b id="pomoCycleText">0 / 4</b></div>
+ </div>
+ <div class="pomo-setup card">
+  <div class="section-heading"><span class="section-icon">⚙</span><div><h2>Session setup</h2><small>MAKE THIS SESSION COUNT</small></div></div>
+  <div class="pomo-fields">
+   <div><label>අද පාඩම් කරන විෂය</label><select id="pomoSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option></select></div>
+   <div><label>අවධානය යොමු කරන වැඩේ</label><input id="pomoTask" maxlength="90" placeholder="උදා: Integration - Exercise 02"></div>
+  </div>
+  <div class="pomo-duration-grid">
+   <label>Focus<select id="pomoFocusLength" onchange="pomodoroDurationChanged()"><option value="25">25 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="50">50 min</option></select></label>
+   <label>Short break<select id="pomoShortLength" onchange="pomodoroDurationChanged()"><option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option></select></label>
+   <label>Long break<select id="pomoLongLength" onchange="pomodoroDurationChanged()"><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option></select></label>
+  </div>
+ </div>
+ <div class="pomo-how card"><div class="section-heading"><span class="section-icon">✦</span><div><h2>Pomodoro flow</h2><small>HOW YOUR FOCUS CYCLE WORKS</small></div></div><div class="pomo-flow"><div><b>01</b><span>Focus</span><small>එක වැඩකට අවධානය</small></div><i>→</i><div><b>02</b><span>Short break</span><small>කෙටි විවේකයක්</small></div><i>→</i><div><b>03</b><span>Repeat × 4</span><small>ඉන්පසු දිගු විවේකය</small></div></div></div>
+ <div class="pomo-history card"><div class="section-heading"><span class="section-icon">▤</span><div><h2>Completed focus sessions</h2><small>YOUR POMODORO HISTORY</small></div><span id="pomoSessionCount" class="pomo-count">0</span></div><div id="pomoSessionList" class="pomo-session-list"><div class="empty">තවම සම්පූර්ණ කළ Focus session නැහැ.</div></div></div>
+</section>
 </main>
 <div id="historyBackdrop" class="glass-history-backdrop" onclick="closeHistory()"></div>
 <aside id="historyDrawer" class="history-drawer" aria-hidden="true">
@@ -1039,6 +1143,8 @@ state.tasks ||= []; state.days ||= {
 0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
 };
 state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
+state.pomodoro ||= {mode:'focus',remainingSeconds:1500,endAt:null,running:false,cycles:0,focusMinutes:25,shortBreakMinutes:5,longBreakMinutes:15};
+state.pomodoroSessions ||= [];
 function persist(){try{localStorage.setItem(key,JSON.stringify(state));return true;}catch(e){console.error('A3 Mission save failed:',e);alert('දත්ත Save කරන්න බැරි වුණා. Phone storage ඉඩ පරීක්ෂා කරන්න.');return false;}}
 function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(t).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));renderAll();}
 function addTask(){let title=$('taskTitle').value.trim();if(!title){alert('වැඩේ නම ලියන්න.');return}
@@ -1277,6 +1383,20 @@ function renderWeeklyInsights(weekStart){
  $('weeklyInsights').innerHTML='<div class="insight-tile insight-total"><span>⏱</span><b>'+Math.floor(total/60)+'h '+total%60+'m</b><small>Study time</small></div><div class="insight-tile insight-days"><span>◷</span><b>'+active+' / 7</b><small>Active days</small></div><div class="insight-tile insight-top"><span>✦</span><b>'+(top?esc(top[0]):'—')+'</b><small>Top subject</small></div>';
 }
 
+
+function pomoDuration(mode){const p=state.pomodoro;return (mode==='focus'?p.focusMinutes:mode==='short'?p.shortBreakMinutes:p.longBreakMinutes)*60;}
+function pomoSave(){persist();}
+function pomoFormat(seconds){const n=Math.max(0,Math.ceil(seconds));return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
+function pomoSetRemaining(){const p=state.pomodoro;p.remainingSeconds=pomoDuration(p.mode);p.endAt=null;p.running=false;}
+function pomodoroSetMode(mode){const p=state.pomodoro;if(p.running)return;if(!['focus','short','long'].includes(mode))return;p.mode=mode;pomoSetRemaining();pomoSave();pomodoroRender();}
+function pomodoroDurationChanged(){const p=state.pomodoro;if(p.running)return;p.focusMinutes=Number($('pomoFocusLength').value)||25;p.shortBreakMinutes=Number($('pomoShortLength').value)||5;p.longBreakMinutes=Number($('pomoLongLength').value)||15;pomoSetRemaining();pomoSave();pomodoroRender();}
+function pomodoroToggle(){const p=state.pomodoro;if(p.running){p.remainingSeconds=Math.max(0,Math.ceil((p.endAt-Date.now())/1000));p.running=false;p.endAt=null;pomoSave();pomodoroRender();return;}if(p.remainingSeconds<=0)pomoSetRemaining();p.running=true;p.endAt=Date.now()+p.remainingSeconds*1000;pomoSave();pomodoroRender();}
+function pomodoroReset(){const p=state.pomodoro;pomoSetRemaining();pomoSave();pomodoroRender();}
+function pomodoroSkip(){const p=state.pomodoro;if(p.running){p.running=false;p.endAt=null;}p.mode=p.mode==='focus'?(p.cycles>0&&p.cycles%4===0?'long':'short'):'focus';pomoSetRemaining();pomoSave();pomodoroRender();}
+function pomodoroComplete(){const p=state.pomodoro,finishedMode=p.mode;p.running=false;p.endAt=null;p.remainingSeconds=0;if(finishedMode==='focus'){const minutes=p.focusMinutes,subject=$('pomoSubject')?.value||'Combined Maths',task=$('pomoTask')?.value.trim()||'Pomodoro Focus',stamp=Date.now();state.study.push({id:stamp,date:today(),subject,minutes,source:'pomodoro',title:task});state.pomodoroSessions.unshift({id:stamp,date:today(),time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),subject,title:task,minutes});state.pomodoroSessions=state.pomodoroSessions.slice(0,60);p.cycles=(p.cycles||0)+1;p.mode=p.cycles%4===0?'long':'short';}else p.mode='focus';p.remainingSeconds=pomoDuration(p.mode);pomoSave();renderAll();pomodoroRender();if(typeof navigator!=='undefined'&&'vibrate' in navigator){try{navigator.vibrate([120,60,120]);}catch(e){}}}
+function pomodoroTick(){const p=state.pomodoro;if(!p.running||!p.endAt)return;const left=Math.ceil((p.endAt-Date.now())/1000);if(left<=0){pomodoroComplete();return;}p.remainingSeconds=left;pomodoroRender();}
+function pomodoroRender(){const p=state.pomodoro;if(!$('pomoClock'))return;const total=pomoDuration(p.mode),left=p.running&&p.endAt?Math.max(0,Math.ceil((p.endAt-Date.now())/1000)):Math.max(0,p.remainingSeconds),pct=total?Math.min(100,Math.max(0,(total-left)/total*100)):0;$('pomoClock').textContent=pomoFormat(left);$('pomoRing').style.setProperty('--timer-progress',pct+'%');$('pomoModeLabel').textContent=p.mode==='focus'?'FOCUS SESSION':p.mode==='short'?'SHORT BREAK':'LONG BREAK';$('pomoStatus').textContent=p.running?'අවධානයෙන් ඉදිරියට යන්න':p.mode==='focus'?'පටන් ගන්න සූදානම්':'විවේකයට සූදානම්';$('pomoStartBtn').textContent=p.running?'Ⅱ Pause':(left===total?'▶ '+(p.mode==='focus'?'Start Focus':'Start Break'):'▶ Resume');document.querySelectorAll('.pomo-mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===p.mode));$('pomoCycleText').textContent=(p.cycles%4)+' / 4';$('pomoCycleDots').innerHTML=[0,1,2,3].map(i=>'<i class="'+(i<p.cycles%4?'done':'')+'"></i>').join('');$('pomoSessionCount').textContent=state.pomodoroSessions.length;const sessions=state.pomodoroSessions.slice(0,8);$('pomoSessionList').innerHTML=sessions.length?sessions.map(x=>'<div class="pomo-session"><span class="pomo-session-icon">✓</span><div class="pomo-session-main"><b>'+esc(x.title||'Pomodoro Focus')+'</b><small>'+esc(x.subject||'')+' · '+esc(x.date||'')+' · '+esc(x.time||'')+'</small></div><span class="pomo-session-mins">'+(Number(x.minutes)||0)+'m</span></div>').join(''):'<div class="empty">තවම සම්පූර්ණ කළ Focus session නැහැ.</div>';}
+
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAll(){renderHome();renderTasks();renderDays();renderTracker();renderNotes();renderPDFLibrary();}
 
@@ -1320,7 +1440,10 @@ function checkTaskReminders(){
  if(changed)persist();
 }
 
-$('taskDate').value=today();$('filterDate').value=today();renderAll();
+$('taskDate').value=today();$('filterDate').value=today();
+$('pomoFocusLength').value=String(state.pomodoro.focusMinutes||25);$('pomoShortLength').value=String(state.pomodoro.shortBreakMinutes||5);$('pomoLongLength').value=String(state.pomodoro.longBreakMinutes||15);
+if(state.pomodoro.running&&state.pomodoro.endAt&&state.pomodoro.endAt>Date.now()){}else if(state.pomodoro.running){state.pomodoro.remainingSeconds=Math.max(0,Math.ceil((state.pomodoro.endAt-Date.now())/1000));state.pomodoro.running=false;state.pomodoro.endAt=null;persist();}
+renderAll();pomodoroRender();setInterval(pomodoroTick,1000);
 setInterval(checkTaskReminders,15000);checkTaskReminders();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
