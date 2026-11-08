@@ -1618,7 +1618,16 @@ function renderDailyTimeline(){
  if(['Class','School'].includes(day.type)&&baseStart!==null&&baseEnd!==null&&baseEnd>baseStart)events.push({start:baseStart,end:baseEnd,title:day.type==='School'?'School':'Class',detail:day.note||'Timetable',kind:'class'});
  (Array.isArray(day.activities)?day.activities:[]).forEach(a=>{const start=clockMinutes(a.start),end=clockMinutes(a.end);if(start===null){unplanned.push({title:a.title||a.type||'Timetable activity',detail:a.type||'වෙලාවක් නියම කර නැහැ'});return;}events.push({start,end:end!==null&&end>start?end:null,title:a.title||a.type||'Activity',detail:a.type||'Timetable activity',kind:'activity'});});
  state.tasks.filter(t=>t.date===today()&&t.reminderTime).forEach(t=>{const start=clockMinutes(t.reminderTime);if(start===null)return;const duration=Math.max(0,Number(t.minutes)||0);events.push({start,end:duration?start+duration:null,title:t.title,detail:(t.subject||'To-Do')+(t.done?' · අවසන්':' · කළ යුතුයි'),kind:'task',done:!!t.done});});
- events.sort((a,b)=>a.start-b.start||(a.kind==='class'?-1:1));
+ // Sort by scheduled clock time (not the order in which items were added).
+ // Use a deterministic tie-breaker for events that share the same start time.
+ events.sort((a,b)=>{
+  const byTime=a.start-b.start;
+  if(byTime!==0)return byTime;
+  const rank={class:0,activity:1,task:2};
+  const byKind=(rank[a.kind]??9)-(rank[b.kind]??9);
+  if(byKind!==0)return byKind;
+  return String(a.title||'').localeCompare(String(b.title||''),'si');
+ });
  const eventHtml=events.map(e=>{const current=e.start<=nowMinutes&&e.end!==null&&nowMinutes<e.end;const past=e.end!==null?e.end<=nowMinutes:e.start<nowMinutes;const status=e.done?'අවසන්':current?'දැන්':past?'පසු වී ඇත':'ඉදිරියට';const time=clockLabel(e.start)+(e.end!==null?' – '+clockLabel(e.end):'');return '<div class="timeline-event '+(e.kind==='class'?'timeline-class':e.kind==='task'?'timeline-task':'timeline-activity')+(current?' is-current':'')+(e.done?' is-done':'')+'"><div class="timeline-time">'+time+'</div><div class="timeline-rail"><i></i></div><div class="timeline-copy"><div class="timeline-title-row"><b>'+esc(e.title)+'</b><span class="timeline-status">'+status+'</span></div><small>'+esc(e.detail||'')+'</small></div></div>';}).join('');
  const unplannedHtml=unplanned.length?'<div class="timeline-unplanned"><b>වෙලාවක් නියම කර නැති වැඩ</b>'+unplanned.map(x=>'<span>• '+esc(x.title)+' <small>'+esc(x.detail)+'</small></span>').join('')+'</div>':'';
  root.innerHTML=(eventHtml||'<div class="timeline-empty"><span>◷</span><b>අදට වේලාවක් වෙන් කළ වැඩ නැහැ</b><small>Timetable එකට හෝ To-Do එකට වේලාවක් එකතු කළාම මෙතැන පෙන්වයි.</small></div>')+unplannedHtml;
