@@ -1222,6 +1222,60 @@ nav button.active{background:linear-gradient(145deg,#d7eaff,#edf5ff)!important;c
 @media(max-width:520px){.weekly-insights{grid-template-columns:repeat(2,minmax(0,1fr))!important}.timeline-event{grid-template-columns:68px 16px minmax(0,1fr);gap:6px}.timeline-time{font-size:10px}.timeline-unplanned{margin-left:90px}.timeline-title-row{align-items:flex-start}}
 @media(prefers-reduced-motion:no-preference){.timeline-event{animation:timelineEnter .28s ease both}@keyframes timelineEnter{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}}
 </style>
+<style>
+/* Adaptive performance mode: keep the design, reduce expensive paint work on slower phones */
+html.perf-lite{background:#f1f5fb}
+html.perf-lite body{
+ background:linear-gradient(145deg,#f5f8fd,#edf3fa)!important;
+ background-attachment:scroll!important;
+}
+html.perf-lite header,
+html.perf-lite nav,
+html.perf-lite .hero,
+html.perf-lite .card,
+html.perf-lite .stat,
+html.perf-lite .day,
+html.perf-lite .subject-tile,
+html.perf-lite .library-detail,
+html.perf-lite .subject-note-group,
+html.perf-lite .app-footer span{
+ -webkit-backdrop-filter:none!important;
+ backdrop-filter:none!important;
+}
+html.perf-lite header{background:#f7faff!important;box-shadow:0 2px 8px rgba(35,57,91,.07)!important}
+html.perf-lite nav{background:#f7faff!important;box-shadow:0 -2px 9px rgba(35,57,91,.10)!important}
+html.perf-lite .hero{background:linear-gradient(135deg,#edf5ff,#e9effb)!important;box-shadow:0 3px 12px rgba(45,69,105,.08)!important}
+html.perf-lite .hero:after,
+html.perf-lite .hero:before,
+html.perf-lite .card:before{display:none!important}
+html.perf-lite .card,
+html.perf-lite .stat,
+html.perf-lite .day{box-shadow:0 2px 8px rgba(45,69,105,.06)!important}
+html.perf-lite button,
+html.perf-lite .btn{transition:none!important;box-shadow:none!important}
+html.perf-lite .card,
+html.perf-lite .hero,
+html.perf-lite .stat,
+html.perf-lite .day{animation:none!important;transition:none!important}
+html.perf-lite .noteimg{box-shadow:none!important}
+html.perf-lite *{scroll-behavior:auto!important}
+@media(prefers-reduced-motion:reduce){
+ .card,.hero,.stat,.day,button,.btn{animation:none!important;transition:none!important}
+}
+</style>
+<script>
+/* Detect modest hardware before the main interface paints. No user data is read or changed. */
+(function(){
+  try{
+    var nav=navigator,cores=Number(nav.hardwareConcurrency)||0,ram=Number(nav.deviceMemory)||0;
+    var slowConnection=!!(nav.connection&&nav.connection.saveData);
+    var android=/Android/i.test(nav.userAgent||'');
+    var lowEnd=slowConnection||(ram>0&&ram<=3)||(cores>0&&cores<=4)||(android&&cores>0&&cores<=6);
+    if(lowEnd)document.documentElement.classList.add('perf-lite');
+  }catch(e){}
+})();
+</script>
+
 </head>
 <body>
 <header><div><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></div><div class="header-actions"><button class="history-trigger" aria-label="History" title="History" onclick="openHistory()">◷</button><button class="pomodoro-trigger" aria-label="Pomodoro timer" title="Pomodoro Focus" onclick="showTab('pomodoro')"><span>◷</span><small>FOCUS</small></button></div></header>
