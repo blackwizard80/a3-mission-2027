@@ -1294,6 +1294,11 @@ nav button.active{background:linear-gradient(135deg,#e3eaff,#efe6ff)!important;c
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
+
+/* Biology subject identity: fresh green across study UI and charts */
+.daily-task-card.maths{--task-color:#16a34a!important;background:linear-gradient(110deg,rgba(220,252,231,.82),rgba(255,255,255,.76))!important}
+.subject-progress-row.maths{border-left-color:#16a34a!important}
+.study-chart-segment.maths{background:#16a34a!important}
 </style>
 <style>
 /* Adaptive performance mode: keep the design, reduce expensive paint work on slower phones */
@@ -1737,7 +1742,7 @@ function renderStudyChart(targetId,count=7){
  const root=$(targetId);if(!root)return;
  const now=new Date(),labels=['ඉරි','සඳු','අඟ','බදා','බ්‍රහ','සිකු','සෙන'];
  const subjects=[
-  {name:'Biology',key:'maths',color:'#3478f6',soft:'#dceaff'},
+  {name:'Biology',key:'maths',color:'#16a34a',soft:'#dcfce7'},
   {name:'Physics',key:'physics',color:'#8b6cf6',soft:'#e9e2ff'},
   {name:'Chemistry',key:'chemistry',color:'#18a9cf',soft:'#d9f5fc'}
  ];
@@ -1777,7 +1782,7 @@ function renderHome(){
  }).join(''):'<div class="daily-empty"><span>✦</span><b>අදට වැඩ ලැයිස්තුව හිස්</b><small>පොඩි ඉලක්කයක් එකතු කරලා පටන් ගමු.</small><button class="secondary" onclick="showTab(\'todo\')">＋ වැඩයක් එකතු කරන්න</button></div>';
  const weekStart=weekKey(),sums={'Biology':0,'Physics':0,'Chemistry':0};
  state.study.filter(x=>x.date>=weekStart).forEach(x=>{if(sums[x.subject]!==undefined)sums[x.subject]+=Number(x.minutes)||0;});
- const colors={'Biology':'#3478f6','Physics':'#8b6cf6','Chemistry':'#18a9cf'};
+ const colors={'Biology':'#16a34a','Physics':'#8b6cf6','Chemistry':'#18a9cf'};
  $('subjectProgress').innerHTML=Object.entries(sums).map(([subject,mins])=>'<div class="subject-progress-row '+(subject==='Biology'?'maths':subject==='Physics'?'physics':'chemistry')+'"><div class="row between"><b>'+subject+'</b><span>'+Math.floor(mins/60)+'h '+mins%60+'m</span></div><div class="progress"><i style="width:'+Math.min(100,mins/600*100)+'%;background:'+colors[subject]+'"></i></div></div>').join('');
  renderStudyChart('weeklyStudyChart',7);
  renderDailyTimeline();
