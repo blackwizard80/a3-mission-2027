@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, combined-maths]
     paths:
       - 'index.html'
       - 'manifest.webmanifest'
