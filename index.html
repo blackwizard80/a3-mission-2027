@@ -1294,11 +1294,6 @@ nav button.active{background:linear-gradient(135deg,#e3eaff,#efe6ff)!important;c
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
-
-/* Biology subject identity: fresh green across study UI and charts */
-.daily-task-card.maths{--task-color:#16a34a!important;background:linear-gradient(110deg,rgba(220,252,231,.82),rgba(255,255,255,.76))!important}
-.subject-progress-row.maths{border-left-color:#16a34a!important}
-.study-chart-segment.maths{background:#16a34a!important}
 </style>
 <style>
 /* Adaptive performance mode: keep the design, reduce expensive paint work on slower phones */
@@ -1356,7 +1351,7 @@ html.perf-lite *{scroll-behavior:auto!important}
 
 </head>
 <body>
-<header><div><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Biology · Physics · Chemistry</div></div><div class="header-actions"><button class="history-trigger" aria-label="History" title="History" onclick="openHistory()">◷</button><button class="pomodoro-trigger" aria-label="Pomodoro timer" title="Pomodoro Focus" onclick="showTab('pomodoro')"><span>◷</span><small>FOCUS</small></button></div></header>
+<header><div><div class="brand">🎯 A3 MISSION 2027</div><div class="tag">දවසින් දවස ඉදිරියට · Combined Maths · Physics · Chemistry</div></div><div class="header-actions"><button class="history-trigger" aria-label="History" title="History" onclick="openHistory()">◷</button><button class="pomodoro-trigger" aria-label="Pomodoro timer" title="Pomodoro Focus" onclick="showTab('pomodoro')"><span>◷</span><small>FOCUS</small></button></div></header>
 <main>
 <section id="home" class="tab active">
  <div class="hero dashboard-hero">
@@ -1384,7 +1379,7 @@ html.perf-lite *{scroll-behavior:auto!important}
  <div class="card"><h2>➕ To-Do එකතු කරන්න</h2>
   <div class="formgrid">
    <div class="full"><label>වැඩේ / පාඩම</label><input id="taskTitle" placeholder="උදා: Vectors - Exercise 01"></div>
-   <div><label>විෂය</label><select id="taskSubject"><option>Biology</option><option>Physics</option><option>Chemistry</option><option>Other</option></select></div>
+   <div><label>විෂය</label><select id="taskSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option><option>Other</option></select></div>
    <div><label>දිනය</label><input id="taskDate" type="date"></div>
    <div><label>මතක් කරන වේලාව (අවශ්‍ය නම්)</label><input id="taskReminder" type="time"></div>
    <div><label>කාලය (මිනිත්තු)</label><input id="taskMinutes" type="number" min="0" placeholder="උදා: 45"></div>
@@ -1395,32 +1390,32 @@ html.perf-lite *{scroll-behavior:auto!important}
  <div class="card"><div class="row between"><h2 style="margin:0">📋 වැඩ ලැයිස්තුව</h2><input id="filterDate" type="date" style="width:auto" onchange="renderTasks()"></div><div id="taskList"></div></div>
 </section>
 <section id="timetable" class="tab">
- <div class="card"><h2>🗓️ සතියේ Timetable</h2><p class="muted">සිකුරාදා, සෙනසුරාදා සහ ඉරිදා Full Day Class ලෙස මුලින් සකසා ඇත. අනෙක් දවස් හිස්ව ඇත. සෑම දවසක්ම Edit කරලා ඔයාට කැමති විදිහට වෙනස් කරගන්න.</p><div id="daysList"></div></div>
+ <div class="card"><h2>🗓️ සතියේ Timetable</h2><p class="muted">ඔයා දුන්න schedule එක මුලින් ඇතුළත් කරලා තියෙනවා. බදාදා / බ්‍රහස්පතින්දා School යන දවස සතියෙන් සතියට වෙනස් නිසා ඒ දවස Edit කරගන්න.</p><div id="daysList"></div></div>
  <div class="card"><h2>දවසක් Edit කරන්න</h2>
   <div class="formgrid">
    <div><label>දවස</label><select id="editDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div>
    <div><label>වැඩ වර්ගය</label><select id="editType"><option>Class</option><option>School</option><option>Free day</option><option>Other</option></select></div>
    <div><label>ආරම්භය</label><input id="editStart" type="time" value="06:30"></div>
    <div><label>අවසන් වේලාව</label><input id="editEnd" type="time" value="18:00"></div>
-   <div class="full"><label>සටහන</label><input id="editNote" placeholder="උදා: Biology / School යනවා"></div>
+   <div class="full"><label>සටහන</label><input id="editNote" placeholder="උදා: Combined Maths / School යනවා"></div>
   </div><button style="width:100%;margin-top:12px" onclick="saveDay()">Timetable එක Update කරන්න</button>
  </div>
  <div class="card"><h2>➕ දවසේ වෙනම වැඩ එකතු කරන්න</h2><p class="muted">Class එකට අමතරව homework, revision, assignments, exam practice වගේ වැඩ දවසකට වෙන වෙනම දාගන්න.</p><div class="formgrid"><div><label>දවස</label><select id="activityDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div><div><label>වැඩ වර්ගය</label><select id="activityType"><option>Homework</option><option>Revision</option><option>Assignment</option><option>Exam practice</option><option>Personal</option><option>Other</option></select></div><div class="full"><label>කරන්න තියෙන වැඩේ</label><input id="activityTitle" maxlength="100" placeholder="උදා: Physics - තරංග ප්‍රශ්න 20ක්"></div><div><label>ආරම්භ වේලාව (විකල්ප)</label><input id="activityStart" type="time"></div><div><label>අවසන් වේලාව (විකල්ප)</label><input id="activityEnd" type="time"></div></div><button style="width:100%;margin-top:12px" onclick="addDayActivity()">මේ දවසට වැඩේ එකතු කරන්න</button></div>
-
+<div class="card"><h2>📌 මේ සතියේ School දවස</h2><p class="muted">බදාදා හෝ බ්‍රහස්පතින්දා තෝරලා මේ සතියට පමණක් School ලෙස සලකුණු කරන්න.</p><div class="row"><button class="secondary" onclick="setSchool(3)">බදාදා School</button><button class="secondary" onclick="setSchool(4)">බ්‍රහස්පතින්දා School</button><button class="secondary" onclick="setSchool(null)">ඉවත් කරන්න</button></div><p class="small" id="schoolWeekStatus"></p></div>
 </section>
 <section id="notes" class="tab">
  <div class="card"><h2>📚 Notes & Photos</h2><p class="muted">වැදගත් සටහන්වල ඡායාරූප Phone එකේම තබාගන්න.</p>
   <label>Note එකේ නම</label><input id="noteTitle" placeholder="උදා: Differentiation - Formula sheet">
-  <label>විෂය</label><select id="noteSubject"><option>Biology</option><option>Physics</option><option>Chemistry</option><option>Other</option></select>
+  <label>විෂය</label><select id="noteSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option><option>Other</option></select>
   <label>Photos (එකවර කිහිපයක් තෝරන්න පුළුවන්)</label><input id="notePhoto" type="file" accept="image/*" multiple><p class="small">Gallery එකෙන් Photos කිහිපයක් එකවර තෝරන්න. එක් Note එකකට Photos 12ක් දක්වා.</p>
   <label>කෙටි විස්තර</label><textarea id="noteDetail" rows="2" placeholder="මේ Note එකේ තියෙන්නේ..."></textarea>
   <button style="width:100%;margin-top:10px" onclick="addNote()">Note එක Save කරන්න</button>
  </div><div class="card"><div class="row between"><h2 style="margin:0">Saved Notes</h2><span class="small">විෂය අනුව වෙන් කර ඇත</span></div><div id="notesList"></div></div>
  <div class="card">
   <h2>📂 Papers & Important PDFs</h2>
-  <p class="muted">Biology, Physics සහ Chemistry papers / වැදගත් PDF වෙන වෙනම Phone එකේම save කරගන්න.</p>
+  <p class="muted">Combined Maths, Physics සහ Chemistry papers / වැදගත් PDF වෙන වෙනම Phone එකේම save කරගන්න.</p>
   <label>PDF එකේ නම</label><input id="pdfTitle" placeholder="උදා: 2025 A/L Past Paper">
-  <label>විෂය</label><select id="pdfSubject"><option>Biology</option><option>Physics</option><option>Chemistry</option></select>
+  <label>විෂය</label><select id="pdfSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option></select>
   <label>PDF File එක තෝරන්න</label><input id="pdfFile" type="file" accept="application/pdf,.pdf">
   <button style="width:100%;margin-top:11px" onclick="addPDF()">📥 PDF එක Save කරන්න</button>
   <p class="small">PDF එක Phone එකේ local storage තුළ save වෙනවා. App එකේ data clear කළොත් මේවා මැකෙන්න පුළුවන්.</p>
@@ -1429,8 +1424,9 @@ html.perf-lite *{scroll-behavior:auto!important}
 </section>
 <section id="tracker" class="tab">
  <div class="card"><h2>⏱️ Study Time Tracker</h2><p class="muted">පාඩම් කළ සැබෑ කාලය සටහන් කරන්න. මෙය ඉලක්කයක් නොව ඔයාගේ progress එක තේරුම්ගන්න උපකරණයක්.</p>
-  <label>විෂය</label><select id="studySubject"><option>Biology</option><option>Physics</option><option>Chemistry</option></select>
-  <label>අද පාඩම් කළ මිනිත්තු</label><input id="studyMinutes" type="number" min="1" placeholder="උදා: 40">
+  <label>විෂය</label><select id="studySubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option></select>
+  <label>පාඩම් කළ දිනය</label><input id="studyDate" type="date" max="">
+  <label>පාඩම් කළ මිනිත්තු</label><input id="studyMinutes" type="number" min="1" placeholder="උදා: 40">
   <button style="width:100%;margin-top:10px" onclick="addStudy()">කාලය Save කරන්න</button>
  </div><div class="card"><div class="section-heading"><span class="section-icon">▥</span><div><h2>සතියේ Study Graph</h2><small>DAILY HOURS · LAST 7 DAYS</small></div></div><div id="trackerStudyChart" class="weekly-chart"></div></div><div class="card"><div class="row between"><h2 style="margin:0">විෂය අනුව එකතුව</h2><button class="danger" onclick="clearStudy()">සියල්ල ඉවත් කරන්න</button></div><div id="studyTotals"></div><h2 style="margin-top:18px">🧾 එකතු කළ කාලයන්</h2><div id="studyEntries"></div></div>
  <div class="card"><h2>Exam Countdown</h2><p class="muted">නිල විභාග දිනය දැනගත් පසු මෙතැන වෙනස් කරන්න.</p><label>Target date</label><input id="examDate" type="date" onchange="saveExamDate()"><p id="countdown" class="small"></p></div>
@@ -1454,7 +1450,7 @@ html.perf-lite *{scroll-behavior:auto!important}
  <div class="pomo-setup card">
   <div class="section-heading"><span class="section-icon">⚙</span><div><h2>Session setup</h2><small>MAKE THIS SESSION COUNT</small></div></div>
   <div class="pomo-fields">
-   <div><label>අද පාඩම් කරන විෂය</label><select id="pomoSubject"><option>Biology</option><option>Physics</option><option>Chemistry</option></select></div>
+   <div><label>අද පාඩම් කරන විෂය</label><select id="pomoSubject"><option>Combined Maths</option><option>Physics</option><option>Chemistry</option></select></div>
    <div><label>අවධානය යොමු කරන වැඩේ</label><input id="pomoTask" maxlength="90" placeholder="උදා: Integration - Exercise 02"></div>
   </div>
   <div class="pomo-duration-grid">
@@ -1506,24 +1502,25 @@ state.tasks ||= []; state.days ||= {
 state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
 state.pomodoro ||= {mode:'focus',remainingSeconds:1500,endAt:null,running:false,cycles:0,focusMinutes:25,shortBreakMinutes:5,longBreakMinutes:15};
 state.pomodoroSessions ||= [];
-[state.tasks,state.study,state.pomodoroSessions].forEach(list=>{if(Array.isArray(list))list.forEach(item=>{if(item&&item.subject==='Combined Maths')item.subject='Biology';});});
 
 // Weekly timetable: keep edits and activities only for the active Monday-Sunday week.
 const defaultWeekDays={
-  1:{type:'Free day',start:'',end:'',note:''},
-  2:{type:'Free day',start:'',end:'',note:''},
-  3:{type:'Free day',start:'',end:'',note:''},
-  4:{type:'Free day',start:'',end:'',note:''},
+  1:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+  2:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
+  3:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
+  4:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
   5:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-  6:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-  0:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'}
+  6:{type:'Class',start:'06:30',end:'18:00',note:'උදේ 6.30 පිටත් · හවස 6ට පසු ගෙදර'},
+  0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
 };
 const activeWeekKey=weekKey();
-if(!state.timetableBioResetV1){
- state.weeklyDays={[activeWeekKey]:JSON.parse(JSON.stringify(defaultWeekDays))};
- state.schoolWeek={};state.timetableBioResetV1=true;
-}else if(!state.weeklyDays){state.weeklyDays={[activeWeekKey]:JSON.parse(JSON.stringify(defaultWeekDays))};}
-if(!state.weeklyDays[activeWeekKey])state.weeklyDays[activeWeekKey]=JSON.parse(JSON.stringify(defaultWeekDays));
+if(!state.weeklyDays){
+  // One-time migration: preserve the user's existing timetable and activities for this week.
+  state.weeklyDays={[activeWeekKey]:JSON.parse(JSON.stringify(state.days))};
+}
+if(!state.weeklyDays[activeWeekKey]){
+  state.weeklyDays[activeWeekKey]=JSON.parse(JSON.stringify(defaultWeekDays));
+}
 // Remove expired weekly edits/activities and one-week school overrides.
 // Study records, tasks, notes and their history are deliberately untouched.
 Object.keys(state.weeklyDays).forEach(k=>{if(k!==activeWeekKey)delete state.weeklyDays[k];});
@@ -1550,26 +1547,10 @@ function saveDay(){let d=$('editDay').value,days=weekDays(),old=days[d]||{};days
 function editDay(d){let x=weekDays()[d]||{};$('editDay').value=d;$('editType').value=x.type||'Free day';$('editStart').value=x.start||'';$('editEnd').value=x.end||'';$('editNote').value=x.note||'';}
 function addDayActivity(){const d=$('activityDay').value,title=$('activityTitle').value.trim();if(!title){alert('කරන්න තියෙන වැඩේ ලියන්න.');return;}const days=weekDays(),day=days[d]||(days[d]={type:'Free day',start:'',end:'',note:''});day.activities=Array.isArray(day.activities)?day.activities:[];day.activities.push({id:Date.now(),title,type:$('activityType').value,start:$('activityStart').value,end:$('activityEnd').value});if(!persist())return;$('activityTitle').value='';$('activityStart').value='';$('activityEnd').value='';renderAll();}
 function deleteDayActivity(day,id){const x=weekDays()[day];if(!x||!Array.isArray(x.activities))return;x.activities=x.activities.filter(a=>a.id!==id);persist();renderAll();}
+function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
 const dayNames={1:'සඳුදා',2:'අඟහරුවාදා',3:'බදාදා',4:'බ්‍රහස්පතින්දා',5:'සිකුරාදා',6:'සෙනසුරාදා',0:'ඉරිදා'};
-function renderDays(){const todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(weekDays()[d]||{})};const isToday=d===todayIndex,activities=Array.isArray(x.activities)?x.activities:[];const items=activities.length?'<div class="day-activities">'+activities.map(a=>'<div class="day-activity"><div class="day-activity-main"><strong>'+esc(a.title)+'</strong><small>'+esc(a.type||'Other')+(a.start?' · '+a.start+(a.end?' – '+a.end:''):'')+'</small></div><button class="danger" onclick="deleteDayActivity('+d+','+a.id+')">×</button></div>').join('')+'</div>':'';return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+(x.end||''):''}<br>${esc(x.note||'')}</p>${items}</div>`}).join('');}
-function openDB(){return new Promise((res,rej)=>{
- let r=indexedDB.open('A3MissionNotes',2);
- r.onupgradeneeded=()=>{let db=r.result;if(!db.objectStoreNames.contains('notes'))db.createObjectStore('notes',{keyPath:'id'});if(!db.objectStoreNames.contains('resources'))db.createObjectStore('resources',{keyPath:'id'});};
- r.onsuccess=()=>{
-  const db=r.result,flag='a3_biology_subject_migration_v1';
-  try{
-   if(localStorage.getItem(flag)==='1'){res(db);return;}
-   const tx=db.transaction(['notes','resources'],'readwrite');
-   ['notes','resources'].forEach(name=>{
-    const store=tx.objectStore(name),req=store.getAll();
-    req.onsuccess=()=>req.result.forEach(item=>{if(item&&item.subject==='Combined Maths'){item.subject='Biology';store.put(item);}});
-   });
-   tx.oncomplete=()=>{try{localStorage.setItem(flag,'1');}catch(e){}res(db);};
-   tx.onerror=()=>res(db);tx.onabort=()=>res(db);
-  }catch(e){res(db);}
- };
- r.onerror=()=>rej(r.error);
-});}
+function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk],todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(weekDays()[d]||{})};if(Number(sd)===d){x={...x,type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};}const isToday=d===todayIndex,activities=Array.isArray(x.activities)?x.activities:[];const items=activities.length?'<div class="day-activities">'+activities.map(a=>'<div class="day-activity"><div class="day-activity-main"><strong>'+esc(a.title)+'</strong><small>'+esc(a.type||'Other')+(a.start?' · '+a.start+(a.end?' – '+a.end:''):'')+'</small></div><button class="danger" onclick="deleteDayActivity('+d+','+a.id+')">×</button></div>').join('')+'</div>':'';return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+(x.end||''):''}<br>${esc(x.note||'')}</p>${items}</div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
+function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',2);r.onupgradeneeded=()=>{let db=r.result;if(!db.objectStoreNames.contains('notes'))db.createObjectStore('notes',{keyPath:'id'});if(!db.objectStoreNames.contains('resources'))db.createObjectStore('resources',{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function addNote(){
  const title=$('noteTitle').value.trim(),files=Array.from($('notePhoto').files||[]);
  if(!title){alert('Note එකට නමක් දෙන්න.');return}
@@ -1590,7 +1571,7 @@ async function renderNotes(){
   noteGalleryURLs.forEach(url=>URL.revokeObjectURL(url));noteGalleryURLs=[];
   const db=await openDB(),tx=db.transaction("notes","readonly"),req=tx.objectStore("notes").getAll();
  req.onsuccess=()=>{
-  const all=req.result.sort((x,y)=>y.id-x.id),subjects=["Biology","Physics","Chemistry"],icons={"Biology":"📘","Physics":"📗","Chemistry":"📙"};
+  const all=req.result.sort((x,y)=>y.id-x.id),subjects=["Combined Maths","Physics","Chemistry"],icons={"Combined Maths":"📘","Physics":"📗","Chemistry":"📙"};
   if(!selectedNoteSubject){
    $("notesList").innerHTML='<div class="subject-hub">'+subjects.map(s=>'<button class="subject-tile" data-subject="'+s+'" onclick="selectNoteSubject(this.dataset.subject)"><span class="tile-icon">'+icons[s]+'</span><strong>'+s+'</strong><small>'+all.filter(n=>(n.subject||"Other")===s).length+' Notes</small></button>').join("")+'</div>';
   }else{
@@ -1655,7 +1636,7 @@ function backToPDFList(){selectedPDFId=null;renderPDFLibrary()}
 async function renderPDFLibrary(){
  const db=await openDB(),tx=db.transaction("resources","readonly"),req=tx.objectStore("resources").getAll();
  req.onsuccess=()=>{
-  const all=req.result.sort((a,b)=>b.id-a.id),subjects=["Biology","Physics","Chemistry"],icons={"Biology":"📘","Physics":"📗","Chemistry":"📙"};
+  const all=req.result.sort((a,b)=>b.id-a.id),subjects=["Combined Maths","Physics","Chemistry"],icons={"Combined Maths":"📘","Physics":"📗","Chemistry":"📙"};
   if(!selectedPDFSubject){
    $("pdfLibrary").innerHTML='<h2>📂 Papers & PDFs</h2><p class="muted">විෂය තෝරන්න</p><div class="subject-hub">'+subjects.map(s=>'<button class="subject-tile" data-subject="'+s+'" onclick="selectPDFSubject(this.dataset.subject)"><span class="tile-icon">'+icons[s]+'</span><strong>'+s+'</strong><small>'+all.filter(x=>x.subject===s).length+' PDFs</small></button>').join("")+'</div>';
   }else{
@@ -1735,14 +1716,14 @@ function renderHistory(){
 function formatHistoryDate(s){const p=s.split('-');if(p.length!==3)return s;const y=Number(p[0]),m=Number(p[1])-1,day=Number(p[2]);if(!Number.isInteger(y)||m<0||m>11||day<1||day>31)return s;const d=new Date(y,m,day);const months=['ජනවාරි','පෙබරවාරි','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝස්තු','සැප්තැම්බර්','ඔක්තෝබර්','නොවැම්බර්','දෙසැම්බර්'];const weekdays=['ඉරිදා','සඳුදා','අඟහරුවාදා','බදාදා','බ්‍රහස්පතින්දා','සිකුරාදා','සෙනසුරාදා'];return y+' '+months[m]+' '+day+' · '+weekdays[d.getDay()];}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHistory();});
 
-function addStudy(){let m=+$('studyMinutes').value;if(!m||m<1){alert('මිනිත්තු ගණන ඇතුළත් කරන්න.');return}state.study.push({id:Date.now(),date:today(),subject:$('studySubject').value,minutes:m});persist();$('studyMinutes').value='';renderAll();}
+function addStudy(){const date=$('studyDate').value||today(),m=+$('studyMinutes').value;if(date>today()){alert('අනාගත දිනයකට Study time එකතු කරන්න බැහැ.');return}if(!m||m<1){alert('මිනිත්තු ගණන ඇතුළත් කරන්න.');return}state.study.push({id:Date.now(),date,subject:$('studySubject').value,minutes:m});if(!persist())return;$('studyMinutes').value='';$('studyDate').value=today();renderAll();}
 function deleteStudy(id){if(!confirm('මේ Study time සටහන ඉවත් කරන්නද?'))return;state.study=state.study.filter(x=>x.id!==id);persist();renderAll();}
 function clearStudy(){if(!state.study.length)return;if(!confirm('සියලුම Study time සටහන් ඉවත් කරන්නද?'))return;state.study=[];persist();renderAll();}
 function renderStudyChart(targetId,count=7){
  const root=$(targetId);if(!root)return;
  const now=new Date(),labels=['ඉරි','සඳු','අඟ','බදා','බ්‍රහ','සිකු','සෙන'];
  const subjects=[
-  {name:'Biology',key:'maths',color:'#16a34a',soft:'#dcfce7'},
+  {name:'Combined Maths',key:'maths',color:'#3478f6',soft:'#dceaff'},
   {name:'Physics',key:'physics',color:'#8b6cf6',soft:'#e9e2ff'},
   {name:'Chemistry',key:'chemistry',color:'#18a9cf',soft:'#d9f5fc'}
  ];
@@ -1765,7 +1746,7 @@ function renderStudyChart(targetId,count=7){
  const legend='<div class="study-chart-legend">'+subjects.map(x=>'<span><i style="background:'+x.color+'"></i>'+x.name+'</span>').join('')+'</div>';
  root.innerHTML=days.some(x=>x.mins>0)?bars+legend:'<div class="study-chart-empty">Study time එකතු කළාම විෂය අනුව graph එක මෙතැන පෙන්වයි.</div>'+legend;
 }
-function renderTracker(){renderStudyChart('trackerStudyChart',7);let sums={'Biology':0,'Physics':0,'Chemistry':0};state.study.forEach(s=>{if(sums[s.subject]!==undefined)sums[s.subject]+=s.minutes;});$('studyTotals').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');$('studyEntries').innerHTML=state.study.length?state.study.slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.id||0)-(a.id||0)).map(s=>`<div class="study-entry"><div class="itemmain"><strong>${esc(s.subject)}</strong><div class="small">${esc(s.date)} · ${s.minutes} මිනිත්තු</div></div><button class="danger" onclick="deleteStudy(${s.id})">ඉවත් කරන්න</button></div>`).join(''):'<div class="empty">තවම Study time සටහන් නැහැ.</div>';$('examDate').value=state.examDate;let days=Math.ceil((new Date(state.examDate+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);$('countdown').textContent=days>=0?`තෝරාගත් දිනයට දවස් ${days}යි.`:'තෝරාගත් දිනය පසු වී ඇත.';}
+function renderTracker(){$('studyDate').max=today();if(!$('studyDate').value)$('studyDate').value=today();renderStudyChart('trackerStudyChart',7);let sums={'Combined Maths':0,'Physics':0,'Chemistry':0};state.study.forEach(s=>{if(sums[s.subject]!==undefined)sums[s.subject]+=s.minutes;});$('studyTotals').innerHTML=Object.entries(sums).map(([s,m])=>`<p class="row between"><b>${s}</b><span>${Math.floor(m/60)}h ${m%60}m</span></p><div class="progress"><i style="width:${Math.min(100,m/600*100)}%"></i></div>`).join('');$('studyEntries').innerHTML=state.study.length?state.study.slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.id||0)-(a.id||0)).map(s=>`<div class="study-entry"><div class="itemmain"><strong>${esc(s.subject)}</strong><div class="small">${esc(s.date)} · ${s.minutes} මිනිත්තු</div></div><button class="danger" onclick="deleteStudy(${s.id})">ඉවත් කරන්න</button></div>`).join(''):'<div class="empty">තවම Study time සටහන් නැහැ.</div>';$('examDate').value=state.examDate;let days=Math.ceil((new Date(state.examDate+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);$('countdown').textContent=days>=0?`තෝරාගත් දිනයට දවස් ${days}යි.`:'තෝරාගත් දිනය පසු වී ඇත.';}
 function saveExamDate(){state.examDate=$('examDate').value;persist();renderTracker();}
 function renderHome(){
  const d=today(),arr=state.tasks.filter(t=>t.date===d),done=arr.filter(t=>t.done).length,remaining=arr.length-done;
@@ -1776,14 +1757,14 @@ function renderHome(){
  const pct=arr.length?Math.round(done/arr.length*100):0,totalMinutes=arr.reduce((a,t)=>a+(Number(t.minutes)||0),0),doneMinutes=arr.filter(t=>t.done).reduce((a,t)=>a+(Number(t.minutes)||0),0);
  $('dailyGoalSummary').innerHTML='<div class="daily-goal-ring" style="--goal-progress:'+pct+'%"><div><b>'+pct+'%</b><small>DONE</small></div></div><div class="daily-goal-copy"><strong>'+(arr.length?(remaining?'ඉලක්කයට තව ටිකයි!':'අද ඉලක්කය සම්පූර්ණයි!'):'අදට ඉලක්කයක් තෝරගමු')+'</strong><p>'+done+' / '+arr.length+' වැඩ අවසන් · '+(remaining?remaining+'ක් ඉතිරියි':'හොඳ වැඩක්!')+'</p><div class="daily-goal-track"><i style="width:'+pct+'%"></i></div><small>'+doneMinutes+' / '+totalMinutes+' min planned</small></div>';
  $('todayTasks').innerHTML=arr.length?arr.slice().sort(compareTaskSchedule).map(t=>{
-  const subjectClass=t.subject==='Biology'?'maths':t.subject==='Physics'?'physics':t.subject==='Chemistry'?'chemistry':'other';
+  const subjectClass=t.subject==='Combined Maths'?'maths':t.subject==='Physics'?'physics':t.subject==='Chemistry'?'chemistry':'other';
   const pc=priorityClass(t.priority),time=t.reminderTime?'<span class="daily-task-time">◷ '+esc(t.reminderTime)+'</span>':'';
   return '<div class="daily-task-card '+subjectClass+' '+(t.done?'is-done':'')+'"><button class="daily-task-check '+(t.done?'checked':'')+'" aria-label="වැඩ අවසන් කරන්න" onclick="toggleTask('+t.id+')">'+(t.done?'✓':'')+'</button><div class="daily-task-content"><strong>'+esc(t.title)+'</strong><div class="daily-task-meta"><span class="daily-subject-chip">'+esc(t.subject)+'</span>'+time+(t.minutes?'<span>'+esc(t.minutes)+' min</span>':'')+'</div></div><span class="daily-priority '+pc+'">'+esc(t.priority||'සාමාන්‍ය')+'</span></div>';
  }).join(''):'<div class="daily-empty"><span>✦</span><b>අදට වැඩ ලැයිස්තුව හිස්</b><small>පොඩි ඉලක්කයක් එකතු කරලා පටන් ගමු.</small><button class="secondary" onclick="showTab(\'todo\')">＋ වැඩයක් එකතු කරන්න</button></div>';
- const weekStart=weekKey(),sums={'Biology':0,'Physics':0,'Chemistry':0};
+ const weekStart=weekKey(),sums={'Combined Maths':0,'Physics':0,'Chemistry':0};
  state.study.filter(x=>x.date>=weekStart).forEach(x=>{if(sums[x.subject]!==undefined)sums[x.subject]+=Number(x.minutes)||0;});
- const colors={'Biology':'#16a34a','Physics':'#8b6cf6','Chemistry':'#18a9cf'};
- $('subjectProgress').innerHTML=Object.entries(sums).map(([subject,mins])=>'<div class="subject-progress-row '+(subject==='Biology'?'maths':subject==='Physics'?'physics':'chemistry')+'"><div class="row between"><b>'+subject+'</b><span>'+Math.floor(mins/60)+'h '+mins%60+'m</span></div><div class="progress"><i style="width:'+Math.min(100,mins/600*100)+'%;background:'+colors[subject]+'"></i></div></div>').join('');
+ const colors={'Combined Maths':'#3478f6','Physics':'#8b6cf6','Chemistry':'#18a9cf'};
+ $('subjectProgress').innerHTML=Object.entries(sums).map(([subject,mins])=>'<div class="subject-progress-row '+(subject==='Combined Maths'?'maths':subject==='Physics'?'physics':'chemistry')+'"><div class="row between"><b>'+subject+'</b><span>'+Math.floor(mins/60)+'h '+mins%60+'m</span></div><div class="progress"><i style="width:'+Math.min(100,mins/600*100)+'%;background:'+colors[subject]+'"></i></div></div>').join('');
  renderStudyChart('weeklyStudyChart',7);
  renderDailyTimeline();
  renderWeeklyInsights(weekStart);
@@ -1794,6 +1775,7 @@ function renderDailyTimeline(){
  const root=$('dailyTimeline');if(!root)return;
  const now=new Date(),dayIndex=now.getDay(),nowMinutes=now.getHours()*60+now.getMinutes(),events=[],unplanned=[];
  let day={...(weekDays()[dayIndex]||{})};
+ if(Number(state.schoolWeek?.[weekKey()])===dayIndex)day={...day,type:'School',start:'06:30',end:'18:00',note:'මේ සතියේ පමණක් School'};
  const baseStart=clockMinutes(day.start),baseEnd=clockMinutes(day.end);
  if(['Class','School'].includes(day.type)&&baseStart!==null&&baseEnd!==null&&baseEnd>baseStart)events.push({start:baseStart,end:baseEnd,title:day.type==='School'?'School':'Class',detail:day.note||'Timetable',kind:'class'});
  (Array.isArray(day.activities)?day.activities:[]).forEach(a=>{const start=clockMinutes(a.start||a.time||a.startTime),end=clockMinutes(a.end||a.endTime);if(start===null){unplanned.push({title:a.title||a.type||'Timetable activity',detail:a.type||'වෙලාවක් නියම කර නැහැ'});return;}events.push({start,end:end!==null&&end>start?end:null,title:a.title||a.type||'Activity',detail:a.type||'Timetable activity',kind:'activity'});});
@@ -1818,7 +1800,7 @@ function renderDailyTimeline(){
 }
 function renderWeeklyInsights(weekStart){
  const end=today(),items=state.study.filter(x=>x.date>=weekStart&&x.date<=end),total=items.reduce((n,x)=>n+(Number(x.minutes)||0),0),active=new Set(items.filter(x=>(Number(x.minutes)||0)>0).map(x=>x.date)).size;
- const totals={'Biology':0,'Physics':0,'Chemistry':0};items.forEach(x=>{if(totals[x.subject]!==undefined)totals[x.subject]+=Number(x.minutes)||0;});
+ const totals={'Combined Maths':0,'Physics':0,'Chemistry':0};items.forEach(x=>{if(totals[x.subject]!==undefined)totals[x.subject]+=Number(x.minutes)||0;});
  const top=Object.entries(totals).sort((a,b)=>b[1]-a[1]).find(x=>x[1]>0);
  const average=active?Math.round(total/active):0;
  $('weeklyInsights').innerHTML='<div class="insight-tile insight-total"><span>⏱</span><b>'+Math.floor(total/60)+'h '+total%60+'m</b><small>Study time</small></div><div class="insight-tile insight-days"><span>◷</span><b>'+active+' / 7</b><small>Active days</small></div><div class="insight-tile insight-average"><span>↗</span><b>'+Math.floor(average/60)+'h '+average%60+'m</b><small>Avg. per active day</small></div><div class="insight-tile insight-top"><span>✦</span><b>'+(top?esc(top[0]):'—')+'</b><small>Top subject</small></div>';
@@ -1834,7 +1816,7 @@ function pomodoroDurationChanged(){const p=state.pomodoro;if(p.running)return;p.
 function pomodoroToggle(){const p=state.pomodoro;if(p.running){p.remainingSeconds=Math.max(0,Math.ceil((p.endAt-Date.now())/1000));p.running=false;p.endAt=null;pomoSave();pomodoroRender();return;}if(p.remainingSeconds<=0)pomoSetRemaining();p.running=true;p.endAt=Date.now()+p.remainingSeconds*1000;pomoSave();pomodoroRender();}
 function pomodoroReset(){const p=state.pomodoro;pomoSetRemaining();pomoSave();pomodoroRender();}
 function pomodoroSkip(){const p=state.pomodoro;if(p.running){p.running=false;p.endAt=null;}p.mode=p.mode==='focus'?(p.cycles>0&&p.cycles%4===0?'long':'short'):'focus';pomoSetRemaining();pomoSave();pomodoroRender();}
-function pomodoroComplete(){const p=state.pomodoro,finishedMode=p.mode;p.running=false;p.endAt=null;p.remainingSeconds=0;if(finishedMode==='focus'){const minutes=p.focusMinutes,subject=$('pomoSubject')?.value||'Biology',task=$('pomoTask')?.value.trim()||'Pomodoro Focus',stamp=Date.now();state.study.push({id:stamp,date:today(),subject,minutes,source:'pomodoro',title:task});state.pomodoroSessions.unshift({id:stamp,date:today(),time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),subject,title:task,minutes});state.pomodoroSessions=state.pomodoroSessions.slice(0,60);p.cycles=(p.cycles||0)+1;p.mode=p.cycles%4===0?'long':'short';}else p.mode='focus';p.remainingSeconds=pomoDuration(p.mode);pomoSave();renderAll();pomodoroRender();if(typeof navigator!=='undefined'&&'vibrate' in navigator){try{navigator.vibrate([120,60,120]);}catch(e){}}}
+function pomodoroComplete(){const p=state.pomodoro,finishedMode=p.mode;p.running=false;p.endAt=null;p.remainingSeconds=0;if(finishedMode==='focus'){const minutes=p.focusMinutes,subject=$('pomoSubject')?.value||'Combined Maths',task=$('pomoTask')?.value.trim()||'Pomodoro Focus',stamp=Date.now();state.study.push({id:stamp,date:today(),subject,minutes,source:'pomodoro',title:task});state.pomodoroSessions.unshift({id:stamp,date:today(),time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),subject,title:task,minutes});state.pomodoroSessions=state.pomodoroSessions.slice(0,60);p.cycles=(p.cycles||0)+1;p.mode=p.cycles%4===0?'long':'short';}else p.mode='focus';p.remainingSeconds=pomoDuration(p.mode);pomoSave();renderAll();pomodoroRender();if(typeof navigator!=='undefined'&&'vibrate' in navigator){try{navigator.vibrate([120,60,120]);}catch(e){}}}
 function pomodoroTick(){const p=state.pomodoro;if(!p.running||!p.endAt)return;const left=Math.ceil((p.endAt-Date.now())/1000);if(left<=0){pomodoroComplete();return;}p.remainingSeconds=left;pomodoroRender();}
 function pomodoroRender(){const p=state.pomodoro;if(!$('pomoClock'))return;const total=pomoDuration(p.mode),left=p.running&&p.endAt?Math.max(0,Math.ceil((p.endAt-Date.now())/1000)):Math.max(0,p.remainingSeconds),pct=total?Math.min(100,Math.max(0,(total-left)/total*100)):0;$('pomoClock').textContent=pomoFormat(left);$('pomoRing').style.setProperty('--timer-progress',pct+'%');$('pomoModeLabel').textContent=p.mode==='focus'?'FOCUS SESSION':p.mode==='short'?'SHORT BREAK':'LONG BREAK';$('pomoStatus').textContent=p.running?'අවධානයෙන් ඉදිරියට යන්න':p.mode==='focus'?'පටන් ගන්න සූදානම්':'විවේකයට සූදානම්';$('pomoStartBtn').textContent=p.running?'Ⅱ Pause':(left===total?'▶ '+(p.mode==='focus'?'Start Focus':'Start Break'):'▶ Resume');document.querySelectorAll('.pomo-mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===p.mode));$('pomoCycleText').textContent=(p.cycles%4)+' / 4';$('pomoCycleDots').innerHTML=[0,1,2,3].map(i=>'<i class="'+(i<p.cycles%4?'done':'')+'"></i>').join('');$('pomoSessionCount').textContent=state.pomodoroSessions.length;const sessions=state.pomodoroSessions.slice(0,8);$('pomoSessionList').innerHTML=sessions.length?sessions.map(x=>'<div class="pomo-session"><span class="pomo-session-icon">✓</span><div class="pomo-session-main"><b>'+esc(x.title||'Pomodoro Focus')+'</b><small>'+esc(x.subject||'')+' · '+esc(x.date||'')+' · '+esc(x.time||'')+'</small></div><span class="pomo-session-mins">'+(Number(x.minutes)||0)+'m</span></div>').join(''):'<div class="empty">තවම සම්පූර්ණ කළ Focus session නැහැ.</div>';}
 
