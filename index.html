@@ -1378,7 +1378,7 @@ html.perf-lite *{scroll-behavior:auto!important}
 <section id="todo" class="tab">
  <div class="card"><h2>➕ To-Do එකතු කරන්න</h2>
   <div class="formgrid">
-   <div class="full"><label>වැඩේ / පාඩම</label><input id="taskTitle" placeholder="උදා: Vectors - Exercise 01"></div>
+   <div class="full"><label>වැඩේ / පාඩම</label><input id="taskTitle" placeholder="උදා: ගිණුම්කරණය - අභ්‍යාස 01"></div>
    <div><label>විෂය</label><select id="taskSubject"><option>Accounting</option><option>Business Studies</option><option>ICT</option><option>Other</option></select></div>
    <div><label>දිනය</label><input id="taskDate" type="date"></div>
    <div><label>මතක් කරන වේලාව (අවශ්‍ය නම්)</label><input id="taskReminder" type="time"></div>
@@ -1400,12 +1400,12 @@ html.perf-lite *{scroll-behavior:auto!important}
    <div class="full"><label>සටහන</label><input id="editNote" placeholder="උදා: Accounting / School යනවා"></div>
   </div><button style="width:100%;margin-top:12px" onclick="saveDay()">Timetable එක Update කරන්න</button>
  </div>
- <div class="card"><h2>➕ දවසේ වෙනම වැඩ එකතු කරන්න</h2><p class="muted">Class එකට අමතරව homework, revision, assignments, exam practice වගේ වැඩ දවසකට වෙන වෙනම දාගන්න.</p><div class="formgrid"><div><label>දවස</label><select id="activityDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div><div><label>වැඩ වර්ගය</label><select id="activityType"><option>Homework</option><option>Revision</option><option>Assignment</option><option>Exam practice</option><option>Personal</option><option>Other</option></select></div><div class="full"><label>කරන්න තියෙන වැඩේ</label><input id="activityTitle" maxlength="100" placeholder="උදා: Business Studies - තරංග ප්‍රශ්න 20ක්"></div><div><label>ආරම්භ වේලාව (විකල්ප)</label><input id="activityStart" type="time"></div><div><label>අවසන් වේලාව (විකල්ප)</label><input id="activityEnd" type="time"></div></div><button style="width:100%;margin-top:12px" onclick="addDayActivity()">මේ දවසට වැඩේ එකතු කරන්න</button></div>
+ <div class="card"><h2>➕ දවසේ වෙනම වැඩ එකතු කරන්න</h2><p class="muted">Class එකට අමතරව homework, revision, assignments, exam practice වගේ වැඩ දවසකට වෙන වෙනම දාගන්න.</p><div class="formgrid"><div><label>දවස</label><select id="activityDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div><div><label>වැඩ වර්ගය</label><select id="activityType"><option>Homework</option><option>Revision</option><option>Assignment</option><option>Exam practice</option><option>Personal</option><option>Other</option></select></div><div class="full"><label>කරන්න තියෙන වැඩේ</label><input id="activityTitle" maxlength="100" placeholder="උදා: පාඩමට අදාළ ප්‍රශ්න 20ක්"></div><div><label>ආරම්භ වේලාව (විකල්ප)</label><input id="activityStart" type="time"></div><div><label>අවසන් වේලාව (විකල්ප)</label><input id="activityEnd" type="time"></div></div><button style="width:100%;margin-top:12px" onclick="addDayActivity()">මේ දවසට වැඩේ එකතු කරන්න</button></div>
 
 </section>
 <section id="notes" class="tab">
  <div class="card"><h2>📚 Notes & Photos</h2><p class="muted">වැදගත් සටහන්වල ඡායාරූප Phone එකේම තබාගන්න.</p>
-  <label>Note එකේ නම</label><input id="noteTitle" placeholder="උදා: Differentiation - Formula sheet">
+  <label>Note එකේ නම</label><input id="noteTitle" placeholder="උදා: ගිණුම්කරණය - සූත්‍ර සටහන">
   <label>විෂය</label><select id="noteSubject"><option>Accounting</option><option>Business Studies</option><option>ICT</option><option>Other</option></select>
   <label>Photos (එකවර කිහිපයක් තෝරන්න පුළුවන්)</label><input id="notePhoto" type="file" accept="image/*" multiple><p class="small">Gallery එකෙන් Photos කිහිපයක් එකවර තෝරන්න. එක් Note එකකට Photos 12ක් දක්වා.</p>
   <label>කෙටි විස්තර</label><textarea id="noteDetail" rows="2" placeholder="මේ Note එකේ තියෙන්නේ..."></textarea>
@@ -1451,7 +1451,7 @@ html.perf-lite *{scroll-behavior:auto!important}
   <div class="section-heading"><span class="section-icon">⚙</span><div><h2>Session setup</h2><small>MAKE THIS SESSION COUNT</small></div></div>
   <div class="pomo-fields">
    <div><label>අද පාඩම් කරන විෂය</label><select id="pomoSubject"><option>Accounting</option><option>Business Studies</option><option>ICT</option></select></div>
-   <div><label>අවධානය යොමු කරන වැඩේ</label><input id="pomoTask" maxlength="90" placeholder="උදා: Integration - Exercise 02"></div>
+   <div><label>අවධානය යොමු කරන වැඩේ</label><input id="pomoTask" maxlength="90" placeholder="උදා: පාඩම - අභ්‍යාස 02"></div>
   </div>
   <div class="pomo-duration-grid">
    <label>Focus<select id="pomoFocusLength" onchange="pomodoroDurationChanged()"><option value="25">25 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="50">50 min</option></select></label>
