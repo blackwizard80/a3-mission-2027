@@ -1390,18 +1390,18 @@ html.perf-lite *{scroll-behavior:auto!important}
  <div class="card"><div class="row between"><h2 style="margin:0">📋 වැඩ ලැයිස්තුව</h2><input id="filterDate" type="date" style="width:auto" onchange="renderTasks()"></div><div id="taskList"></div></div>
 </section>
 <section id="timetable" class="tab">
- <div class="card"><h2>🗓️ සතියේ Timetable</h2><p class="muted">ඔයා දුන්න schedule එක මුලින් ඇතුළත් කරලා තියෙනවා. බදාදා / බ්‍රහස්පතින්දා School යන දවස සතියෙන් සතියට වෙනස් නිසා ඒ දවස Edit කරගන්න.</p><div id="daysList"></div></div>
+ <div class="card"><h2>🗓️ සතියේ Timetable</h2><p class="muted">සතියේ දවස් 7ටම ඔයාට අවශ්‍ය වේලාවන් සහ වැඩ වෙන වෙනම එකතු කරලා Timetable එක සකස් කරගන්න.</p><div id="daysList"></div></div>
  <div class="card"><h2>දවසක් Edit කරන්න</h2>
   <div class="formgrid">
    <div><label>දවස</label><select id="editDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div>
-   <div><label>වැඩ වර්ගය</label><select id="editType"><option>Class</option><option>School</option><option>Free day</option><option>Other</option></select></div>
-   <div><label>ආරම්භය</label><input id="editStart" type="time" value="06:30"></div>
-   <div><label>අවසන් වේලාව</label><input id="editEnd" type="time" value="18:00"></div>
+   <div><label>වැඩ වර්ගය</label><select id="editType"><option value="">වැඩ වර්ගය තෝරන්න</option><option>Class</option><option>School</option><option>Free day</option><option>Other</option></select></div>
+   <div><label>ආරම්භය</label><input id="editStart" type="time"></div>
+   <div><label>අවසන් වේලාව</label><input id="editEnd" type="time"></div>
    <div class="full"><label>සටහන</label><input id="editNote" placeholder="උදා: Accounting / School යනවා"></div>
   </div><button style="width:100%;margin-top:12px" onclick="saveDay()">Timetable එක Update කරන්න</button>
  </div>
  <div class="card"><h2>➕ දවසේ වෙනම වැඩ එකතු කරන්න</h2><p class="muted">Class එකට අමතරව homework, revision, assignments, exam practice වගේ වැඩ දවසකට වෙන වෙනම දාගන්න.</p><div class="formgrid"><div><label>දවස</label><select id="activityDay"><option value="1">සඳුදා</option><option value="2">අඟහරුවාදා</option><option value="3">බදාදා</option><option value="4">බ්‍රහස්පතින්දා</option><option value="5">සිකුරාදා</option><option value="6">සෙනසුරාදා</option><option value="0">ඉරිදා</option></select></div><div><label>වැඩ වර්ගය</label><select id="activityType"><option>Homework</option><option>Revision</option><option>Assignment</option><option>Exam practice</option><option>Personal</option><option>Other</option></select></div><div class="full"><label>කරන්න තියෙන වැඩේ</label><input id="activityTitle" maxlength="100" placeholder="උදා: Business Studies - තරංග ප්‍රශ්න 20ක්"></div><div><label>ආරම්භ වේලාව (විකල්ප)</label><input id="activityStart" type="time"></div><div><label>අවසන් වේලාව (විකල්ප)</label><input id="activityEnd" type="time"></div></div><button style="width:100%;margin-top:12px" onclick="addDayActivity()">මේ දවසට වැඩේ එකතු කරන්න</button></div>
-<div class="card"><h2>📌 මේ සතියේ School දවස</h2><p class="muted">බදාදා හෝ බ්‍රහස්පතින්දා තෝරලා මේ සතියට පමණක් School ලෙස සලකුණු කරන්න.</p><div class="row"><button class="secondary" onclick="setSchool(3)">බදාදා School</button><button class="secondary" onclick="setSchool(4)">බ්‍රහස්පතින්දා School</button><button class="secondary" onclick="setSchool(null)">ඉවත් කරන්න</button></div><p class="small" id="schoolWeekStatus"></p></div>
+
 </section>
 <section id="notes" class="tab">
  <div class="card"><h2>📚 Notes & Photos</h2><p class="muted">වැදගත් සටහන්වල ඡායාරූප Phone එකේම තබාගන්න.</p>
@@ -1490,36 +1490,18 @@ const key='a3mission2027_v1';
 let selectedNoteSubject=null,selectedNoteId=null,selectedPDFSubject=null,selectedPDFId=null;
 let state={};
 try{state=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(e){console.error('A3 Mission saved data could not be parsed:',e);}
-state.tasks ||= []; state.days ||= {
-1:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-2:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-3:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
-4:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
-5:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-6:{type:'Class',start:'06:30',end:'18:00',note:'උදේ 6.30 පිටත් · හවස 6ට පසු ගෙදර'},
-0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
-};
-state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
+state.tasks ||= []; state.days ||= {}; state.study ||= []; state.study.forEach((s,i)=>{if(!s.id)s.id=Date.now()+i;}); state.schoolWeek ||= {}; state.examDate ||= '2027-11-01';
 state.pomodoro ||= {mode:'focus',remainingSeconds:1500,endAt:null,running:false,cycles:0,focusMinutes:25,shortBreakMinutes:5,longBreakMinutes:15};
 state.pomodoroSessions ||= [];
 
 // Weekly timetable: keep edits and activities only for the active Monday-Sunday week.
-const defaultWeekDays={
-  1:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-  2:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-  3:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
-  4:{type:'Free day',start:'',end:'',note:'School day වෙනස් විය හැකියි'},
-  5:{type:'Class',start:'06:30',end:'18:00',note:'Full day class'},
-  6:{type:'Class',start:'06:30',end:'18:00',note:'උදේ 6.30 පිටත් · හවස 6ට පසු ගෙදර'},
-  0:{type:'Class',start:'06:30',end:'13:00',note:'උදේ class · දවල් 1ට ගෙදර'}
-};
 const activeWeekKey=weekKey();
 if(!state.weeklyDays){
   // One-time migration: preserve the user's existing timetable and activities for this week.
   state.weeklyDays={[activeWeekKey]:JSON.parse(JSON.stringify(state.days))};
 }
 if(!state.weeklyDays[activeWeekKey]){
-  state.weeklyDays[activeWeekKey]=JSON.parse(JSON.stringify(defaultWeekDays));
+  state.weeklyDays[activeWeekKey]={};
 }
 // Remove expired weekly edits/activities and one-week school overrides.
 // Study records, tasks, notes and their history are deliberately untouched.
@@ -1544,12 +1526,20 @@ function compareTaskSchedule(a,b){
 }
 function renderTasks(){let d=$('filterDate').value||today();let arr=state.tasks.filter(t=>t.date===d).sort(compareTaskSchedule);$('taskList').innerHTML=arr.length?arr.map(t=>{const pc=priorityClass(t.priority);return `<div class="item task-row-${pc} ${d===today()?"today-task":""}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="itemmain"><strong style="${t.done?'text-decoration:line-through;color:#91a3b9':''}">${esc(t.title)}</strong><div class="small">${esc(t.subject)} · ${t.minutes||'—'} min</div>${priorityBadge(t.priority)}${t.reminderTime?`<div class="small reminder-label">🔔 මතක් කිරීම: ${esc(t.reminderTime)}</div>`:''}${t.detail?`<div class="small">${esc(t.detail)}</div>`:''}</div><button class="danger" onclick="deleteTask(${t.id})">මකන්න</button></div>`}).join(''):'<div class="empty">මේ දවසට වැඩ නැහැ. අලුත් වැඩයක් එකතු කරන්න.</div>';}
 function saveDay(){let d=$('editDay').value,days=weekDays(),old=days[d]||{};days[d]={...old,type:$('editType').value,start:$('editStart').value,end:$('editEnd').value,note:$('editNote').value,activities:Array.isArray(old.activities)?old.activities:[]};persist();renderAll();alert('Timetable Update කළා.');}
-function editDay(d){let x=weekDays()[d]||{};$('editDay').value=d;$('editType').value=x.type||'Free day';$('editStart').value=x.start||'';$('editEnd').value=x.end||'';$('editNote').value=x.note||'';}
+function editDay(d){let x=weekDays()[d]||{};$('editDay').value=d;$('editType').value=x.type||'';$('editStart').value=x.start||'';$('editEnd').value=x.end||'';$('editNote').value=x.note||'';}
 function addDayActivity(){const d=$('activityDay').value,title=$('activityTitle').value.trim();if(!title){alert('කරන්න තියෙන වැඩේ ලියන්න.');return;}const days=weekDays(),day=days[d]||(days[d]={type:'Free day',start:'',end:'',note:''});day.activities=Array.isArray(day.activities)?day.activities:[];day.activities.push({id:Date.now(),title,type:$('activityType').value,start:$('activityStart').value,end:$('activityEnd').value});if(!persist())return;$('activityTitle').value='';$('activityStart').value='';$('activityEnd').value='';renderAll();}
 function deleteDayActivity(day,id){const x=weekDays()[day];if(!x||!Array.isArray(x.activities))return;x.activities=x.activities.filter(a=>a.id!==id);persist();renderAll();}
-function setSchool(d){const wk=weekKey();if(d===null)delete state.schoolWeek[wk];else state.schoolWeek[wk]=Number(d);persist();renderAll();}
+
 const dayNames={1:'සඳුදා',2:'අඟහරුවාදා',3:'බදාදා',4:'බ්‍රහස්පතින්දා',5:'සිකුරාදා',6:'සෙනසුරාදා',0:'ඉරිදා'};
-function renderDays(){const wk=weekKey(),sd=state.schoolWeek[wk],todayIndex=new Date().getDay();$('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{let x={...(weekDays()[d]||{})};if(Number(sd)===d){x={...x,type:'School',start:'07:30',end:'13:30',note:'School · උදේ 7.30 – දවල් 1.30'};}const isToday=d===todayIndex,activities=Array.isArray(x.activities)?x.activities:[];const items=activities.length?'<div class="day-activities">'+activities.map(a=>'<div class="day-activity"><div class="day-activity-main"><strong>'+esc(a.title)+'</strong><small>'+esc(a.type||'Other')+(a.start?' · '+a.start+(a.end?' – '+a.end:''):'')+'</small></div><button class="danger" onclick="deleteDayActivity('+d+','+a.id+')">×</button></div>').join('')+'</div>':'';return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${esc(x.type||'Free day')} ${x.start?'· '+x.start+' – '+(x.end||''):''}<br>${esc(x.note||'')}</p>${items}</div>`}).join('');$('schoolWeekStatus').textContent=sd===3?'මේ සතියේ බදාදා School ලෙස තෝරා ඇත.':sd===4?'මේ සතියේ බ්‍රහස්පතින්දා School ලෙස තෝරා ඇත.':'මේ සතියට School දිනය තෝරාගෙන නැහැ.';}
+function renderDays(){
+ const todayIndex=new Date().getDay();
+ $('daysList').innerHTML=[1,2,3,4,5,6,0].map(d=>{
+  const x={...(weekDays()[d]||{})},isToday=d===todayIndex,activities=Array.isArray(x.activities)?x.activities:[];
+  const items=activities.length?'<div class="day-activities">'+activities.map(a=>'<div class="day-activity"><div class="day-activity-main"><strong>'+esc(a.title)+'</strong><small>'+esc(a.type||'Other')+(a.start?' · '+a.start+(a.end?' – '+a.end:''):'')+'</small></div><button class="danger" onclick="deleteDayActivity('+d+','+a.id+')">×</button></div>').join('')+'</div>':'';
+  const hasSchedule=!!(x.type||x.start||x.end||x.note);
+  return `<div class="day ${isToday?'today':''}" ${isToday?'id="todayTimetableDay"':''}><div class="dayhead"><b>${dayNames[d]}</b>${isToday?'<span class="todayBadge">අද · TODAY</span>':''}<button class="secondary" onclick="editDay(${d})">Edit</button></div><p>${hasSchedule?esc(x.type||'')+(x.start?' · '+x.start+' – '+(x.end||''):'')+'<br>'+esc(x.note||''):'තවම කාල සටහනක් එකතු කර නැහැ.'}</p>${items}</div>`;
+ }).join('');
+}
 function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('A3MissionNotes',2);r.onupgradeneeded=()=>{let db=r.result;if(!db.objectStoreNames.contains('notes'))db.createObjectStore('notes',{keyPath:'id'});if(!db.objectStoreNames.contains('resources'))db.createObjectStore('resources',{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function addNote(){
  const title=$('noteTitle').value.trim(),files=Array.from($('notePhoto').files||[]);
@@ -1776,7 +1766,6 @@ function renderDailyTimeline(){
  const root=$('dailyTimeline');if(!root)return;
  const now=new Date(),dayIndex=now.getDay(),nowMinutes=now.getHours()*60+now.getMinutes(),events=[],unplanned=[];
  let day={...(weekDays()[dayIndex]||{})};
- if(Number(state.schoolWeek?.[weekKey()])===dayIndex)day={...day,type:'School',start:'07:30',end:'13:30',note:'School · උදේ 7.30 – දවල් 1.30'};
  const baseStart=clockMinutes(day.start),baseEnd=clockMinutes(day.end);
  if(['Class','School'].includes(day.type)&&baseStart!==null&&baseEnd!==null&&baseEnd>baseStart)events.push({start:baseStart,end:baseEnd,title:day.type==='School'?'School':'Class',detail:day.note||'Timetable',kind:'class'});
  (Array.isArray(day.activities)?day.activities:[]).forEach(a=>{const start=clockMinutes(a.start||a.time||a.startTime),end=clockMinutes(a.end||a.endTime);if(start===null){unplanned.push({title:a.title||a.type||'Timetable activity',detail:a.type||'වෙලාවක් නියම කර නැහැ'});return;}events.push({start,end:end!==null&&end>start?end:null,title:a.title||a.type||'Activity',detail:a.type||'Timetable activity',kind:'activity'});});
