@@ -1,8 +1,8 @@
 {
-  "name": "a3-mission-2027",
+  "name": "mission-2027",
   "version": "1.0.0",
   "private": true,
-  "description": "A3 MISSION 2027 Android app wrapper",
+  "description": "MISSION 2027 Android app wrapper",
   "scripts": {
     "build:android": "npx cap sync android"
   },
