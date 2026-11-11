@@ -1,9 +1,9 @@
 {
-  "name": "A3 MISSION 2027",
-  "short_name": "A3 Mission",
+  "name": "MISSION 2027",
+  "short_name": "Mission",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f5f7ff",
   "theme_color": "#6558d9",
-  "description": "Personal A/L 2027 study planner"
+  "description": "Personal A/L 2027 Commerce study planner"
 }
