@@ -1,0 +1,58 @@
+name: Build Weekly Study Tracker APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'weekly-study-tracker/**'
+      - '.github/workflows/build-weekly-study-tracker.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install dependencies
+        working-directory: weekly-study-tracker
+        run: npm install
+      - name: Prepare web assets
+        working-directory: weekly-study-tracker
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+      - name: Create Android project
+        working-directory: weekly-study-tracker
+        run: npx cap add android
+      - name: Sync app
+        working-directory: weekly-study-tracker
+        run: npx cap sync android
+      - name: Set Android version
+        working-directory: weekly-study-tracker
+        run: |
+          sed -i -E "s/versionCode [0-9]+/versionCode ${GITHUB_RUN_NUMBER}/" android/app/build.gradle
+          sed -i -E "s/versionName \"[^\"]+\"/versionName \"1.0.${GITHUB_RUN_NUMBER}\"/" android/app/build.gradle
+      - name: Configure Gradle
+        working-directory: weekly-study-tracker
+        run: |
+          sed -i 's#^distributionUrl=.*#distributionUrl=https\\://services.gradle.org/distributions/gradle-8.11.1-bin.zip#' android/gradle/wrapper/gradle-wrapper.properties
+      - name: Build debug APK
+        working-directory: weekly-study-tracker
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Weekly-Study-Tracker-APK
+          path: weekly-study-tracker/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
